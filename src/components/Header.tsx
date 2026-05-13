@@ -165,7 +165,7 @@ export default function Header({ currentPath = "/" }: HeaderProps) {
       </header>
 
       <div
-        className={`fixed inset-0 z-[60] bg-enix-ink/82 backdrop-blur-xl transition lg:hidden ${
+        className={`fixed inset-0 z-[60] bg-[rgba(3,7,18,0.72)] backdrop-blur-md transition lg:hidden ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
         onMouseDown={(event) => {
@@ -173,14 +173,14 @@ export default function Header({ currentPath = "/" }: HeaderProps) {
         }}
       >
         <div
-          className={`ml-auto flex h-full w-full max-w-md flex-col border-l border-white/10 bg-enix-ink/94 p-5 shadow-[0_0_80px_rgba(0,0,0,0.42)] transition-transform duration-300 ${
+          className={`ml-auto flex h-dvh w-full max-w-[92vw] flex-col overflow-hidden border-l border-white/[0.08] bg-[rgba(11,17,32,0.985)] shadow-[0_0_90px_rgba(0,0,0,0.55)] transition-transform duration-300 sm:max-w-md ${
             open ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-4 border-b border-white/[0.08] px-5 py-5">
             <Logo />
             <button
-              className="grid size-11 place-items-center rounded-full border border-white/10 bg-white/[0.06] text-white"
+              className="grid size-11 shrink-0 place-items-center rounded-full border border-white/[0.1] bg-white/[0.08] text-white transition hover:bg-enix-red/15"
               type="button"
               onClick={closeMenu}
               aria-label="Cerrar menú"
@@ -192,11 +192,11 @@ export default function Header({ currentPath = "/" }: HeaderProps) {
             </button>
           </div>
 
-          <nav className="mt-10 grid gap-2" aria-label="Menú móvil">
+          <nav className="grid flex-1 content-start gap-2 overflow-y-auto px-5 py-6" aria-label="Menú móvil">
             {navigationLinks.map((link) => (
               <a
                 key={link.href}
-                className="rounded-2xl border border-white/8 bg-white/[0.04] px-5 py-4 text-lg font-black text-white transition hover:border-enix-red/35 hover:bg-enix-red/10"
+                className="rounded-2xl border border-white/[0.08] bg-[rgba(255,255,255,0.075)] px-5 py-4 text-base font-black text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition hover:border-enix-red/35 hover:bg-enix-red/14"
                 href={link.href}
                 onClick={closeMenu}
               >
@@ -204,13 +204,13 @@ export default function Header({ currentPath = "/" }: HeaderProps) {
               </a>
             ))}
             {isHome && (
-              <div className="mt-4 border-t border-white/10 pt-4">
+              <div className="mt-4 border-t border-white/[0.08] pt-4">
                 <p className="mb-3 px-1 text-xs font-black uppercase tracking-[0.14em] text-slate-500">Páginas</p>
                 <div className="grid gap-2">
                   {homeMegaMenuLinks.map((link) => (
                     <a
                       key={link.href}
-                      className="rounded-2xl border border-white/8 bg-white/[0.04] px-5 py-4 text-lg font-black text-white transition hover:border-enix-red/35 hover:bg-enix-red/10"
+                      className="rounded-2xl border border-white/[0.08] bg-[rgba(255,255,255,0.075)] px-5 py-4 text-base font-black text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition hover:border-enix-red/35 hover:bg-enix-red/14"
                       href={link.href}
                       onClick={closeMenu}
                     >
@@ -222,12 +222,12 @@ export default function Header({ currentPath = "/" }: HeaderProps) {
             )}
           </nav>
 
-          <div className="mt-auto border-t border-white/10 pt-5">
-            <p className="mb-4 text-sm font-semibold leading-6 text-slate-400">
+          <div className="border-t border-white/[0.08] bg-[rgba(3,7,18,0.34)] px-5 py-5">
+            <p className="mb-4 text-sm font-semibold leading-6 text-slate-300">
               Sistemas digitales para captar, convertir, automatizar y medir oportunidades reales.
             </p>
             <a
-              className="w-full rounded-full bg-gradient-to-r from-enix-red to-enix-darkRed px-5 py-3 text-sm font-black text-white shadow-[0_16px_40px_rgba(220,38,38,0.24)]"
+              className="flex w-full items-center justify-center rounded-full bg-gradient-to-r from-enix-red to-enix-darkRed px-5 py-3.5 text-sm font-black text-white shadow-[0_16px_40px_rgba(220,38,38,0.26)]"
               href={diagnosticHref}
               onClick={closeMenu}
             >
