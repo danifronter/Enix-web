@@ -1,0 +1,187 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer.astro";
+import Icon from "@/components/Icon.astro";
+import LeadModal from "@/components/LeadModal";
+import { site } from "@/data/site";
+
+const problemSignals = [
+  ["globe", "Web antigua", "Tu negocio parece menos actual de lo que realmente es."],
+  ["megaphone", "Redes sin estrategia", "Hay atención, pero no una ruta clara hacia oportunidades."],
+  ["shield", "Confianza débil", "La primera impresión baja la disposición a cotizar."],
+  ["timer", "Respuesta lenta", "Los leads se enfrían antes de entrar a un proceso comercial."],
+];
+
+const differences = [
+  ["target", "Estrategia antes que diseño", "Primero entendemos mercado, oferta, fricción y ruta comercial."],
+  ["gauge", "Obsesión por performance", "La experiencia debe sentirse rápida, precisa y confiable."],
+  ["search", "SEO técnico real", "Arquitectura, velocidad, contenido e intención trabajando juntos."],
+  ["brain", "IA aplicada a negocios", "Automatización para responder, calificar, derivar y aprender."],
+  ["bot", "Automatización inteligente", "Flujos que reducen tareas manuales y recuperan oportunidades."],
+  ["lineChart", "Diseño para conversión", "No diseñamos para decorar: diseñamos para mover decisiones."],
+  ["code", "Tecnología moderna", "Astro, React donde aporta, tracking, dashboards e integraciones limpias."],
+  ["badgeCheck", "Experiencia premium", "Percepción de marca elevada desde el primer segundo."],
+];
+
+const futureBlocks = [
+  ["IA", "Responder, calificar y activar seguimiento cuando el equipo no está disponible."],
+  ["Datos", "Saber qué canal, mensaje y experiencia está generando oportunidades reales."],
+  ["Velocidad", "Reducir fricción, tiempos muertos y decisiones lentas."],
+  ["Confianza", "Hacer que la empresa se perciba al nivel de su ambición."],
+];
+---
+
+<BaseLayout
+  title="Nosotros | ENIX STUDIO"
+  description="ENIX STUDIO crea presencia digital, sistemas de crecimiento, IA, automatización y experiencias premium para empresas que quieren posicionarse y vender mejor."
+  canonical={`${site.url}/nosotros/`}
+  breadcrumbs={[{ name: "Inicio", url: site.url }, { name: "Nosotros", url: `${site.url}/nosotros/` }]}
+>
+  <Header currentPath={Astro.url.pathname} client:load />
+  <LeadModal client:load />
+  <main>
+    <section class="noise relative isolate overflow-hidden pb-24 pt-36 text-white md:pt-44">
+      <div class="grid-mask absolute inset-0 opacity-70"></div>
+      <div class="absolute left-1/2 top-20 h-80 w-80 -translate-x-1/2 rounded-full bg-enix-red/20 blur-3xl"></div>
+      <div class="container relative grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+        <div class="reveal">
+          <p class="eyebrow">Quiénes somos</p>
+          <h1 class="mt-5 max-w-5xl text-5xl font-black leading-[0.98] md:text-7xl">
+            No construimos simples sitios web. Creamos presencia digital diseñada para generar impacto, confianza y crecimiento.
+          </h1>
+          <p class="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
+            ENIX STUDIO nace para ayudar a empresas a verse, posicionarse y vender al nivel que realmente merecen.
+          </p>
+          <a class="btn btn-primary mt-8" href="/#diagnostico"><Icon name="search" class="size-5" /> Solicitar diagnóstico gratuito</a>
+        </div>
+        <div class="relative rounded-3xl border border-white/[0.08] bg-white/[0.055] p-4 shadow-[0_30px_100px_rgba(0,0,0,0.32)] backdrop-blur-xl">
+          <div class="absolute -inset-8 rounded-full bg-enix-red/10 blur-3xl"></div>
+          <div class="relative rounded-2xl border border-white/10 bg-enix-ink/70 p-5">
+            <div class="flex items-center justify-between border-b border-white/10 pb-5">
+              <div>
+                <p class="text-xs font-black uppercase tracking-[0.12em] text-slate-500">ENIX signal room</p>
+                <h2 class="mt-1 text-2xl font-black">Percepción digital activa</h2>
+              </div>
+              <span class="rounded-full bg-enix-red/15 px-3 py-1 text-xs font-black text-red-100">Premium</span>
+            </div>
+            <div class="mt-6 grid gap-3">
+              {["Confianza inicial", "Claridad comercial", "Ruta de conversión", "Seguimiento inteligente"].map((item, index) => (
+                <div class="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+                  <div class="flex items-center justify-between gap-4">
+                    <span class="font-black">{item}</span>
+                    <span class="text-sm font-black text-enix-glow">{[92, 86, 78, 94][index]}%</span>
+                  </div>
+                  <div class="mt-3 h-1.5 rounded-full bg-white/10">
+                    <div class="h-full rounded-full bg-gradient-to-r from-enix-red to-enix-glow" style={`width:${[92, 86, 78, 94][index]}%`}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-white">
+      <div class="container grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+        <div>
+          <p class="eyebrow">El problema</p>
+          <h2 class="mt-3 text-4xl font-black md:text-6xl">La mayoría de las empresas se ven mucho más pequeñas de lo que realmente son.</h2>
+          <p class="mt-6 text-lg leading-8 text-slate-600">
+            No siempre falta calidad. A veces falta una experiencia digital que transmita autoridad, orden y confianza antes de la primera conversación.
+          </p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2">
+          {problemSignals.map(([icon, title, text]) => (
+            <article class="group rounded-2xl border border-slate-200 bg-slate-50 p-6 transition hover:-translate-y-1 hover:border-enix-red/30 hover:bg-white hover:shadow-premium">
+              <span class="icon-box mb-5"><Icon name={icon} class="size-5" /></span>
+              <h3 class="text-2xl font-black">{title}</h3>
+              <p class="mt-4 leading-7 text-slate-600">{text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section overflow-hidden bg-enix-ink text-white">
+      <div class="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div>
+          <p class="eyebrow">Nuestra visión</p>
+          <h2 class="mt-3 text-4xl font-black md:text-6xl">No creemos en marketing vacío.</h2>
+          <p class="mt-6 max-w-2xl text-xl leading-9 text-slate-300">
+            Creemos en construir sistemas digitales que generen confianza, posicionamiento y crecimiento real. Una marca moderna no solo se ve bien: responde mejor, mide mejor y convierte mejor.
+          </p>
+        </div>
+        <div class="rounded-3xl border border-white/10 bg-white/[0.05] p-6 shadow-glow">
+          <div class="grid gap-3">
+            {["Diagnóstico", "Sistema", "Implementación", "Medición", "Optimización"].map((step, index) => (
+              <div class="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+                <span class="grid size-10 place-items-center rounded-xl bg-enix-red/15 text-sm font-black text-enix-glow">0{index + 1}</span>
+                <span class="font-black">{step}</span>
+                <span class="ml-auto h-px flex-1 bg-gradient-to-r from-enix-red/60 to-transparent"></span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-enix-pearl">
+      <div class="container">
+        <p class="eyebrow">Qué nos diferencia</p>
+        <h2 class="mt-3 max-w-4xl text-4xl font-black md:text-6xl">Combinamos criterio comercial, diseño premium y tecnología que trabaja para vender mejor.</h2>
+        <div class="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {differences.map(([icon, title, text]) => (
+            <article class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-enix-red/30 hover:shadow-premium">
+              <span class="icon-box mb-5 transition group-hover:scale-105"><Icon name={icon} class="size-5" /></span>
+              <h3 class="text-xl font-black">{title}</h3>
+              <p class="mt-3 text-sm leading-6 text-slate-600">{text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-white">
+      <div class="container grid gap-8 lg:grid-cols-2">
+        <article class="rounded-3xl border border-slate-200 bg-slate-50 p-8">
+          <p class="eyebrow">Web genérica</p>
+          <h2 class="mt-3 text-4xl font-black">No hacemos páginas web para llenar internet.</h2>
+          <p class="mt-5 leading-8 text-slate-600">Una web sin estrategia solo ocupa espacio. Se ve correcta, pero no explica, no diferencia, no mide y no empuja oportunidades.</p>
+        </article>
+        <article class="relative overflow-hidden rounded-3xl bg-enix-ink p-8 text-white shadow-glow">
+          <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-enix-red/25 blur-3xl"></div>
+          <p class="eyebrow">Experiencia ENIX</p>
+          <h2 class="relative mt-3 text-4xl font-black">Diseñamos experiencias digitales que convierten visitas en oportunidades reales.</h2>
+          <p class="relative mt-5 leading-8 text-slate-300">Mensaje, velocidad, percepción, SEO, conversión, CRM y seguimiento trabajando como un sistema.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section bg-enix-ink text-white">
+      <div class="container">
+        <p class="eyebrow">El futuro</p>
+        <h2 class="mt-3 max-w-5xl text-4xl font-black md:text-6xl">El futuro no será de las empresas más grandes. Será de las empresas que mejor experiencia digital construyan.</h2>
+        <div class="mt-10 grid gap-4 md:grid-cols-4">
+          {futureBlocks.map(([title, text]) => (
+            <article class="rounded-2xl border border-white/10 bg-white/[0.055] p-5">
+              <h3 class="text-2xl font-black text-white">{title}</h3>
+              <p class="mt-4 text-sm leading-6 text-slate-400">{text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="noise section text-white">
+      <div class="container text-center">
+        <p class="eyebrow">El siguiente paso</p>
+        <h2 class="mx-auto mt-4 max-w-4xl text-4xl font-black md:text-6xl">Tu empresa puede verse tan profesional como realmente es.</h2>
+        <p class="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-300">Revisemos qué está frenando tu percepción, conversión y crecimiento digital.</p>
+        <a class="btn btn-primary mt-8" href="/#diagnostico"><Icon name="arrowUp" class="size-5" /> Solicitar diagnóstico gratuito</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

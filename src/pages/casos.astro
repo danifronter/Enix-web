@@ -1,0 +1,182 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer.astro";
+import Icon from "@/components/Icon.astro";
+import LeadModal from "@/components/LeadModal";
+import { caseFilters, cases, industries } from "@/data/casesData";
+import { site } from "@/data/site";
+
+const pillars = [
+  ["search", "Diagnóstico", "Detectamos qué frena confianza, conversión, captación o eficiencia."],
+  ["target", "Estrategia", "Priorizamos decisiones según impacto comercial y madurez digital."],
+  ["layers", "Implementación", "Diseñamos activos, flujos, tracking y experiencias conectadas."],
+  ["barChart", "Medición", "Leemos comportamiento para optimizar con datos y no con intuición."],
+];
+
+const qualitativeMetrics = [
+  ["badgeCheck", "Mejora de presencia digital"],
+  ["activity", "Optimización de experiencia"],
+  ["target", "Mayor claridad comercial"],
+  ["megaphone", "Mejor capacidad de captación"],
+  ["briefcase", "Procesos más ordenados"],
+];
+
+const before = ["Mensaje confuso", "Diseño antiguo", "Baja confianza", "Sin CTA", "Sin medición", "Sin automatización"];
+const after = ["Mensaje claro", "Diseño premium", "Mayor confianza", "CTA estratégico", "Tracking activo", "Procesos automatizados"];
+---
+
+<BaseLayout
+  title="Casos y transformaciones digitales | ENIX STUDIO"
+  description="Casos conceptuales, soluciones y transformaciones digitales diseñadas por ENIX STUDIO para mejorar presencia, conversión, SEO, automatización y captación."
+  canonical={`${site.url}/casos/`}
+  breadcrumbs={[{ name: "Inicio", url: site.url }, { name: "Casos", url: `${site.url}/casos/` }]}
+>
+  <Header currentPath={Astro.url.pathname} client:load />
+  <LeadModal client:load />
+  <main>
+    <section class="noise relative isolate overflow-hidden pb-20 pt-36 text-white md:pt-44">
+      <div class="grid-mask absolute inset-0 opacity-70"></div>
+      <div class="absolute right-0 top-20 h-96 w-96 rounded-full bg-enix-red/20 blur-3xl"></div>
+      <div class="container relative grid gap-10 lg:grid-cols-[1fr_0.75fr] lg:items-end">
+        <div>
+          <p class="eyebrow">Casos y soluciones</p>
+          <h1 class="mt-5 max-w-5xl text-5xl font-black leading-[0.98] md:text-7xl">Casos, soluciones y transformaciones digitales diseñadas para crecer.</h1>
+          <p class="mt-7 max-w-3xl text-lg leading-8 text-slate-300">
+            No mostramos solo diseños. Mostramos problemas reales, decisiones estratégicas y soluciones creadas para mejorar la presencia, conversión y operación digital de una empresa.
+          </p>
+          <a class="btn btn-primary mt-8" href="/#diagnostico"><Icon name="search" class="size-5" /> Solicitar diagnóstico gratuito</a>
+        </div>
+        <div class="rounded-3xl border border-white/10 bg-white/[0.055] p-5 backdrop-blur-xl">
+          <p class="text-xs font-black uppercase tracking-[0.12em] text-slate-500">Enfoque de casos</p>
+          <p class="mt-3 text-2xl font-black">Escenarios estratégicos marcados como concepto, sin inventar clientes reales.</p>
+          <div class="mt-5 grid grid-cols-2 gap-3">
+            {["Confianza", "Conversión", "SEO", "Automatización"].map((item) => <span class="rounded-2xl border border-white/10 bg-white/[0.06] p-3 text-sm font-black">{item}</span>)}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-white">
+      <div class="container">
+        <div class="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
+          <div>
+            <p class="eyebrow">Nuestro enfoque</p>
+            <h2 class="mt-3 text-4xl font-black md:text-5xl">No se trata de hacer algo bonito. Se trata de resolver lo que frena el crecimiento.</h2>
+            <p class="mt-5 text-lg leading-8 text-slate-600">
+              Cada proyecto parte con una pregunta: ¿qué está impidiendo que esta empresa se vea mejor, venda más o funcione con mayor eficiencia?
+            </p>
+          </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            {pillars.map(([icon, title, text]) => (
+              <article class="rounded-2xl border border-slate-200 bg-slate-50 p-6 transition hover:-translate-y-1 hover:border-enix-red/30 hover:bg-white hover:shadow-premium">
+                <span class="icon-box mb-5"><Icon name={icon} class="size-5" /></span>
+                <h3 class="text-2xl font-black">{title}</h3>
+                <p class="mt-3 leading-7 text-slate-600">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-enix-pearl">
+      <div class="container">
+        <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p class="eyebrow">Explora soluciones</p>
+            <h2 class="mt-3 max-w-4xl text-4xl font-black md:text-5xl">Problemas digitales convertidos en sistemas de crecimiento.</h2>
+          </div>
+          <div class="flex max-w-full gap-2 overflow-x-auto pb-2">
+            {caseFilters.map((filter) => (
+              <a class="shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-black text-slate-600 transition hover:border-enix-red/30 hover:text-enix-red" href="#casos-grid">{filter}</a>
+            ))}
+          </div>
+        </div>
+
+        <div id="casos-grid" class="mt-10 grid gap-5 lg:grid-cols-2">
+          {cases.map((item) => (
+            <article class="group rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-enix-red/30 hover:shadow-premium">
+              <div class="flex items-start justify-between gap-4">
+                <span class="icon-box"><Icon name={item.icon} class="size-5" /></span>
+                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500">{item.label}</span>
+              </div>
+              <p class="eyebrow mt-6">{item.category}</p>
+              <h3 class="mt-3 text-3xl font-black leading-tight group-hover:text-enix-red">{item.title}</h3>
+              <div class="mt-6 grid gap-4">
+                <div><strong class="text-sm text-slate-950">Problema inicial</strong><p class="mt-1 leading-7 text-slate-600">{item.problem}</p></div>
+                <div><strong class="text-sm text-slate-950">Solución aplicada</strong><p class="mt-1 leading-7 text-slate-600">{item.solution}</p></div>
+                <div><strong class="text-sm text-slate-950">Resultado esperado</strong><p class="mt-1 leading-7 text-slate-600">{item.result}</p></div>
+              </div>
+              <div class="mt-6 flex flex-wrap gap-2">
+                {item.services.map((service) => <span class="rounded-full bg-red-50 px-3 py-1 text-xs font-black text-enix-red">{service}</span>)}
+              </div>
+              <a class="mt-7 inline-flex items-center gap-2 font-black text-slate-950 transition group-hover:text-enix-red" href={`/casos/${item.slug}/`}>
+                Ver caso <Icon name="chevronRight" class="size-4" />
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-enix-ink text-white">
+      <div class="container">
+        <p class="eyebrow">Señales de avance</p>
+        <h2 class="mt-3 max-w-4xl text-4xl font-black md:text-5xl">Medimos progreso sin inflar promesas.</h2>
+        <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {qualitativeMetrics.map(([icon, label]) => (
+            <article class="rounded-2xl border border-white/10 bg-white/[0.055] p-5">
+              <Icon name={icon} class="mb-5 size-6 text-enix-glow" />
+              <h3 class="text-lg font-black">{label}</h3>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-white">
+      <div class="container grid gap-6 lg:grid-cols-2">
+        <article class="rounded-[2rem] border border-slate-200 bg-slate-50 p-8">
+          <p class="eyebrow">Antes</p>
+          <h2 class="mt-3 text-4xl font-black">Cuando las piezas no conectan.</h2>
+          <div class="mt-6 grid gap-3">
+            {before.map((item) => <div class="rounded-2xl bg-white p-4 font-bold text-slate-600">{item}</div>)}
+          </div>
+        </article>
+        <article class="relative overflow-hidden rounded-[2rem] bg-enix-ink p-8 text-white shadow-glow">
+          <div class="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-enix-red/25 blur-3xl"></div>
+          <p class="eyebrow">Después</p>
+          <h2 class="relative mt-3 text-4xl font-black">Cuando el sistema trabaja por el negocio.</h2>
+          <div class="relative mt-6 grid gap-3">
+            {after.map((item) => <div class="rounded-2xl border border-white/10 bg-white/[0.06] p-4 font-bold text-slate-200">{item}</div>)}
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section bg-enix-pearl">
+      <div class="container">
+        <p class="eyebrow">Industrias</p>
+        <h2 class="mt-3 max-w-4xl text-4xl font-black md:text-5xl">Soluciones aplicables a distintas industrias.</h2>
+        <div class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {industries.map((industry) => (
+            <div class="rounded-2xl border border-slate-200 bg-white p-5 font-black shadow-sm">{industry}</div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="noise section text-white">
+      <div class="container text-center">
+        <p class="eyebrow">Diagnóstico</p>
+        <h2 class="mx-auto mt-4 max-w-4xl text-4xl font-black md:text-6xl">Tu empresa también puede convertirse en un caso de crecimiento.</h2>
+        <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+          Analizamos tu presencia digital, detectamos oportunidades y te mostramos qué podrías mejorar para vender más, automatizar procesos o posicionarte mejor.
+        </p>
+        <a class="btn btn-primary mt-8" href="/#diagnostico"><Icon name="arrowUp" class="size-5" /> Solicitar diagnóstico gratuito</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

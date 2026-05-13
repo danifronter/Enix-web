@@ -1,0 +1,38 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer.astro";
+import Icon from "@/components/Icon.astro";
+import LeadModal from "@/components/LeadModal";
+import { site } from "@/data/site";
+---
+
+<BaseLayout
+  title="Contacto y diagnóstico | ENIX STUDIO"
+  description="Solicita un diagnóstico de captación, conversión, automatización, IA, CRM, tracking y oportunidades de crecimiento digital con ENIX STUDIO."
+  canonical={`${site.url}/contacto/`}
+  breadcrumbs={[{ name: "Inicio", url: site.url }, { name: "Contacto", url: `${site.url}/contacto/` }]}
+>
+  <Header currentPath={Astro.url.pathname} client:load />
+  <LeadModal client:load />
+  <main>
+    <section class="noise section text-white">
+      <div class="container grid items-center gap-10 lg:grid-cols-[1fr_0.78fr]">
+        <div>
+          <p class="eyebrow">Contacto</p>
+          <h1 class="mt-4 max-w-4xl text-5xl font-black leading-tight md:text-7xl">Hablemos de tu sistema digital antes de invertir más a ciegas.</h1>
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">Revisamos captación, conversión, seguimiento, automatización y medición para detectar oportunidades concretas.</p>
+        </div>
+        <form class="glass rounded-2xl p-6" name="contacto" method="post">
+          <input type="hidden" name="form-name" value="contacto" />
+          <label class="block text-sm font-extrabold">Nombre<input class="mt-2 w-full rounded-lg border border-white/10 bg-white/10 px-4 py-3 text-white outline-none focus:border-enix-glow" name="nombre" autocomplete="name" required /></label>
+          <label class="mt-4 block text-sm font-extrabold">WhatsApp<input class="mt-2 w-full rounded-lg border border-white/10 bg-white/10 px-4 py-3 text-white outline-none focus:border-enix-glow" name="whatsapp" autocomplete="tel" required /></label>
+          <label class="mt-4 block text-sm font-extrabold">Email<input class="mt-2 w-full rounded-lg border border-white/10 bg-white/10 px-4 py-3 text-white outline-none focus:border-enix-glow" name="email" type="email" autocomplete="email" /></label>
+          <label class="mt-4 block text-sm font-extrabold">¿Qué necesitas mejorar?<textarea class="mt-2 min-h-28 w-full rounded-lg border border-white/10 bg-white/10 px-4 py-3 text-white outline-none focus:border-enix-glow" name="mensaje" required></textarea></label>
+          <button class="btn btn-primary mt-5 w-full" type="submit"><Icon name="arrowUp" class="size-5" /> Solicitar diagnóstico</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

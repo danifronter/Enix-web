@@ -1,0 +1,23 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer.astro";
+import LeadModal from "@/components/LeadModal";
+import { site } from "@/data/site";
+---
+
+<BaseLayout title="Políticas | ENIX STUDIO" canonical={`${site.url}/politicas/`}>
+  <Header currentPath={Astro.url.pathname} client:load />
+  <LeadModal client:load />
+  <main>
+    <section class="section bg-white">
+      <div class="container max-w-3xl">
+        <p class="eyebrow">Políticas</p>
+        <h1 class="mt-4 text-5xl font-black">Privacidad y uso del sitio</h1>
+        <p class="mt-6 leading-8 text-slate-700">ENIX STUDIO utiliza la información enviada en formularios únicamente para responder solicitudes, preparar diagnósticos y mantener comunicación comercial relacionada.</p>
+        <p class="mt-4 leading-8 text-slate-700">Los datos de navegación pueden analizarse de forma agregada para mejorar performance, experiencia y medición de conversiones.</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,50 @@
+---
+const rows = [
+  ["Leads calificados", "+65%", "bg-emerald-400"],
+  ["Conversión landing", "3.2x", "bg-enix-red"],
+  ["Tiempo respuesta", "-40%", "bg-sky-400"],
+];
+---
+
+<div class="relative mx-auto w-full max-w-xl reveal" aria-label="Dashboard de crecimiento digital">
+  <div class="absolute -inset-4 rounded-[2rem] bg-enix-red/20 blur-3xl"></div>
+  <div class="glass relative overflow-hidden rounded-2xl p-4">
+    <div class="mb-4 flex items-center justify-between border-b border-white/10 pb-4">
+      <div>
+        <p class="text-xs font-bold uppercase text-slate-400">Growth Command Center</p>
+        <strong class="text-lg text-white">ENIX Performance OS</strong>
+      </div>
+      <div class="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-extrabold text-emerald-200">Activo 24/7</div>
+    </div>
+    <div class="grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
+      <div class="rounded-xl border border-white/10 bg-white/[0.06] p-4">
+        <div class="flex items-end justify-between">
+          <span class="text-sm font-semibold text-slate-300">Pipeline mensual</span>
+          <span class="text-3xl font-black text-white">+180%</span>
+        </div>
+        <div class="mt-8 flex h-32 items-end gap-3">
+          {[34, 48, 38, 62, 78, 66, 92].map((h, i) => (
+            <div class="flex-1 rounded-t-md bg-gradient-to-t from-enix-darkRed to-enix-glow" style={`height:${h}%; animation-delay:${i * 80}ms`}></div>
+          ))}
+        </div>
+      </div>
+      <div class="space-y-4">
+        <div class="rounded-xl border border-white/10 bg-white/[0.06] p-4">
+          <p class="text-xs font-bold uppercase text-slate-400">IA + CRM</p>
+          <div class="mt-4 space-y-3">
+            {rows.map(([label, value, color]) => (
+              <div class="flex items-center justify-between rounded-lg bg-white/[0.06] p-3">
+                <span class="flex items-center gap-2 text-sm text-slate-300"><span class={`size-2 rounded-full ${color}`}></span>{label}</span>
+                <strong class="text-white">{value}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="rounded-xl border border-enix-red/25 bg-enix-red/10 p-4">
+          <p class="text-xs font-bold uppercase text-red-200">Oportunidad detectada</p>
+          <p class="mt-2 text-sm leading-6 text-white">El 38% del tráfico móvil abandona antes de llegar al formulario.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
