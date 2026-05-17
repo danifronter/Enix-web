@@ -7,4 +7,9 @@ export const pipelineNodes = [
   { label: "Métricas", icon: "barChart", status: "Datos" },
 ];
 
-export const disconnectedNodes = ["Campañas", "WhatsApp", "Planilla", "Reporte"];
+export const chaosNodes = [
+  { label: "Campañas", icon: "target", status: "Sin atribución" },
+  { label: "WhatsApp", icon: "timer", status: "Sin seguimiento" },
+  { label: "Planilla", icon: "briefcase", status: "Manual" },
+  { label: "Reporte", icon: "barChart", status: "Incompleto" },
+];

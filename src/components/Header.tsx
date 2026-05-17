@@ -30,7 +30,7 @@ export default function Header({ currentPath = "/" }: HeaderProps) {
   const megaCloseTimer = useRef<number | null>(null);
   const isHome = currentPath === "/";
   const navigationLinks = isHome ? homeHeaderLinks : globalHeaderLinks;
-  const diagnosticHref = isHome ? "#diagnostico" : "/#diagnostico";
+  const diagnosticHref = "/diagnostico/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);

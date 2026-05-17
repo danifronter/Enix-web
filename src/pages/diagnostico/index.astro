@@ -7,7 +7,7 @@ import LeadModal from "@/components/LeadModal";
 import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
 import { site } from "@/data/site";
 
-const canonical = `${site.url}/contacto/`;
+const canonical = `${site.url}/diagnostico/`;
 
 const improveOptions = [
   ["lineChart", "Mi web no vende", "conversion"],
@@ -16,6 +16,14 @@ const improveOptions = [
   ["bot", "Quiero automatizar atención", "automatizacion"],
   ["globe", "No tengo web", "web"],
   ["target", "Necesito una estrategia completa", "estrategia"],
+];
+
+const trustItems = [
+  ["message", "Respuesta inicial clara"],
+  ["check", "Sin compromiso"],
+  ["target", "Enfoque estratégico"],
+  ["shield", "Datos protegidos"],
+  ["badgeCheck", "Agencia digital de NOVVOR"],
 ];
 
 const nextSteps = [
@@ -33,14 +41,7 @@ const symptomCards = [
   ["badgeCheck", "Marca poco profesional", "Revisar branding y web"],
 ];
 
-const contactFaqs: [string, string][] = [
-  ["¿El diagnóstico tiene costo?", "No. Es una orientación inicial gratuita para entender tu caso."],
-  ["¿Me van a vender algo de inmediato?", "No. Primero revisamos tu situación y te sugerimos un camino lógico."],
-  ["¿Necesito tener una web?", "No. Podemos orientarte tanto si ya tienes web como si estás partiendo."],
-  ["¿Cuánto tardan en responder?", "Normalmente respondemos dentro de un plazo breve en horario hábil."],
-];
-
-const services = [
+const serviceLinks = [
   ["Desarrollo Web Premium", "/servicios/desarrollo-web/"],
   ["SEO Avanzado", "/servicios/seo/"],
   ["Paid Media", "/servicios/paid-media/"],
@@ -49,12 +50,20 @@ const services = [
   ["Analítica y Tracking", "/servicios/analitica-tracking/"],
 ];
 
+const diagnosticFaqs: [string, string][] = [
+  ["¿El diagnóstico tiene costo?", "No. Es una orientación inicial gratuita para entender tu caso."],
+  ["¿Me van a vender algo de inmediato?", "No. Primero revisamos tu situación y te sugerimos un camino lógico."],
+  ["¿Necesito tener una web?", "No. Podemos orientarte tanto si ya tienes web como si estás partiendo."],
+  ["¿Cuánto tardan en responder?", "Normalmente respondemos dentro de un plazo breve en horario hábil."],
+];
+
 const contactPageSchema = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
   name: "Diagnóstico Digital Gratuito | Enix Studio",
   url: canonical,
-  description: "Contacto y diagnóstico digital gratuito con Enix Studio.",
+  description:
+    "Solicita un diagnóstico digital gratuito con Enix Studio para revisar web, SEO, campañas, automatización o presencia digital.",
   mainEntity: {
     "@type": "Organization",
     name: site.name,
@@ -65,11 +74,11 @@ const contactPageSchema = {
 ---
 
 <BaseLayout
-  title="Contacto y Diagnóstico Digital Gratuito | Enix Studio"
+  title="Diagnóstico Digital Gratuito | Enix Studio"
   description="Solicita un diagnóstico digital gratuito con Enix Studio. Revisamos tu web, SEO, campañas, automatización o presencia digital y te orientamos con una recomendación inicial."
   canonical={canonical}
-  breadcrumbs={[{ name: "Inicio", url: site.url }, { name: "Contacto", url: canonical }]}
-  faqItems={contactFaqs}
+  breadcrumbs={[{ name: "Inicio", url: site.url }, { name: "Diagnóstico", url: canonical }]}
+  faqItems={diagnosticFaqs}
 >
   <Header currentPath={Astro.url.pathname} client:load />
   <LeadModal client:load />
@@ -88,14 +97,14 @@ const contactPageSchema = {
             Descubre qué está frenando tus resultados digitales.
           </h1>
           <p class="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
-            Cuéntanos brevemente tu situación y te orientamos con una recomendación inicial para mejorar visibilidad, confianza, conversión o automatización.
+            Analizamos tu situación y te mostramos por dónde empezar para atraer más clientes, convertir mejor y ordenar tu presencia digital.
           </p>
           <div class="mt-8 grid gap-3 sm:grid-cols-2">
             {[
-              "No necesitas saber qué pedir",
-              "Diagnóstico inicial gratuito",
-              "Sin venta agresiva",
-              "Recomendación clara y accionable",
+              "Web, SEO, campañas, IA o automatización",
+              "Recomendación inicial sin compromiso",
+              "Respuesta clara y accionable",
+              "Enfoque en oportunidades reales",
             ].map((item) => (
               <div class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.055] px-4 py-3 text-sm font-bold text-slate-200">
                 <span class="grid size-8 shrink-0 place-items-center rounded-xl bg-enix-red/15 text-enix-glow"><Icon name="check" class="size-4" /></span>
@@ -103,21 +112,25 @@ const contactPageSchema = {
               </div>
             ))}
           </div>
-          <div class="mt-8 rounded-3xl border border-white/10 bg-white/[0.055] p-5">
-            <p class="text-sm font-black uppercase tracking-[0.2em] text-red-300">Respuesta esperada</p>
-            <p class="mt-3 leading-7 text-slate-300">Te respondemos con una orientación clara, no con una venta agresiva. Primero entendemos tu caso.</p>
+          <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            {trustItems.map(([icon, item]) => (
+              <div class="flex items-center gap-3 text-sm font-bold text-slate-300">
+                <span class="grid size-9 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/[0.05] text-red-200"><Icon name={icon} class="size-4" /></span>
+                {item}
+              </div>
+            ))}
           </div>
         </div>
 
-        <form class="relative overflow-hidden rounded-[2rem] border border-white/12 bg-white/[0.065] p-5 shadow-2xl shadow-black/35 backdrop-blur-2xl md:p-7" name="contacto-diagnostico" method="post">
+        <form class="relative overflow-hidden rounded-[2rem] border border-white/12 bg-white/[0.065] p-5 shadow-2xl shadow-black/35 backdrop-blur-2xl md:p-7" name="diagnostico" method="post">
           <div class="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-enix-red/15 blur-3xl"></div>
           <div class="relative">
             <p class="text-xs font-black uppercase tracking-[0.24em] text-red-300">Solicita una orientación inicial sin compromiso</p>
             <h2 class="mt-3 text-3xl font-black text-white">Cuéntanos qué quieres mejorar</h2>
-            <p class="mt-3 text-sm leading-6 text-slate-400">Formulario corto. Campos claros. Respuesta orientada a decisión.</p>
+            <p class="mt-3 text-sm leading-6 text-slate-400">Sin compromiso. Sin venta agresiva. Primero entendemos tu caso.</p>
 
-            <input type="hidden" name="form-name" value="contacto-diagnostico" />
-            <input type="hidden" name="origen" value="pagina-contacto" />
+            <input type="hidden" name="form-name" value="diagnostico" />
+            <input type="hidden" name="origen" value="pagina-diagnostico" />
 
             <fieldset class="mt-6">
               <legend class="text-sm font-black text-slate-200">¿Qué quieres mejorar?</legend>
@@ -172,7 +185,7 @@ const contactPageSchema = {
         <div>
           <p class="eyebrow">Después de enviar</p>
           <h2 class="mt-3 text-4xl font-black md:text-5xl">¿Qué pasa después de enviar tu solicitud?</h2>
-          <p class="mt-5 text-lg leading-8 text-slate-600">El proceso está diseñado para darte claridad antes de tomar una decisión.</p>
+          <p class="mt-5 text-lg leading-8 text-slate-600">El diagnóstico baja la ansiedad porque deja claro qué revisamos, qué puedes esperar y cuándo tiene sentido avanzar.</p>
         </div>
         <div class="grid gap-4 md:grid-cols-2">
           {nextSteps.map(([icon, title, text], index) => (
@@ -190,8 +203,9 @@ const contactPageSchema = {
     <section class="section bg-enix-pearl">
       <div class="container">
         <div class="max-w-3xl">
-          <p class="eyebrow">No necesitas saber qué pedir</p>
-          <h2 class="mt-3 text-4xl font-black md:text-5xl">Llegas con síntomas. Nosotros ayudamos a ordenar el diagnóstico.</h2>
+          <p class="eyebrow">Orientación</p>
+          <h2 class="mt-3 text-4xl font-black md:text-5xl">No necesitas saber qué servicio contratar.</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-600">Muchas empresas llegan con síntomas. Nosotros ayudamos a identificar qué revisar primero.</p>
         </div>
         <div class="mt-10 grid gap-4 md:grid-cols-5">
           {symptomCards.map(([icon, symptom, action]) => (
@@ -202,6 +216,7 @@ const contactPageSchema = {
             </article>
           ))}
         </div>
+        <a class="btn btn-primary mt-10" href="#top"><Icon name="radar" class="size-5" /> Quiero que revisen mi caso</a>
       </div>
     </section>
 
@@ -213,7 +228,7 @@ const contactPageSchema = {
           <p class="mt-5 text-lg leading-8 text-slate-300">Si tu problema está en SEO, no te venderemos una campaña primero. Si tu web no convierte, no tiene sentido aumentar presupuesto sin corregir la base.</p>
         </div>
         <div class="grid gap-3 sm:grid-cols-2">
-          {services.map(([label, href]) => (
+          {serviceLinks.map(([label, href]) => (
             <a class="group flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.055] p-5 font-black text-white transition hover:-translate-y-1 hover:border-red-300/50 hover:bg-red-500/10" href={href}>
               {label}
               <Icon name="chevronRight" class="size-5 text-red-300 transition group-hover:translate-x-1" />
@@ -227,10 +242,10 @@ const contactPageSchema = {
       <div class="container">
         <div class="max-w-3xl">
           <p class="eyebrow">Preguntas frecuentes</p>
-          <h2 class="mt-3 text-4xl font-black md:text-5xl">Dudas normales antes de preguntar.</h2>
+          <h2 class="mt-3 text-4xl font-black md:text-5xl">Dudas normales antes de pedir un diagnóstico.</h2>
         </div>
         <div class="mt-10 grid gap-4 md:grid-cols-2">
-          {contactFaqs.map(([question, answer]) => (
+          {diagnosticFaqs.map(([question, answer]) => (
             <article class="rounded-2xl border border-slate-200 bg-slate-50 p-6">
               <h3 class="text-xl font-black">{question}</h3>
               <p class="mt-3 leading-7 text-slate-600">{answer}</p>

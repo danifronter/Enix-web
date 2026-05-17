@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { heroLeadContext, heroProblems } from "@/data/heroProblemsData";
+import AnimatedHeroBackground from "./hero/AnimatedHeroBackground";
 import GrowthCommandCenter from "./hero/GrowthCommandCenter";
 import HeroCopyBlock from "./hero/HeroCopyBlock";
 
@@ -18,16 +19,14 @@ function openLeadModal(problemLabel: string) {
 
 export default function HeroGrowthOS() {
   const [problemId, setProblemId] = useState(heroProblems[0].id);
-  const [mode, setMode] = useState<"disconnected" | "system">("system");
+  const [mode, setMode] = useState<"chaos" | "system">("chaos");
   const activeProblem = heroProblems.find((problem) => problem.id === problemId) ?? heroProblems[0];
 
   return (
-    <section className="hero-os noise relative isolate min-h-[90vh] overflow-hidden pt-16 text-white">
-      <div className="grid-mask absolute inset-0 opacity-75"></div>
-      <div className="absolute left-1/2 top-24 h-72 w-72 -translate-x-1/2 rounded-full bg-enix-red/16 blur-3xl"></div>
-      <div className="absolute right-0 top-32 h-96 w-96 rounded-full bg-red-500/8 blur-3xl"></div>
+    <section className="motion-reduce-safe relative isolate min-h-[90vh] overflow-hidden bg-[#070b14] pt-28 text-white lg:pt-32">
+      <AnimatedHeroBackground variant="default" intensity="medium" />
 
-      <div className="container relative grid max-w-[1440px] items-center gap-10 pb-12 pt-8 lg:grid-cols-[0.48fr_0.52fr]">
+      <div className="container relative grid max-w-[1440px] items-start gap-8 pb-16 pt-4 md:pb-20 lg:grid-cols-[0.48fr_0.52fr]">
         <HeroCopyBlock
           activeProblem={activeProblem}
           activeId={problemId}

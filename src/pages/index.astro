@@ -4,336 +4,182 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer.astro";
 import Icon from "@/components/Icon.astro";
 import LeadModal from "@/components/LeadModal";
-import CTAButton from "@/components/CTAButton";
 import HeroGrowthOS from "@/components/HeroGrowthOS";
 import GrowthSystemSection from "@/components/GrowthSystemSection";
-import InteractiveComparison from "@/components/InteractiveComparison";
-import DiagnosticQuiz from "@/components/DiagnosticQuiz";
-import { clientStageCards } from "@/data/clientStagesData";
-import { capabilityGroups } from "@/data/capabilitiesData";
+import GuidedDiagnosticSection from "@/components/GuidedDiagnosticSection";
 import { blogArticles } from "@/data/blogData";
-import { faqs, site } from "@/data/site";
+import { site } from "@/data/site";
 
-const losses = [
-  { icon: "target", title: "Visitas que no convierten", impact: "Tráfico sin consultas", score: "78%", detail: "La intención existe, pero el mensaje, la UX o el CTA no empujan la acción." },
-  { icon: "barChart", title: "Campañas sin retorno claro", impact: "Presupuesto sin trazabilidad", score: "64%", detail: "Sin eventos, landing y seguimiento, la inversión se vuelve una apuesta." },
-  { icon: "timer", title: "Leads respondidos tarde", impact: "Oportunidades enfriadas", score: "52%", detail: "Cada hora sin respuesta reduce prioridad mental y abre espacio a la competencia." },
-  { icon: "gauge", title: "Web lenta o poco confiable", impact: "Confianza rota en segundos", score: "71%", detail: "Performance, diseño y claridad determinan si el usuario avanza o abandona." },
-  { icon: "megaphone", title: "Redes sin estrategia comercial", impact: "Alcance sin pipeline", score: "58%", detail: "Publicar sin ruta de captación deja la atención desconectada de ventas." },
-  { icon: "briefcase", title: "Falta de seguimiento", impact: "Leads perdidos en el proceso", score: "69%", detail: "Sin CRM ni próximos pasos, las oportunidades se diluyen después del primer contacto." },
-  { icon: "shield", title: "Mala percepción de marca", impact: "Menor disposición a cotizar", score: "61%", detail: "Si tu presencia se ve improvisada, tu propuesta se percibe menos valiosa." },
-  { icon: "bot", title: "Procesos manuales", impact: "Velocidad comercial limitada", score: "56%", detail: "Tareas repetidas retrasan respuestas, reportes y oportunidades de cierre." },
+const problems = [
+  ["shield", "Web que no genera confianza", "Tu empresa parece menos sólida de lo que realmente es."],
+  ["megaphone", "Redes que no convierten", "Hay movimiento, pero no una ruta clara hacia ventas."],
+  ["barChart", "Campañas sin medición real", "Inviertes sin saber qué genera oportunidades."],
+  ["briefcase", "Leads sin seguimiento", "Consultas valiosas se enfrían antes de cerrar."],
+  ["search", "SEO débil o inexistente", "Tus clientes buscan, pero encuentran a otros primero."],
 ];
 
-const metrics = [
-  ["trending", "+180%", "demanda orgánica potencial"],
-  ["users", "+65%", "leads calificados"],
-  ["target", "3X", "rutas de conversión"],
-  ["timer", "-40%", "tiempo de respuesta"],
-  ["bot", "24/7", "atención y seguimiento con IA"],
+const capabilities = [
+  ["lineChart", "Desarrollo Web Premium", "Sitios rápidos, modernos y diseñados para convertir visitas en oportunidades.", ["UX/UI", "SEO técnico", "Performance"], "/servicios/desarrollo-web/", "Ver desarrollo web"],
+  ["search", "SEO Avanzado", "Posicionamiento orgánico para aparecer cuando tus clientes buscan soluciones.", ["SEO técnico", "Contenido", "Arquitectura"], "/servicios/seo/", "Ver SEO"],
+  ["bot", "Automatización e IA", "Procesos inteligentes para responder, filtrar y dar seguimiento sin perder leads.", ["Chatbots", "CRM", "Flujos"], "/servicios/automatizacion-ia/", "Ver automatización"],
+  ["megaphone", "Paid Media", "Campañas con medición real, enfocadas en oportunidades y conversión.", ["Google Ads", "Meta Ads", "Tracking"], "/servicios/paid-media/", "Ver campañas"],
+  ["badgeCheck", "Branding", "Identidad y comunicación para transmitir confianza desde el primer contacto.", ["Marca", "Mensaje", "Sistema visual"], "/servicios/branding/", "Ver branding"],
+  ["barChart", "Analítica y Tracking", "Datos claros para saber qué funciona, qué no y dónde optimizar.", ["GA4", "GTM", "Eventos"], "/servicios/analitica-tracking/", "Ver analítica"],
 ];
 
-const processSteps = [
-  ["search", "Diagnóstico", "Detectamos fugas comerciales, fricción, datos ausentes y oportunidades de automatización."],
-  ["target", "Sistema", "Definimos la arquitectura de captación, conversión, CRM, IA, medición y mejora continua."],
-  ["layers", "Implementación", "Construimos activos, flujos, tracking, dashboards y automatizaciones conectadas."],
-  ["barChart", "Medición", "Leemos comportamiento, canales, eventos, leads y eficiencia comercial."],
-  ["activity", "Optimización", "Iteramos con CRO, campañas, contenido, IA y decisiones basadas en datos."],
+const proofCases = [
+  ["lineChart", "Web corporativa que no convertía", "Mensaje más claro, experiencia premium y mejor ruta de contacto.", "/casos/rediseno-web-corporativo-empresa-servicios/"],
+  ["target", "Campañas sin resultados claros", "Landing, tracking y medición para entender qué generaba oportunidades.", "/casos/landing-page-captacion-leads/"],
+  ["bot", "Atención manual y lenta", "Automatización inicial para responder y ordenar solicitudes.", "/casos/automatizacion-comercial-crm-ia/"],
 ];
-const stack = [
-  ["code", "Astro"],
-  ["cloud", "Cloudflare"],
-  ["zap", "Vercel"],
-  ["layers", "React"],
-  ["brain", "OpenAI"],
-  ["barChart", "GA4"],
-  ["megaphone", "Meta Ads"],
-  ["search", "Google Ads"],
-  ["target", "GTM"],
-  ["creditCard", "Stripe"],
-  ["database", "Supabase"],
-];
-const plans: { icon: string; name: string; target: string; benefits: string[] }[] = [
-  { icon: "target", name: "Sistema Inicial", target: "Para empresas que necesitan ordenar presencia, oferta y captación.", benefits: ["Diagnóstico comercial", "Activo digital premium", "Ruta de conversión", "Tracking base"] },
-  { icon: "trending", name: "Growth Engine", target: "Para negocios que ya captan demanda y necesitan convertir, medir y optimizar.", benefits: ["SEO + paid media", "CRO y landings", "Eventos y dashboards", "Optimización mensual"] },
-  { icon: "bot", name: "Escala Inteligente", target: "Para equipos que necesitan velocidad comercial, automatización e IA.", benefits: ["CRM y pipeline", "Agentes IA", "Flujos de seguimiento", "Dashboards ejecutivos"] },
-];
+
 const featuredInsights = [
   {
     slug: "por-que-tu-pagina-web-no-genera-clientes",
-    category: "Desarrollo Web / Conversión",
-    excerpt: "Descubre los errores que hacen que una web reciba visitas, pero no genere oportunidades reales.",
+    category: "Conversión",
+    excerpt: "Errores que hacen que una web reciba visitas, pero no genere oportunidades reales.",
     icon: "lineChart",
   },
   {
     slug: "seo-para-empresas",
     category: "SEO",
-    excerpt: "Aprende cómo estructurar tu sitio para que Google entienda tus servicios y atraiga tráfico con intención comercial.",
+    excerpt: "Cómo estructurar tu sitio para atraer tráfico con intención comercial.",
     icon: "search",
   },
   {
     slug: "automatizacion-comercial",
-    category: "Automatización / IA",
-    excerpt: "Conoce cómo un CRM, correos, WhatsApp e IA pueden ayudarte a responder más rápido y vender mejor.",
+    category: "Automatización",
+    excerpt: "CRM, WhatsApp e IA para responder más rápido y vender mejor.",
     icon: "bot",
   },
 ].map((item) => ({ ...item, article: blogArticles.find((article) => article.slug === item.slug)! }));
 
-const guidedOptions = [
-  ["globe", "No tengo web"],
-  ["lineChart", "Tengo web pero no vende"],
-  ["search", "Quiero aparecer en Google"],
-  ["bot", "Quiero automatizar atención"],
-  ["megaphone", "Estoy invirtiendo en publicidad"],
-  ["target", "Necesito una estrategia completa"],
+const trustSignals = [
+  ["zap", "Webs rápidas y preparadas para SEO"],
+  ["target", "Estrategia digital antes que diseño"],
+  ["bot", "Automatización e IA aplicada a ventas"],
+  ["barChart", "Campañas con tracking y datos reales"],
+  ["activity", "Optimización continua basada en evidencia"],
 ];
 
-const trustSignals = [
-  ["lineChart", "Webs diseñadas para convertir"],
-  ["search", "SEO técnico y contenido estratégico"],
-  ["bot", "Automatización e IA aplicada a negocios"],
-  ["barChart", "Campañas con medición real"],
-  ["zap", "Tecnología moderna y performance extrema"],
+const homeFaqs: [string, string][] = [
+  ["¿Qué servicio necesito si no sé por dónde empezar?", "Lo mejor es partir con un diagnóstico. Revisamos tu situación y priorizamos web, SEO, campañas, automatización o estrategia según impacto."],
+  ["¿Pueden mejorar una web que ya tengo?", "Sí. Podemos auditar claridad, velocidad, SEO, conversión y seguimiento antes de decidir si conviene optimizar o rediseñar."],
+  ["¿El diagnóstico gratuito tiene costo?", "No. Es una revisión inicial para detectar oportunidades y definir el siguiente paso con más claridad."],
+  ["¿Trabajan solo con empresas grandes?", "No. Trabajamos con empresas que quieren verse más profesionales, captar mejor y ordenar su crecimiento digital."],
 ];
 ---
 
-<BaseLayout title="ENIX STUDIO | Marketing, tecnología y automatización para crecer" canonical={site.url}>
+<BaseLayout
+  title="Enix Studio | Marketing, Web, SEO y Automatización para Empresas"
+  description="Agencia digital de NOVVOR especializada en desarrollo web, SEO, automatización, IA, campañas y estrategia digital para empresas que quieren crecer."
+  canonical={site.url}
+  faqItems={homeFaqs}
+>
   <Header currentPath={Astro.url.pathname} client:load />
   <LeadModal client:load />
   <main>
     <HeroGrowthOS client:load />
 
-    <section id="problema" class="section scroll-mt-16 overflow-hidden bg-white">
+    <section id="problema" class="section scroll-mt-16 bg-white">
       <div class="container">
-        <div class="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
-          <div>
-            <p class="eyebrow">Radar de oportunidades perdidas</p>
-            <h2 class="mt-3 text-4xl font-black tracking-normal md:text-5xl">Detecta dónde se escapan tus oportunidades antes de invertir más.</h2>
-            <p class="mt-5 text-lg leading-8 text-slate-600">
-              Una presencia digital aislada no basta si hay fricción comercial escondida. Este radar muestra los puntos donde normalmente se pierden leads, confianza, presupuesto y velocidad de respuesta.
-            </p>
-            <div class="mt-7 grid grid-cols-3 gap-3">
-              {[
-                ["8", "puntos críticos"],
-                ["24h", "ventana de respuesta"],
-                ["1", "ruta de conversión"],
-              ].map(([value, label]) => (
-                <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                  <strong class="block text-2xl font-black text-slate-950">{value}</strong>
-                  <span class="mt-1 block text-xs font-bold text-slate-500">{label}</span>
-                </div>
-              ))}
-            </div>
-            <a class="btn btn-primary mt-8" href="#diagnostico-interactivo"><Icon name="search" class="size-5" /> Evaluar mis fugas comerciales</a>
-          </div>
-          <div class="relative rounded-2xl border border-slate-200 bg-slate-950 p-5 text-white shadow-premium">
-            <div class="pointer-events-none absolute inset-x-5 top-0 h-24 rounded-full bg-enix-red/20 blur-3xl"></div>
-            <div class="relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] p-5">
-              <div class="scan-line absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-transparent via-enix-red/20 to-transparent"></div>
-              <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-5">
-                <div>
-                  <p class="text-xs font-black uppercase text-slate-400">Auditoría visual de conversión</p>
-                  <h3 class="mt-1 text-2xl font-black">Mapa de pérdidas digitales</h3>
-                </div>
-                <div class="rounded-full bg-enix-red/15 px-3 py-1 text-xs font-black text-red-100">Riesgo alto</div>
-              </div>
-              <div class="mt-5 grid gap-3 md:grid-cols-2">
-                {losses.map(({ icon, title, impact, score, detail }) => (
-                  <article class="group relative rounded-lg border border-white/10 bg-white/[0.06] p-4 transition hover:-translate-y-1 hover:border-enix-red/50 hover:bg-white/[0.09]">
-                    <div class="flex items-start justify-between gap-3">
-                      <div class="flex items-center gap-3">
-                        <span class="grid size-10 place-items-center rounded-lg bg-enix-red/15 text-enix-glow"><Icon name={icon} class="size-5" /></span>
-                        <div>
-                          <h3 class="text-sm font-black">{title}</h3>
-                          <p class="mt-1 text-xs font-semibold text-slate-400">{impact}</p>
-                        </div>
-                      </div>
-                      <span class="pulse-dot rounded-full bg-enix-red px-2 py-1 text-xs font-black">{score}</span>
-                    </div>
-                    <p class="mt-3 text-sm leading-6 text-slate-300">{detail}</p>
-                    <div class="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10">
-                      <div class="h-full rounded-full bg-gradient-to-r from-enix-red to-enix-glow" style={`width:${score}`}></div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
+        <div class="max-w-3xl">
+          <p class="eyebrow">Problema</p>
+          <h2 class="mt-3 text-4xl font-black md:text-5xl">Tu empresa puede estar perdiendo clientes antes de hablar con ellos.</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-600">
+            Muchas veces el problema no es el producto. Es la experiencia digital que el cliente encuentra antes de decidir.
+          </p>
+        </div>
+        <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+          {problems.map(([icon, title, text]) => (
+            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition hover:-translate-y-1 hover:border-enix-red/30 hover:bg-white hover:shadow-premium">
+              <span class="icon-box mb-5"><Icon name={icon} class="size-5" /></span>
+              <h3 class="text-lg font-black">{title}</h3>
+              <p class="mt-3 text-sm leading-6 text-slate-600">{text}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>
 
-    <GrowthSystemSection client:load />
+    <GrowthSystemSection client:visible />
 
     <section id="servicios" class="section scroll-mt-16 bg-enix-pearl">
       <div class="container">
         <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div class="max-w-3xl">
-            <p class="eyebrow">Capacidades del sistema</p>
-            <h2 class="mt-3 text-4xl font-black md:text-5xl">No vendemos piezas sueltas. Diseñamos módulos conectados de crecimiento.</h2>
-            <p class="mt-5 text-lg leading-8 text-slate-600">Cada módulo resuelve una parte del sistema: captar mejor, convertir más, responder rápido, medir con claridad y optimizar continuamente.</p>
+            <p class="eyebrow">Capacidades</p>
+            <h2 class="mt-3 text-4xl font-black md:text-5xl">Capacidades para atraer, convertir y escalar.</h2>
           </div>
-          <a class="btn btn-light" href="/servicios/">Ver capacidades completas</a>
+          <a class="btn btn-light" href="/servicios/">Ver servicios</a>
         </div>
         <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {capabilityGroups.map((capability) => (
+          {capabilities.map(([icon, title, benefit, modules, href, cta]) => (
             <article class="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-enix-red/30 hover:shadow-premium">
-              <span class="icon-box mb-5"><Icon name={capability.icon} class="size-5" /></span>
-              <h3 class="text-2xl font-black">{capability.title}</h3>
-              <p class="mt-3 font-semibold text-enix-red">{capability.promise}</p>
-              <ul class="mt-5 grid gap-2">
-                {capability.modules.map((module) => (
-                  <li class="flex items-center gap-2 text-sm font-semibold text-slate-600"><Icon name="check" class="size-4 text-enix-red" /> {module}</li>
-                ))}
-              </ul>
-              <p class="mt-5 rounded-xl bg-slate-50 p-3 text-sm font-bold leading-6 text-slate-700">{capability.outcome}</p>
-              <CTAButton
-                client:load
-                context={capability.modal}
-                origin="capacidades-home"
-                className="mt-5 inline-flex items-center gap-2 font-extrabold text-slate-950 transition group-hover:text-enix-red"
-              />
+              <span class="icon-box mb-5"><Icon name={icon as string} class="size-5" /></span>
+              <h3 class="text-2xl font-black">{title}</h3>
+              <p class="mt-3 text-sm font-semibold leading-6 text-slate-600">{benefit}</p>
+              <div class="mt-5 flex flex-wrap gap-2">
+                {(modules as string[]).map((module) => <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">{module}</span>)}
+              </div>
+              <a class="mt-6 inline-flex items-center gap-2 font-black text-slate-950 transition group-hover:text-enix-red" href={href as string}>
+                {cta} <Icon name="chevronRight" class="size-4" />
+              </a>
             </article>
           ))}
         </div>
       </div>
     </section>
 
-    <section class="section bg-white">
-      <div class="container">
-        <p class="eyebrow">Etapa actual</p>
-        <h2 class="mt-3 max-w-3xl text-4xl font-black md:text-5xl">No importa dónde empieza el problema: lo importante es conectar el sistema.</h2>
-        <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {clientStageCards.map((stage) => (
-            <article class="rounded-lg border border-slate-200 p-6">
-              <span class="icon-box mb-5"><Icon name={stage.icon} class="size-5" /></span>
-              <h3 class="text-2xl font-black">{stage.title}</h3>
-              <p class="mt-4 text-sm font-semibold text-slate-500">{stage.subtitle}</p>
-              <p class="mt-3 leading-7 text-slate-700">{stage.modalDescription}</p>
-              <CTAButton
-                client:load
-                context={stage}
-                origin="etapas-cliente-home"
-                className="mt-5 inline-flex items-center gap-2 font-black text-enix-red transition hover:text-enix-darkRed"
-              />
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
+    <GuidedDiagnosticSection client:visible />
 
-    <DiagnosticQuiz client:load />
-
-    <section id="metodologia" class="section scroll-mt-16 bg-enix-ink text-white">
-      <div class="container">
-        <p class="eyebrow">Método</p>
-        <h2 class="mt-3 max-w-3xl text-4xl font-black md:text-5xl">Una ruta para recuperar control sobre marketing, ventas y datos.</h2>
-        <div class="mt-12 grid gap-3 md:grid-cols-5">
-          {processSteps.map(([icon, step, description], index) => (
-            <div class="rounded-lg border border-white/10 bg-white/[0.06] p-4">
-              <span class="mb-5 grid size-10 place-items-center rounded-lg bg-white/10 text-enix-glow"><Icon name={icon} class="size-5" /></span>
-              <span class="text-sm font-black text-enix-glow">0{index + 1}</span>
-              <h3 class="mt-4 text-lg font-black">{step}</h3>
-              <p class="mt-3 text-sm leading-6 text-slate-400">{description}</p>
-            </div>
-          ))}
-        </div>
-        <div class="mt-12 grid gap-4 md:grid-cols-5">
-          {metrics.map(([icon, value, label]) => (
-            <div class="rounded-lg border border-white/10 bg-white/[0.06] p-6">
-              <Icon name={icon} class="mb-5 size-6 text-enix-glow" />
-              <strong class="text-4xl font-black text-white">{value}</strong>
-              <p class="mt-2 text-sm text-slate-400">{label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <InteractiveComparison client:load />
-
-    <section class="section bg-enix-pearl">
-      <div class="container">
-        <p class="eyebrow">Stack tecnológico</p>
-        <h2 class="mt-3 max-w-3xl text-4xl font-black md:text-5xl">Tecnología moderna para conectar captación, IA, tracking y escala.</h2>
-        <div class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {stack.map(([icon, tool]) => <div class="flex items-center justify-center gap-3 rounded-lg border border-slate-200 bg-white px-5 py-4 text-center font-black shadow-sm"><Icon name={icon} class="size-5 text-enix-red" /> {tool}</div>)}
-        </div>
-      </div>
-    </section>
-
-    <section id="planes" class="section scroll-mt-16 bg-white">
-      <div class="container">
-        <p class="eyebrow">Planes</p>
-        <h2 class="mt-3 max-w-3xl text-4xl font-black md:text-5xl">Tres formas de construir tu sistema digital según tu nivel de madurez.</h2>
-        <div class="mt-10 grid gap-5 lg:grid-cols-3">
-          {plans.map(({ icon, name, target, benefits }, index) => (
-            <article class={`rounded-lg border p-7 ${index === 1 ? "border-enix-red bg-enix-ink text-white shadow-glow" : "border-slate-200 bg-white"}`}>
-              <span class={`mb-5 grid size-12 place-items-center rounded-lg ${index === 1 ? "bg-white/10 text-enix-glow" : "bg-red-50 text-enix-red"}`}><Icon name={icon} class="size-6" /></span>
-              <h3 class="text-2xl font-black">{name}</h3>
-              <p class={`mt-3 leading-7 ${index === 1 ? "text-slate-300" : "text-slate-600"}`}>{target}</p>
-              <ul class="mt-6 space-y-3">
-                {benefits.map((benefit) => <li class="flex items-center gap-2 text-sm font-semibold"><Icon name="check" class="size-4 text-enix-red" /> {benefit}</li>)}
-              </ul>
-              <a class={`btn mt-7 ${index === 1 ? "btn-primary" : "btn-light"}`} href="#diagnostico"><Icon name="search" class="size-5" /> Solicitar diagnóstico</a>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="section bg-enix-pearl">
+    <section id="resultados" class="section scroll-mt-16 bg-enix-ink text-white">
       <div class="container">
         <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div class="max-w-3xl">
-            <p class="eyebrow">Insights estratégicos</p>
-            <h2 class="mt-3 text-4xl font-black md:text-5xl">Insights para crecer con estrategia digital.</h2>
-            <p class="mt-5 text-lg leading-8 text-slate-600">
-              Guías prácticas para entender por qué una web no vende, cómo mejorar tu posicionamiento y cómo automatizar tu captación de clientes.
-            </p>
+            <p class="eyebrow">Casos y autoridad</p>
+            <h2 class="mt-3 text-4xl font-black md:text-5xl">Soluciones diseñadas para problemas reales.</h2>
+          </div>
+          <a class="btn btn-secondary" href="/casos/">Ver casos y soluciones</a>
+        </div>
+        <div class="mt-10 grid gap-5 md:grid-cols-3">
+          {proofCases.map(([icon, title, result, href]) => (
+            <a href={href} class="group rounded-2xl border border-white/10 bg-white/[0.055] p-6 transition hover:-translate-y-1 hover:border-enix-red/40 hover:bg-white/[0.08]">
+              <span class="mb-5 grid size-11 place-items-center rounded-xl bg-enix-red/15 text-enix-glow"><Icon name={icon} class="size-5" /></span>
+              <h3 class="text-2xl font-black group-hover:text-enix-glow">{title}</h3>
+              <p class="mt-4 text-sm leading-6 text-slate-400">{result}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="insights" class="section scroll-mt-16 bg-enix-pearl">
+      <div class="container">
+        <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div class="max-w-3xl">
+            <p class="eyebrow">Insights</p>
+            <h2 class="mt-3 text-4xl font-black md:text-5xl">Insights para tomar mejores decisiones digitales.</h2>
+            <p class="mt-5 text-lg leading-8 text-slate-600">Contenido práctico para entender qué está frenando tu crecimiento antes de invertir más.</p>
           </div>
           <a class="btn btn-light" href="/blog/">Ver todos los insights</a>
         </div>
         <div class="mt-10 grid gap-5 md:grid-cols-3">
           {featuredInsights.map(({ article, category, excerpt, icon }) => (
-            <article class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-enix-red/30 hover:shadow-premium">
-              <div class="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-enix-red/10 blur-3xl transition group-hover:bg-enix-red/20"></div>
-              <div class="relative">
-                <div class="mb-6 flex items-center justify-between gap-4">
-                  <span class="icon-box"><Icon name={icon} class="size-5" /></span>
-                  <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500">{article.readingTime}</span>
-                </div>
-                <a class="eyebrow" href={`/blog/categoria/${article.category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll(" ", "-")}/`}>{category}</a>
-                <h3 class="mt-3 text-2xl font-black leading-tight group-hover:text-enix-red">
-                  <a href={`/blog/${article.slug}/`}>{article.title.replace(" Errores que están frenando tus ventas", "")}</a>
-                </h3>
-                <p class="mt-4 leading-7 text-slate-600">{excerpt}</p>
-                <a class="mt-6 inline-flex items-center gap-2 font-black text-slate-950 transition group-hover:text-enix-red" href={`/blog/${article.slug}/`}>
-                  Leer artículo <Icon name="chevronRight" class="size-4" />
-                </a>
+            <article class="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-enix-red/30 hover:shadow-premium">
+              <div class="mb-6 flex items-center justify-between gap-4">
+                <span class="icon-box"><Icon name={icon} class="size-5" /></span>
+                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500">{article.readingTime}</span>
               </div>
+              <p class="eyebrow">{category}</p>
+              <h3 class="mt-3 text-2xl font-black leading-tight group-hover:text-enix-red">
+                <a href={`/blog/${article.slug}/`}>{article.title.replace(" Errores que están frenando tus ventas", "")}</a>
+              </h3>
+              <p class="mt-4 text-sm leading-6 text-slate-600">{excerpt}</p>
+              <a class="mt-6 inline-flex items-center gap-2 font-black text-slate-950 transition group-hover:text-enix-red" href={`/blog/${article.slug}/`}>
+                Leer artículo <Icon name="chevronRight" class="size-4" />
+              </a>
             </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="section bg-white">
-      <div class="container grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
-        <div>
-          <p class="eyebrow">Diagnóstico guiado</p>
-          <h2 class="mt-3 text-4xl font-black md:text-5xl">¿No sabes qué necesita tu negocio?</h2>
-          <p class="mt-5 text-lg leading-8 text-slate-600">
-            Responde unas preguntas rápidas y te orientamos sobre si necesitas web, SEO, campañas, automatización o una estrategia completa.
-          </p>
-          <a class="btn btn-primary mt-8" href="#diagnostico"><Icon name="search" class="size-5" /> Solicitar orientación gratuita</a>
-        </div>
-        <div class="grid gap-3 sm:grid-cols-2">
-          {guidedOptions.map(([icon, label]) => (
-            <a href="#diagnostico" class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-5 transition hover:-translate-y-1 hover:border-enix-red/35 hover:bg-white hover:shadow-premium">
-              <span class="icon-box shrink-0"><Icon name={icon} class="size-5" /></span>
-              <span class="font-black text-slate-950 group-hover:text-enix-red">{label}</span>
-            </a>
           ))}
         </div>
       </div>
@@ -343,10 +189,10 @@ const trustSignals = [
       <div class="container grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
           <p class="eyebrow">FAQ</p>
-          <h2 class="mt-3 text-4xl font-black md:text-5xl">Preguntas que normalmente aparecen antes de crecer.</h2>
+          <h2 class="mt-3 text-4xl font-black md:text-5xl">Preguntas antes de avanzar.</h2>
         </div>
         <div class="space-y-3">
-          {faqs.map(([question, answer]) => (
+          {homeFaqs.map(([question, answer]) => (
             <details class="rounded-lg border border-slate-200 bg-white p-5">
               <summary class="flex cursor-pointer items-center gap-3 font-black"><Icon name="message" class="size-5 text-enix-red" /> {question}</summary>
               <p class="mt-3 leading-7 text-slate-600">{answer}</p>
@@ -356,9 +202,10 @@ const trustSignals = [
       </div>
     </section>
 
-    <section class="bg-enix-ink py-8 text-white">
+    <section class="bg-enix-ink py-10 text-white">
       <div class="container">
-        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <h2 class="max-w-3xl text-3xl font-black">Diseñado para empresas que quieren verse mejor, vender mejor y operar mejor.</h2>
+        <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {trustSignals.map(([icon, label]) => (
             <div class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.055] p-4">
               <Icon name={icon} class="size-5 shrink-0 text-enix-glow" />
@@ -373,8 +220,12 @@ const trustSignals = [
       <div class="container grid items-center gap-10 lg:grid-cols-[1fr_0.75fr]">
         <div>
           <p class="eyebrow">CTA final</p>
-          <h2 class="mt-3 text-4xl font-black leading-tight md:text-6xl">Antes de invertir más en marketing, revisa si tu sistema realmente está conectado.</h2>
-          <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-300">Analizamos captación, conversión, CRM, automatización, IA, tracking y oportunidades reales de optimización.</p>
+          <h2 class="mt-3 text-4xl font-black leading-tight md:text-6xl">Antes de invertir más en marketing, descubre qué está frenando tus resultados.</h2>
+          <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-300">Analizamos tu presencia digital y detectamos oportunidades concretas para mejorar visibilidad, confianza y conversión.</p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a class="btn btn-primary" href="/diagnostico/">Solicitar diagnóstico gratuito</a>
+            <a class="btn btn-secondary" href="/servicios/">Ver servicios</a>
+          </div>
         </div>
         <form class="glass rounded-2xl p-6" name="diagnostico" method="post">
           <input type="hidden" name="form-name" value="diagnostico" />

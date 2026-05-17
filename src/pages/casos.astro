@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer.astro";
 import Icon from "@/components/Icon.astro";
 import LeadModal from "@/components/LeadModal";
+import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
 import { caseFilters, cases, industries } from "@/data/casesData";
 import { site } from "@/data/site";
 
@@ -35,10 +36,9 @@ const after = ["Mensaje claro", "Diseño premium", "Mayor confianza", "CTA estra
   <Header currentPath={Astro.url.pathname} client:load />
   <LeadModal client:load />
   <main>
-    <section class="noise relative isolate overflow-hidden pb-20 pt-36 text-white md:pt-44">
-      <div class="grid-mask absolute inset-0 opacity-70"></div>
-      <div class="absolute right-0 top-20 h-96 w-96 rounded-full bg-enix-red/20 blur-3xl"></div>
-      <div class="container relative grid gap-10 lg:grid-cols-[1fr_0.75fr] lg:items-end">
+    <section class="motion-reduce-safe relative isolate overflow-hidden bg-[#070b14] pb-20 pt-36 text-white md:pt-44">
+      <AnimatedHeroBackground client:load variant="cases" intensity="medium" />
+      <div class="container relative z-10 grid gap-10 lg:grid-cols-[1fr_0.75fr] lg:items-end">
         <div>
           <p class="eyebrow">Casos y soluciones</p>
           <h1 class="mt-5 max-w-5xl text-5xl font-black leading-[0.98] md:text-7xl">Casos, soluciones y transformaciones digitales diseñadas para crecer.</h1>

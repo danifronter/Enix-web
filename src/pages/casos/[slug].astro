@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer.astro";
 import Icon from "@/components/Icon.astro";
 import LeadModal from "@/components/LeadModal";
+import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
 import { cases } from "@/data/casesData";
 import { site } from "@/data/site";
 
@@ -27,9 +28,9 @@ const canonical = `${site.url}/casos/${item.slug}/`;
   <Header currentPath={Astro.url.pathname} client:load />
   <LeadModal client:load />
   <main>
-    <section class="noise relative isolate overflow-hidden pb-20 pt-36 text-white md:pt-44">
-      <div class="grid-mask absolute inset-0 opacity-70"></div>
-      <div class="container relative max-w-5xl">
+    <section class="motion-reduce-safe relative isolate overflow-hidden bg-[#070b14] pb-20 pt-36 text-white md:pt-44">
+      <AnimatedHeroBackground client:load variant="cases" intensity="medium" />
+      <div class="container relative z-10 max-w-5xl">
         <p class="eyebrow">{item.label}</p>
         <h1 class="mt-5 text-5xl font-black leading-[0.98] md:text-7xl">{item.title}</h1>
         <p class="mt-7 max-w-3xl text-lg leading-8 text-slate-300">{item.summary}</p>

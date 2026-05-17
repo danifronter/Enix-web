@@ -17,25 +17,25 @@ export default function HeroCopyBlock({ activeId, problems, onProblemSelect, onO
         Agencia digital de NOVVOR · Growth, IA y automatización
       </div>
 
-      <h1 className="mt-6 max-w-[680px] text-balance text-[clamp(2.45rem,3.65vw,4.1rem)] font-black leading-[1.02] tracking-normal">
-        Tu crecimiento digital necesita un sistema, no piezas sueltas.
+      <h1 className="mt-5 max-w-[650px] text-balance text-[clamp(2.25rem,3vw,3.35rem)] font-black leading-[1.02] tracking-normal">
+        Marketing, tecnología y automatización para empresas que quieren crecer de verdad.
       </h1>
 
-      <p className="mt-5 max-w-2xl text-balance text-lg leading-8 text-slate-300">
-        Diseñamos sistemas que conectan marketing, ventas, automatización e IA para captar, convertir y medir oportunidades reales.
+      <p className="mt-4 max-w-2xl text-balance text-base leading-7 text-slate-300 md:text-lg">
+        Creamos presencia digital, campañas y sistemas inteligentes para atraer clientes, convertir oportunidades y escalar.
       </p>
 
-      <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <button className="btn btn-primary" type="button" onClick={onOpenModal}>
-          Solicitar diagnóstico
+          Solicitar diagnóstico gratuito
         </button>
-        <a className="btn btn-secondary" href="#sistema-enix">
-          Ver sistema ENIX
+        <a className="btn btn-secondary" href="#servicios">
+          Ver servicios
         </a>
       </div>
 
-      <p className="mt-4 max-w-xl text-sm font-semibold leading-6 text-slate-400">
-        Revisamos captación, conversión, seguimiento, automatización y medición.
+      <p className="mt-3 max-w-xl text-sm font-semibold leading-6 text-slate-400">
+        Analizamos tu presencia digital y detectamos oportunidades reales de mejora.
       </p>
 
       <HeroProblemSelector problems={problems} activeId={activeId} onSelect={onProblemSelect} />

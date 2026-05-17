@@ -184,6 +184,9 @@ svg {
     scroll-behavior: auto;
   }
 
+  .motion-reduce-safe *,
+  .motion-reduce-safe *::before,
+  .motion-reduce-safe *::after,
   *,
   *::before,
   *::after {

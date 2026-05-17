@@ -1,28 +1,36 @@
-import { disconnectedNodes, pipelineNodes } from "@/data/pipelineNodesData";
+import { chaosNodes, pipelineNodes } from "@/data/pipelineNodesData";
 import HeroIcon from "./HeroIcon";
 
 type Props = {
   activeNode: string;
-  mode: "disconnected" | "system";
+  mode: "chaos" | "system";
 };
 
 export default function GrowthPipeline({ activeNode, mode }: Props) {
-  if (mode === "disconnected") {
+  if (mode === "chaos") {
     return (
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-      {disconnectedNodes.map((node) => (
-          <div key={node} className="rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-center opacity-75">
-            <span className="mx-auto block size-2 rounded-full bg-enix-red"></span>
-            <strong className="mt-3 block text-sm">{node}</strong>
-            <span className="mt-1 block text-xs font-bold text-slate-500">Sin conexión</span>
+      <div className="relative">
+        <div className="absolute left-[8%] right-[8%] top-1/2 hidden h-px -translate-y-1/2 border-t border-dashed border-red-300/20 sm:block"></div>
+        <div className="relative grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {chaosNodes.map((node) => (
+          <div key={node.label} className="relative rounded-2xl border border-white/10 bg-white/[0.035] p-3 text-center opacity-80 shadow-inner shadow-black/20">
+            <span className="mx-auto grid size-10 place-items-center rounded-xl bg-red-500/8 text-red-300/80">
+              <HeroIcon name={node.icon} className="size-5" />
+            </span>
+            <span className="absolute right-3 top-3 size-2 rounded-full bg-red-400 shadow-[0_0_14px_rgba(248,113,113,0.65)]"></span>
+            <strong className="mt-3 block text-sm text-slate-200">{node.label}</strong>
+            <span className="mt-1 block text-[0.68rem] font-bold leading-tight text-slate-500">{node.status}</span>
           </div>
-        ))}
+          ))}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-3">
+    <div className="relative">
+      <div className="absolute left-[8%] right-[8%] top-1/2 hidden h-px -translate-y-1/2 bg-gradient-to-r from-red-500/20 via-red-300/65 to-red-500/20 sm:block"></div>
+      <div className="relative grid gap-3 sm:grid-cols-3">
       {pipelineNodes.map((node) => {
         const isActive = node.label === activeNode;
         return (
@@ -35,6 +43,7 @@ export default function GrowthPipeline({ activeNode, mode }: Props) {
               }`}
               title={`${node.label}: ${node.status}`}
             >
+              <span className="absolute right-3 top-3 size-2 rounded-full bg-emerald-300 shadow-[0_0_14px_rgba(110,231,183,0.75)]"></span>
               <span className="grid size-10 place-items-center rounded-xl bg-white/10 text-enix-glow">
                 <HeroIcon name={node.icon} />
               </span>
@@ -44,6 +53,7 @@ export default function GrowthPipeline({ activeNode, mode }: Props) {
           </div>
         );
       })}
+      </div>
     </div>
   );
 }

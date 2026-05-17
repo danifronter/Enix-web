@@ -1,7 +1,7 @@
 export const heroEvents = [
-  "Lead calificado desde campaña",
-  "CRM creó seguimiento",
-  "Dashboard actualizó conversión",
+  "Lead calificado",
+  "Seguimiento creado",
+  "Conversión medida",
 ];
 
 export const baseHeroMetrics = [

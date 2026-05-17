@@ -6,6 +6,10 @@ export type HeroProblem = {
   insight: string;
   description: string;
   recommendation: string;
+  chaosInsight: string;
+  chaosDescription: string;
+  chaosEvents: string[];
+  chaosMetrics: Array<{ label: string; value: string }>;
   activeNode: string;
   metricLabel: string;
   metricValue: string;
@@ -30,6 +34,14 @@ export const heroProblems: HeroProblem[] = [
     insight: "Punto ciego de atribución",
     description: "Tus canales pueden estar generando actividad, pero sin trazabilidad no sabes qué realmente acerca oportunidades.",
     recommendation: "Tracking avanzado, eventos y dashboard por canal.",
+    chaosInsight: "Canales sin atribución",
+    chaosDescription: "Hay visitas, clics y mensajes, pero no queda claro qué canal genera oportunidades reales.",
+    chaosEvents: ["Campaña sin atribución", "Origen no detectado", "Métricas vanidosas"],
+    chaosMetrics: [
+      { label: "Tracking", value: "0%" },
+      { label: "Canales", value: "Sin comparar" },
+      { label: "Decisión", value: "Intuición" },
+    ],
     activeNode: "Métricas",
     metricLabel: "Tracking",
     metricValue: "100%",
@@ -40,6 +52,14 @@ export const heroProblems: HeroProblem[] = [
     insight: "Respuesta tardía",
     description: "Cada consulta sin respuesta rápida pierde urgencia y abre espacio a otra alternativa.",
     recommendation: "IA comercial, CRM, alertas y seguimiento automático.",
+    chaosInsight: "Leads enfriándose",
+    chaosDescription: "Las consultas llegan, pero sin registro ni alerta comercial pueden perder prioridad en minutos.",
+    chaosEvents: ["Lead sin seguimiento", "WhatsApp tarde", "Cotiza con otro"],
+    chaosMetrics: [
+      { label: "Respuesta", value: "Manual" },
+      { label: "Leads", value: "Sin clasificar" },
+      { label: "Alertas", value: "0" },
+    ],
     activeNode: "IA",
     metricLabel: "Respuesta",
     metricValue: "12s",
@@ -50,18 +70,34 @@ export const heroProblems: HeroProblem[] = [
     insight: "Fricción de conversión",
     description: "El tráfico no escala si la experiencia no transforma intención en consulta clara.",
     recommendation: "CRO, UX, copy, formularios y landings conectadas al CRM.",
+    chaosInsight: "Visitas sin acción",
+    chaosDescription: "La web recibe atención, pero el usuario no encuentra una ruta clara para confiar y consultar.",
+    chaosEvents: ["Abandono en landing", "CTA poco visible", "Formulario sin medir"],
+    chaosMetrics: [
+      { label: "CRO", value: "Débil" },
+      { label: "CTA", value: "Difuso" },
+      { label: "Medición", value: "Parcial" },
+    ],
     activeNode: "Conversión",
     metricLabel: "CRO",
     metricValue: "3.2x",
   },
   {
-    id: "campanas",
-    label: "Mis campañas no retornan",
-    insight: "Clics sin sistema",
-    description: "Más presupuesto puede amplificar pérdidas si landing, eventos y seguimiento no están conectados.",
-    recommendation: "Paid media + landing + eventos + CRM + dashboard de retorno.",
+    id: "seo",
+    label: "Quiero aparecer en Google",
+    insight: "Demanda sin visibilidad",
+    description: "Tus clientes pueden estar buscando soluciones, pero encontrando primero a la competencia.",
+    recommendation: "SEO técnico, arquitectura, contenido por intención y medición orgánica.",
+    chaosInsight: "Búsquedas perdidas",
+    chaosDescription: "La demanda existe en Google, pero si tu sitio no está preparado, esa intención llega a otros.",
+    chaosEvents: ["Intención SEO débil", "Servicio sin ranking", "Competidor aparece"],
+    chaosMetrics: [
+      { label: "SEO", value: "Débil" },
+      { label: "Contenido", value: "Sin foco" },
+      { label: "Schema", value: "Ausente" },
+    ],
     activeNode: "Captación",
-    metricLabel: "Funnel",
-    metricValue: "+65%",
+    metricLabel: "SEO",
+    metricValue: "+180%",
   },
 ];

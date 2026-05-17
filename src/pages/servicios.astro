@@ -5,6 +5,7 @@ import Footer from "@/components/Footer.astro";
 import Icon from "@/components/Icon.astro";
 import LeadModal from "@/components/LeadModal";
 import CTAButton from "@/components/CTAButton";
+import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
 import { capabilityGroups } from "@/data/capabilitiesData";
 import { site } from "@/data/site";
 
@@ -91,10 +92,9 @@ const results = [
   <Header currentPath={Astro.url.pathname} client:load />
   <LeadModal client:load />
   <main>
-    <section class="noise relative isolate overflow-hidden pb-24 pt-36 text-white md:pt-44">
-      <div class="grid-mask absolute inset-0 opacity-70"></div>
-      <div class="absolute right-0 top-24 h-96 w-96 rounded-full bg-enix-red/20 blur-3xl"></div>
-      <div class="container relative grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr]">
+    <section class="motion-reduce-safe relative isolate overflow-hidden bg-[#070b14] pb-24 pt-36 text-white md:pt-44">
+      <AnimatedHeroBackground client:load variant="services" intensity="medium" />
+      <div class="container relative z-10 grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr]">
         <div class="reveal">
           <p class="eyebrow">Servicios ENIX</p>
           <h1 class="mt-5 max-w-5xl text-5xl font-black leading-[0.98] md:text-7xl">No vendemos servicios. Creamos sistemas digitales para crecer.</h1>

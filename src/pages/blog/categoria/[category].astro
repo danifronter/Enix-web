@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer.astro";
 import Icon from "@/components/Icon.astro";
 import LeadModal from "@/components/LeadModal";
+import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
 import { blogCategories, categorySlug, getArticlesByCategory } from "@/data/blogData";
 import { site } from "@/data/site";
 
@@ -27,8 +28,9 @@ const canonical = `${site.url}/blog/categoria/${categorySlug(category)}/`;
   <Header currentPath={Astro.url.pathname} client:load />
   <LeadModal client:load />
   <main>
-    <section class="noise pb-20 pt-36 text-white md:pt-44">
-      <div class="container">
+    <section class="motion-reduce-safe relative isolate overflow-hidden bg-[#070b14] pb-20 pt-36 text-white md:pt-44">
+      <AnimatedHeroBackground client:load variant="blog" intensity="soft" />
+      <div class="container relative z-10">
         <p class="eyebrow">Categoría</p>
         <h1 class="mt-4 max-w-4xl text-5xl font-black md:text-7xl">{category}</h1>
         <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">Artículos estratégicos para tomar mejores decisiones y convertir conocimiento en oportunidades comerciales.</p>

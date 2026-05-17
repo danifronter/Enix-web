@@ -4,9 +4,9 @@ export const homeHeaderLinks = [
   { label: "Desafío", href: "#problema" },
   { label: "Solución", href: "#sistema-enix" },
   { label: "Servicios", href: "#servicios" },
-  { label: "Método", href: "#metodologia" },
+  { label: "Diagnóstico", href: "#diagnostico-interactivo" },
   { label: "Resultados", href: "#resultados" },
-  { label: "Diagnóstico", href: "#diagnostico" },
+  { label: "Contacto", href: "#diagnostico" },
 ];
 
 export const globalHeaderLinks = [

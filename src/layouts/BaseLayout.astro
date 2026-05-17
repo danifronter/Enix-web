@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { site, faqs, services } from "@/data/site";
+import { site, services } from "@/data/site";
 
 interface Props {
   title: string;
@@ -8,6 +8,7 @@ interface Props {
   canonical?: string;
   ogImage?: string;
   breadcrumbs?: { name: string; url: string }[];
+  faqItems?: [string, string][];
 }
 
 const {
@@ -16,6 +17,7 @@ const {
   canonical = site.url,
   ogImage = `${site.url}/og-enix-studio.svg`,
   breadcrumbs = [{ name: "Inicio", url: site.url }],
+  faqItems = [],
 } = Astro.props;
 
 const organizationSchema = {
@@ -51,7 +53,7 @@ const serviceSchema = {
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: faqs.map(([question, answer]) => ({
+  mainEntity: faqItems.map(([question, answer]) => ({
     "@type": "Question",
     name: question,
     acceptedAnswer: { "@type": "Answer", text: answer },
@@ -97,7 +99,7 @@ const breadcrumbSchema = {
     <meta name="theme-color" content="#0B1120" />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    {faqItems.length > 0 && <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
     <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   </head>
   <body>
