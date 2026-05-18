@@ -9,7 +9,7 @@ const problems = [
     diagnosis: "Tu sitio puede estar recibiendo visitas, pero no está guiando al usuario hacia una acción clara.",
     risk: "Cada visita que no convierte puede ser una oportunidad perdida.",
     checks: ["Mensaje principal", "Velocidad móvil", "CTA", "Confianza visual", "Tracking de conversiones"],
-    service: "Desarrollo Web Premium + Optimización de Conversión",
+    service: "Desarrollo Web y Plataformas Digitales + Optimización de Conversión",
     cta: "Quiero revisar mi web",
     href: "/diagnostico/?problema=conversion",
     score: 41,

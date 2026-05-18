@@ -31,7 +31,7 @@ export const cases: CaseStudy[] = [
     problem: "La empresa tenía una web antigua, poco clara y sin llamados a la acción visibles.",
     solution: "Se rediseñó la experiencia, se ordenó el mensaje comercial, se optimizó la velocidad y se integraron formularios de captación.",
     result: "Mayor percepción profesional, navegación más clara y mejor capacidad para convertir visitas en oportunidades.",
-    services: ["Desarrollo Web Premium", "SEO Técnico", "Branding", "Conversión"],
+    services: ["Desarrollo Web y Plataformas Digitales", "SEO Técnico", "Branding", "Conversión"],
     objective: "Transformar una presencia digital débil en un activo comercial confiable, rápido y orientado a consultas.",
     diagnosis: ["Mensaje inicial genérico", "Arquitectura de servicios confusa", "Baja percepción premium", "Sin tracking de conversiones"],
     process: ["Auditoría de mensaje y UX", "Nueva estructura por servicios", "Diseño visual premium", "Implementación performance-first", "Configuración de eventos y formularios"],

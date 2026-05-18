@@ -21,13 +21,13 @@ export const serviceCards: LeadCard[] = [
     hiddenCategory: "estrategia-digital",
   },
   {
-    title: "Desarrollo Web Premium",
+    title: "Desarrollo Web y Plataformas Digitales",
     subtitle: "Sitios rápidos, elegantes y orientados a capturar oportunidades.",
     icon: "code",
     cta: "Evaluar mi web",
     modalTitle: "Evaluemos si tu web está generando confianza real",
     modalDescription: "Revisaremos presencia, velocidad, estructura, mensaje y conversión para detectar oportunidades de mejora.",
-    modalFocus: "Desarrollo Web Premium",
+    modalFocus: "Desarrollo Web y Plataformas Digitales",
     hiddenCategory: "desarrollo-web",
   },
   {

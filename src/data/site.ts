@@ -3,6 +3,7 @@ export const site = {
   relation: "Agencia digital de NOVVOR",
   url: "https://enixstudio.cl",
   email: "hello@enix.studio",
+  linkedin: "https://www.linkedin.com/company/enixstudio/",
   description:
     "Partner de crecimiento digital, automatización e IA para empresas que quieren captar oportunidades, convertir mejor, medir con datos y escalar sistemas comerciales.",
 };

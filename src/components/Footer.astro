@@ -96,11 +96,15 @@ const contact = [
           ))}
         </ul>
         <div class="mt-5 flex gap-3" aria-label="Redes sociales">
-          {["in", "ig", "x"].map((item) => (
-            <a class="grid size-10 place-items-center rounded-full border border-white/[0.08] bg-white/[0.04] text-xs font-black text-slate-300 transition hover:border-enix-red/40 hover:bg-enix-red/10 hover:text-white" href="/contacto/" aria-label={`Red social ${item.toUpperCase()}`}>
-              {item.toUpperCase()}
-            </a>
-          ))}
+          <a
+            class="grid size-10 place-items-center rounded-full border border-white/[0.08] bg-white/[0.04] text-xs font-black text-slate-300 transition hover:-translate-y-0.5 hover:border-enix-red/40 hover:bg-enix-red/10 hover:text-white"
+            href={site.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn de Enix Studio"
+          >
+            IN
+          </a>
         </div>
       </section>
     </div>
