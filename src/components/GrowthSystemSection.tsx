@@ -53,7 +53,7 @@ function AnimatedIcon({ type, active }: { type: Step["type"]; active: boolean })
     return (
       <motion.svg
         viewBox="0 0 64 64"
-        className="h-9 w-9"
+        className="h-11 w-11"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         animate={active ? { scale: [1, 1.08, 1], rotate: [0, -4, 4, 0] } : {}}
@@ -100,7 +100,7 @@ function AnimatedIcon({ type, active }: { type: Step["type"]; active: boolean })
     );
   }
 
-  const iconClass = "h-8 w-8 text-red-400";
+  const iconClass = "h-11 w-11 text-red-400";
   const animation = active
     ? {
         scale: [1, 1.14, 1],
@@ -186,15 +186,15 @@ export default function GrowthSystemSection() {
           </motion.p>
         </div>
 
-        <div className="relative mt-24 hidden lg:block">
-          <div className="relative grid grid-cols-5 gap-8">
-            <div className="absolute left-[10%] right-[10%] top-[64px] h-px bg-white/10" />
+        <div className="relative mt-16 hidden lg:block">
+          <div className="relative grid grid-cols-5 gap-5">
+            <div className="absolute left-[10%] right-[10%] top-[48px] h-px bg-white/10" />
             <motion.div
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="absolute left-[10%] right-[10%] top-[64px] h-px origin-left bg-gradient-to-r from-red-600 via-blue-400 to-red-500"
+              className="absolute left-[10%] right-[10%] top-[48px] h-px origin-left bg-gradient-to-r from-red-600/70 via-blue-400/70 to-red-500/70"
             />
 
             {steps.map((step, index) => {
@@ -209,7 +209,7 @@ export default function GrowthSystemSection() {
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
-                  className="group relative pt-[128px]"
+                  className="group relative pt-[112px]"
                 >
                   <div className="absolute left-1/2 top-0 z-20 flex -translate-x-1/2 flex-col items-center">
                     <motion.div
@@ -225,9 +225,9 @@ export default function GrowthSystemSection() {
                           : {}
                       }
                       transition={{ duration: 1.2, repeat: active ? Infinity : 0, repeatType: "reverse" }}
-                      className="relative flex h-32 w-32 items-center justify-center rounded-[2rem] border border-white/10 bg-white/[0.06] text-red-400 shadow-2xl shadow-black/30 backdrop-blur-xl transition duration-500 group-hover:-translate-y-2 group-hover:border-red-300/60 group-hover:bg-white/[0.09]"
+                      className="relative flex h-24 w-24 items-center justify-center rounded-[1.6rem] border border-white/10 bg-white/[0.06] text-red-400 shadow-2xl shadow-black/25 backdrop-blur-xl transition duration-500 group-hover:-translate-y-1.5 group-hover:border-red-300/60 group-hover:bg-white/[0.09]"
                     >
-                      <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-red-500/0 via-blue-400/0 to-red-500/0 opacity-0 blur-xl transition duration-500 group-hover:opacity-100 group-hover:from-red-500/30 group-hover:via-blue-400/20 group-hover:to-fuchsia-400/20" />
+                      <div className="absolute inset-0 rounded-[1.6rem] bg-gradient-to-br from-red-500/0 via-blue-400/0 to-red-500/0 opacity-0 blur-xl transition duration-500 group-hover:opacity-100 group-hover:from-red-500/30 group-hover:via-blue-400/20 group-hover:to-fuchsia-400/20" />
                       <div className="relative z-10">
                         <AnimatedIcon type={step.type} active={active} />
                       </div>
@@ -240,19 +240,19 @@ export default function GrowthSystemSection() {
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
                       transition={{ delay: 0.45 + index * 0.08 }}
-                      className="absolute left-[calc(100%+16px)] top-[43px] z-30 flex h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full border border-red-400/35 bg-[#080d18] text-red-300 shadow-lg shadow-red-950/40"
+                      className="absolute left-[calc(100%+10px)] top-[32px] z-30 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full border border-red-400/30 bg-[#080d18] text-red-300 shadow-lg shadow-red-950/35"
                     >
-                      <ArrowRight className="h-5 w-5" />
+                      <ArrowRight className="h-4 w-4" />
                     </motion.div>
                   )}
 
-                  <div className="relative min-h-[285px] overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl shadow-black/30 backdrop-blur-xl transition duration-500 group-hover:-translate-y-2 group-hover:border-red-300/50 group-hover:bg-white/[0.07]">
+                  <div className="relative min-h-[230px] overflow-hidden rounded-[1.6rem] border border-white/10 bg-white/[0.045] p-5 shadow-2xl shadow-black/25 backdrop-blur-xl transition duration-500 group-hover:-translate-y-1.5 group-hover:border-red-300/50 group-hover:bg-white/[0.07]">
                     <div className="absolute inset-0 bg-gradient-to-b from-white/[0.07] to-transparent opacity-60" />
                     <div className="absolute -right-20 -top-20 h-44 w-44 rounded-full bg-gradient-to-br from-red-500/0 via-blue-500/0 to-fuchsia-500/0 blur-3xl transition duration-500 group-hover:from-red-500/25 group-hover:via-blue-500/20 group-hover:to-fuchsia-500/20" />
                     <div className="relative">
-                      <span className="text-sm font-black tracking-[0.35em] text-red-400/90">{step.number}</span>
-                      <h3 className="mt-8 text-3xl font-black tracking-tight text-white">{step.title}</h3>
-                      <p className="mt-5 text-base leading-7 text-slate-300">{step.description}</p>
+                      <span className="text-xs font-black tracking-[0.3em] text-red-400/90">{step.number}</span>
+                      <h3 className="mt-5 whitespace-normal text-xl font-black tracking-tight text-white">{step.title}</h3>
+                      <p className="mt-4 text-sm leading-6 text-slate-300">{step.description}</p>
                     </div>
                   </div>
                 </motion.article>

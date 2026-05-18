@@ -1,5 +1,4 @@
 import type { APIRoute } from "astro";
-import { Resend } from "resend";
 
 const allowedTypes = ["contact", "diagnostic", "audit", "service", "newsletter"] as const;
 
@@ -163,7 +162,6 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    const resend = new Resend(apiKey);
     const formLabel = labelByType(type);
     const subject = `Nuevo lead Enix Studio - ${formLabel}`;
     const html = `
@@ -190,20 +188,27 @@ export const POST: APIRoute = async ({ request }) => {
       </div>
     `;
 
-    const { error } = await resend.emails.send({
-      from: fromEmail,
-      to: [toEmail],
-      ...(email && isValidEmail(email) ? { replyTo: email } : {}),
-      subject,
-      html,
+    const resendResponse = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: fromEmail,
+        to: [toEmail],
+        ...(email && isValidEmail(email) ? { reply_to: email } : {}),
+        subject,
+        html,
+      }),
     });
 
-    if (error) {
+    if (!resendResponse.ok) {
+      const error = await resendResponse.json().catch(() => null);
       console.error("Resend error:", error);
-      const message =
-        typeof error.message === "string" && error.message
-          ? error.message
-          : "Resend rechazó el envío. Revisa el remitente, dominio verificado y variables de entorno.";
+      const message = error?.message
+        ? String(error.message)
+        : "Resend rechazó el envío. Revisa el remitente, dominio verificado y variables de entorno.";
 
       return jsonResponse({ ok: false, message }, 502);
     }

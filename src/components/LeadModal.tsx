@@ -185,7 +185,7 @@ export default function LeadModal() {
 
     try {
       if (import.meta.env.DEV) console.info("[ENIX lead payload]", payload);
-      const response = await fetch("/api/forms", {
+      const response = await fetch(new URL("/api/forms", window.location.origin).toString(), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
