@@ -8,6 +8,8 @@ import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
 import { servicePages } from "@/data/servicePagesData";
 import { site } from "@/data/site";
 
+export const prerender = true;
+
 export function getStaticPaths() {
   return servicePages.map((service) => ({
     params: { slug: service.slug },

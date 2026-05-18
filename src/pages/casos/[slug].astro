@@ -8,6 +8,8 @@ import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
 import { cases } from "@/data/casesData";
 import { site } from "@/data/site";
 
+export const prerender = true;
+
 export function getStaticPaths() {
   return cases.map((item) => ({
     params: { slug: item.slug },

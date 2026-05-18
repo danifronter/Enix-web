@@ -1,0 +1,55 @@
+<script>
+  const forms = document.querySelectorAll("form[data-enix-form]");
+
+  forms.forEach((form) => {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const currentForm = event.currentTarget;
+      if (!(currentForm instanceof HTMLFormElement)) return;
+
+      const submitButton = currentForm.querySelector('button[type="submit"]');
+      const status = currentForm.querySelector("[data-form-status]");
+      const originalContent = submitButton?.innerHTML || "";
+
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Enviando...";
+      }
+
+      if (status instanceof HTMLElement) {
+        status.textContent = "";
+        status.dataset.state = "loading";
+      }
+
+      try {
+        const response = await fetch("/api/forms", {
+          method: "POST",
+          body: new FormData(currentForm),
+        });
+        const result = await response.json();
+
+        if (!response.ok || !result.ok) {
+          throw new Error(result.message || "No se pudo enviar la solicitud.");
+        }
+
+        currentForm.reset();
+
+        if (status instanceof HTMLElement) {
+          status.textContent = result.message || "Solicitud enviada correctamente.";
+          status.dataset.state = "success";
+        }
+      } catch (error) {
+        if (status instanceof HTMLElement) {
+          status.textContent = error instanceof Error ? error.message : "No se pudo enviar la solicitud.";
+          status.dataset.state = "error";
+        }
+      } finally {
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.disabled = false;
+          submitButton.innerHTML = originalContent;
+        }
+      }
+    });
+  });
+</script>

@@ -165,7 +165,14 @@ export default function LeadModal() {
     if (Object.keys(nextErrors).length) return;
 
     const payload = {
+      type: "diagnostic",
       ...form,
+      phone: form.whatsapp,
+      website: form.website,
+      problem: form.need,
+      service: context.modalFocus || context.title,
+      message: `${form.need} · ${context.modalDescription}`,
+      consent: "true",
       selectedFocus: context.modalFocus,
       hiddenCategory: context.hiddenCategory,
       selectedCard: context.title,
@@ -177,14 +184,24 @@ export default function LeadModal() {
     setStatus("loading");
 
     try {
-      // Backend-ready integration point:
-      // await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
       if (import.meta.env.DEV) console.info("[ENIX lead payload]", payload);
-      await new Promise((resolve) => window.setTimeout(resolve, 650));
+      const response = await fetch("/api/forms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.message || "No pudimos enviar la solicitud.");
+      }
+
       setStatus("success");
-    } catch {
+    } catch (error) {
       setStatus("idle");
-      setErrors({ need: "No pudimos enviar la solicitud. Intenta nuevamente en unos segundos." });
+      setErrors({
+        need: error instanceof Error ? error.message : "No pudimos enviar la solicitud. Intenta nuevamente en unos segundos.",
+      });
     }
   };
 

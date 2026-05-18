@@ -88,12 +88,16 @@ export default function GuidedDiagnosticSection() {
   const [selected, setSelected] = useState<ProblemKey | null>(null);
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitState, setSubmitState] = useState<"idle" | "loading" | "error">("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
   const current = useMemo(() => problems.find((item) => item.key === selected), [selected]);
 
   const resetSelection = () => {
     setSelected(null);
     setShowLeadForm(false);
     setSubmitted(false);
+    setSubmitState("idle");
+    setSubmitMessage("");
   };
 
   return (
@@ -260,23 +264,48 @@ export default function GuidedDiagnosticSection() {
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.28, ease: "easeOut" }}
                 className="space-y-5"
-                onSubmit={(event) => {
+                onSubmit={async (event) => {
                   event.preventDefault();
                   const form = event.currentTarget;
                   const data = new FormData(form);
                   const payload = {
+                    type: "diagnostic",
                     origin: "home-guided-diagnostic",
                     problem: current.key,
                     service: current.service,
+                    reason: current.label,
+                    message: `${current.diagnosis} ${current.risk}`,
                     name: data.get("name"),
                     email: data.get("email"),
+                    consent: "true",
                   };
 
                   if (import.meta.env.DEV) {
                     console.log("Lead diagnóstico guiado", payload);
                   }
 
-                  setSubmitted(true);
+                  setSubmitState("loading");
+                  setSubmitMessage("");
+
+                  try {
+                    const response = await fetch("/api/forms", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(payload),
+                    });
+                    const result = await response.json();
+
+                    if (!response.ok || !result.ok) {
+                      throw new Error(result.message || "No pudimos enviar la recomendación.");
+                    }
+
+                    setSubmitted(true);
+                    setSubmitState("idle");
+                    form.reset();
+                  } catch (error) {
+                    setSubmitState("error");
+                    setSubmitMessage(error instanceof Error ? error.message : "No pudimos enviar la recomendación.");
+                  }
                 }}
               >
                 <input type="hidden" name="problem" value={current.key} />
@@ -313,7 +342,7 @@ export default function GuidedDiagnosticSection() {
                 </div>
 
                 <label className="flex gap-3 text-sm leading-6 text-slate-400">
-                  <input required type="checkbox" className="mt-1 h-4 w-4 rounded border-white/20 bg-transparent accent-red-600" />
+                  <input required type="checkbox" name="consent" className="mt-1 h-4 w-4 rounded border-white/20 bg-transparent accent-red-600" />
                   <span>
                     Acepto recibir esta recomendación inicial de Enix Studio y he leído la{" "}
                     <a className="font-black text-red-300 hover:underline" href="/politica-de-privacidad/">
@@ -321,14 +350,20 @@ export default function GuidedDiagnosticSection() {
                     </a>.
                   </span>
                 </label>
+                {submitMessage && (
+                  <p className="rounded-2xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm font-bold text-red-100">
+                    {submitMessage}
+                  </p>
+                )}
 
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <button
                     type="submit"
+                    disabled={submitState === "loading"}
                     className="inline-flex items-center justify-center rounded-full bg-red-600 px-7 py-4 text-sm font-black text-white shadow-xl shadow-red-950/40 transition hover:-translate-y-0.5 hover:bg-red-500"
                   >
                     <Mail className="mr-2 h-4 w-4" />
-                    Recibir por correo
+                    {submitState === "loading" ? "Enviando..." : "Recibir por correo"}
                   </button>
                   <button
                     type="button"

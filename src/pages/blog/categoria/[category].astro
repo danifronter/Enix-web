@@ -8,6 +8,8 @@ import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
 import { blogCategories, categorySlug, getArticlesByCategory } from "@/data/blogData";
 import { site } from "@/data/site";
 
+export const prerender = true;
+
 export function getStaticPaths() {
   return blogCategories.map((category) => ({
     params: { category: categorySlug(category) },
