@@ -51,6 +51,15 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function extractEmailAddress(value: string) {
+  const match = value.match(/<([^<>]+)>/);
+  return (match?.[1] ?? value).trim();
+}
+
+function isValidSender(value: string) {
+  return Boolean(value.trim()) && isValidEmail(extractEmailAddress(value));
+}
+
 function hasConsent(value: string) {
   return ["on", "true", "1", "yes", "si", "sí"].includes(value.toLowerCase());
 }
@@ -130,15 +139,25 @@ export const POST: APIRoute = async ({ request }) => {
       return jsonResponse({ ok: false, message: "Debes aceptar ser contactado para responder tu solicitud." }, 400);
     }
 
-    const apiKey = import.meta.env.RESEND_API_KEY;
-    const toEmail = import.meta.env.CONTACT_TO_EMAIL;
-    const fromEmail = import.meta.env.CONTACT_FROM_EMAIL;
+    const apiKey = String(import.meta.env.RESEND_API_KEY || "").trim();
+    const toEmail = String(import.meta.env.CONTACT_TO_EMAIL || "").trim();
+    const fromEmail = String(import.meta.env.CONTACT_FROM_EMAIL || "").trim();
 
     if (!apiKey || !toEmail || !fromEmail) {
       return jsonResponse(
         {
           ok: false,
           message: "El envío de formularios no está configurado. Revisa las variables de entorno.",
+        },
+        500,
+      );
+    }
+
+    if (!isValidEmail(toEmail) || !isValidSender(fromEmail)) {
+      return jsonResponse(
+        {
+          ok: false,
+          message: "La configuración de correos no tiene un formato válido. Revisa CONTACT_TO_EMAIL y CONTACT_FROM_EMAIL.",
         },
         500,
       );
@@ -171,17 +190,32 @@ export const POST: APIRoute = async ({ request }) => {
       </div>
     `;
 
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: fromEmail,
       to: [toEmail],
-      ...(email ? { replyTo: email } : {}),
+      ...(email && isValidEmail(email) ? { replyTo: email } : {}),
       subject,
       html,
     });
 
+    if (error) {
+      console.error("Resend error:", error);
+      const message =
+        typeof error.message === "string" && error.message
+          ? error.message
+          : "Resend rechazó el envío. Revisa el remitente, dominio verificado y variables de entorno.";
+
+      return jsonResponse({ ok: false, message }, 502);
+    }
+
     return jsonResponse({ ok: true, message: "Solicitud enviada correctamente." });
   } catch (error) {
     console.error("Form endpoint error:", error);
-    return jsonResponse({ ok: false, message: "No se pudo enviar la solicitud. Intenta nuevamente." }, 500);
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : "No se pudo enviar la solicitud. Intenta nuevamente.";
+
+    return jsonResponse({ ok: false, message }, 500);
   }
 };
