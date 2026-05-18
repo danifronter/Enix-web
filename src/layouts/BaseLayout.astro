@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import { site, services } from "@/data/site";
 import CookieConsent from "@/components/CookieConsent";
+import Analytics from "@vercel/analytics/astro";
 
 interface Props {
   title: string;
@@ -106,5 +107,6 @@ const breadcrumbSchema = {
   <body>
     <slot />
     <CookieConsent client:idle />
+    <Analytics />
   </body>
 </html>
