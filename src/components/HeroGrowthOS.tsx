@@ -24,7 +24,7 @@ export default function HeroGrowthOS() {
 
   return (
     <section className="motion-reduce-safe relative isolate min-h-[90vh] overflow-hidden bg-[#070b14] pt-28 text-white lg:pt-32">
-      <AnimatedHeroBackground variant="default" intensity="medium" />
+      <AnimatedHeroBackground variant="default" intensity="strong" />
 
       <div className="container relative grid max-w-[1440px] items-start gap-8 pb-16 pt-4 md:pb-20 lg:grid-cols-[0.48fr_0.52fr]">
         <HeroCopyBlock
