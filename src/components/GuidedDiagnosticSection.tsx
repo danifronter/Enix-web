@@ -314,7 +314,12 @@ export default function GuidedDiagnosticSection() {
 
                 <label className="flex gap-3 text-sm leading-6 text-slate-400">
                   <input required type="checkbox" className="mt-1 h-4 w-4 rounded border-white/20 bg-transparent accent-red-600" />
-                  <span>Acepto recibir esta recomendación inicial de Enix Studio.</span>
+                  <span>
+                    Acepto recibir esta recomendación inicial de Enix Studio y he leído la{" "}
+                    <a className="font-black text-red-300 hover:underline" href="/politica-de-privacidad/">
+                      Política de Privacidad
+                    </a>.
+                  </span>
                 </label>
 
                 <div className="flex flex-col gap-3 sm:flex-row">

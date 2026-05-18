@@ -1,0 +1,304 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer.astro";
+import Icon from "@/components/Icon.astro";
+import LeadModal from "@/components/LeadModal";
+import { site } from "@/data/site";
+
+const canonical = `${site.url}/politica-de-privacidad/`;
+const lastUpdated = "04 de marzo de 2025";
+
+const summaryCards = [
+  ["database", "Qué datos recopilamos", "Datos de contacto, solicitudes comerciales, navegación, formularios y preferencias de comunicación."],
+  ["target", "Para qué los usamos", "Para responder consultas, gestionar diagnósticos, prestar servicios, mejorar el sitio y medir rendimiento."],
+  ["shield", "Cómo los protegemos", "Aplicamos medidas técnicas y organizativas razonables para reducir accesos no autorizados o uso indebido."],
+  ["mail", "Cómo ejercer tus derechos", `Puedes escribir a ${site.email} para solicitar acceso, rectificación, eliminación u otros derechos aplicables.`],
+];
+
+const indexItems = [
+  ["Responsable", "responsable"],
+  ["Datos recopilados", "datos"],
+  ["Finalidades", "finalidades"],
+  ["Cookies", "cookies"],
+  ["Terceros", "terceros"],
+  ["Seguridad", "seguridad"],
+  ["Derechos", "derechos"],
+  ["Contacto", "contacto"],
+];
+
+const sections = [
+  {
+    id: "responsable",
+    title: "1. Responsable del tratamiento",
+    body: [
+      "El responsable del tratamiento de los datos personales recopilados a través de este sitio web es Enix Studio, agencia digital de NOVVOR.",
+      `Correo de contacto: ${site.email}`,
+    ],
+  },
+  {
+    id: "datos",
+    title: "2. Información que podemos recopilar",
+    body: [
+      "Podemos recopilar datos personales cuando completas formularios, solicitas un diagnóstico, nos escribes por correo, interactúas con nuestras comunicaciones o navegas por nuestro sitio web.",
+      "Los datos pueden incluir datos de identificación y contacto, datos relacionados con solicitudes comerciales, datos técnicos y de navegación, y datos de marketing y analítica.",
+    ],
+    groups: [
+      ["Datos de identificación y contacto", ["Nombre", "Correo electrónico", "Teléfono o WhatsApp", "Empresa", "Cargo, si lo proporcionas", "Sitio web de tu empresa", "Mensaje o información que ingreses voluntariamente"]],
+      ["Datos relacionados con solicitudes comerciales", ["Tipo de servicio de interés", "Problema o necesidad declarada", "Información sobre tu sitio web o presencia digital", "Preferencias de contacto", "Historial de consultas o comunicaciones"]],
+      ["Datos técnicos y de navegación", ["Dirección IP", "Tipo de dispositivo", "Sistema operativo", "Navegador", "Páginas visitadas", "Tiempo de permanencia", "Fuente de tráfico", "Interacciones con formularios, botones o contenidos", "Cookies, píxeles u otras tecnologías similares"]],
+      ["Datos de marketing y analítica", ["Aperturas de correos", "Clics en campañas", "Preferencias de comunicación", "Interacciones con anuncios o contenidos, cuando corresponda"]],
+    ],
+    note: "No solicitamos datos sensibles salvo que sea estrictamente necesario y exista una base legal o consentimiento explícito para ello.",
+  },
+  {
+    id: "finalidades",
+    title: "3. Finalidades del tratamiento",
+    body: ["Utilizamos los datos personales para las siguientes finalidades:"],
+    bullets: [
+      "Responder consultas recibidas a través del sitio web.",
+      "Gestionar solicitudes de contacto, diagnóstico o cotización.",
+      "Entregar información sobre servicios de Enix Studio.",
+      "Evaluar necesidades digitales declaradas por el usuario.",
+      "Preparar recomendaciones iniciales relacionadas con web, SEO, marketing, automatización, analítica o servicios digitales.",
+      "Gestionar la relación comercial o precontractual con potenciales clientes.",
+      "Prestar servicios contratados.",
+      "Enviar comunicaciones informativas o comerciales cuando exista consentimiento o una relación previa que lo permita.",
+      "Mejorar el funcionamiento, seguridad y rendimiento del sitio web.",
+      "Analizar tráfico, comportamiento de navegación y efectividad de contenidos.",
+      "Cumplir obligaciones legales, contractuales o regulatorias.",
+      "Prevenir abusos, fraude, accesos no autorizados o usos indebidos del sitio.",
+    ],
+  },
+  {
+    id: "legitimacion",
+    title: "4. Base de legitimación",
+    body: [
+      "El tratamiento de datos personales puede basarse en el consentimiento entregado por el usuario al completar formularios, aceptar cookies o solicitar comunicaciones; la ejecución de una relación contractual o precontractual; el interés legítimo de Enix Studio en responder consultas, mejorar sus servicios, proteger su sitio web y medir el rendimiento de sus canales digitales; y el cumplimiento de obligaciones legales aplicables.",
+      `Cuando el tratamiento dependa de tu consentimiento, podrás retirarlo en cualquier momento escribiendo a ${site.email}.`,
+    ],
+  },
+  {
+    id: "formularios",
+    title: "5. Uso de formularios y diagnósticos",
+    body: [
+      "Cuando completas un formulario de contacto, diagnóstico o auditoría digital, utilizamos la información entregada para revisar tu solicitud, responderte y, cuando corresponda, orientarte sobre posibles servicios o mejoras relacionadas con tu presencia digital.",
+      "Si el formulario incluye análisis de sitio web, la evaluación puede considerar aspectos visibles o técnicos básicos, como presencia digital, estructura, SEO, velocidad, conversión, automatización o analítica.",
+      "Estas evaluaciones tienen carácter inicial y no reemplazan una consultoría técnica, legal, comercial o estratégica completa.",
+    ],
+  },
+  {
+    id: "cookies",
+    title: "6. Uso de cookies y tecnologías similares",
+    body: [
+      "Nuestro sitio puede utilizar cookies, píxeles, etiquetas y tecnologías similares para permitir el funcionamiento correcto del sitio, recordar preferencias del usuario, analizar tráfico y uso del sitio, medir conversiones y rendimiento de campañas, mejorar contenidos, navegación y experiencia, y realizar acciones de marketing o remarketing cuando corresponda y exista consentimiento.",
+      "Las cookies pueden clasificarse en esenciales, analíticas y de marketing. Las esenciales son necesarias para el funcionamiento básico del sitio web; las analíticas permiten comprender cómo los usuarios interactúan con el sitio; y las de marketing ayudan a medir campañas, personalizar contenidos o realizar remarketing.",
+      "El usuario puede aceptar, rechazar o configurar cookies desde el banner correspondiente, cuando esté disponible, o mediante la configuración de su navegador.",
+    ],
+  },
+  {
+    id: "terceros",
+    title: "7. Herramientas de terceros",
+    body: [
+      "Para operar el sitio y prestar nuestros servicios, podemos utilizar proveedores tecnológicos, tales como servicios de hosting o infraestructura, plataformas de analítica web, herramientas de email marketing, sistemas de formularios, plataformas de automatización, herramientas publicitarias, CRM u otras soluciones de gestión comercial.",
+      "Estos proveedores pueden tratar datos personales únicamente en la medida necesaria para prestar sus servicios y bajo condiciones de confidencialidad, seguridad y uso limitado.",
+    ],
+  },
+  {
+    id: "comunicacion",
+    title: "8. Comunicación de datos a terceros",
+    body: [
+      "No vendemos ni comercializamos tus datos personales.",
+      "Podemos compartir información con terceros solo cuando sea necesario para operar el sitio o prestar servicios, usar plataformas tecnológicas de formularios, analítica, correo, automatización o publicidad, cumplir obligaciones legales, o colaborar con socios vinculados a un proyecto solicitado.",
+      "En todos los casos, procuraremos limitar la información compartida a lo estrictamente necesario.",
+    ],
+  },
+  {
+    id: "transferencias",
+    title: "9. Transferencias internacionales",
+    body: [
+      "Algunos proveedores tecnológicos pueden procesar o almacenar información fuera de Chile.",
+      "Cuando esto ocurra, procuraremos utilizar servicios que apliquen estándares adecuados de seguridad, confidencialidad y protección de datos, incluyendo mecanismos contractuales o técnicos razonables según corresponda.",
+    ],
+  },
+  {
+    id: "conservacion",
+    title: "10. Conservación de datos",
+    body: [
+      "Conservaremos los datos personales solo durante el tiempo necesario para cumplir las finalidades indicadas en esta Política, atender solicitudes, mantener una relación comercial, cumplir obligaciones legales o proteger nuestros derechos.",
+      "Como referencia, los datos de formularios y solicitudes comerciales se conservan durante el tiempo necesario para gestionar la consulta y mantener seguimiento comercial razonable; los datos asociados a clientes durante la vigencia de la relación comercial y los plazos legales aplicables; los datos de navegación y analítica durante el tiempo definido por las herramientas correspondientes o hasta que sean anonimizados; y los datos de marketing hasta que el usuario retire su consentimiento o solicite dejar de recibir comunicaciones.",
+    ],
+  },
+  {
+    id: "seguridad",
+    title: "11. Seguridad de la información",
+    body: [
+      "Adoptamos medidas técnicas y organizativas razonables para proteger los datos personales frente a acceso no autorizado, pérdida, alteración, divulgación o uso indebido.",
+      "Estas medidas pueden incluir uso de HTTPS/SSL, controles de acceso, actualización de software, restricción de permisos, respaldo y monitoreo de sistemas cuando corresponda, y buenas prácticas de seguridad en formularios, comunicaciones y almacenamiento.",
+      "Aunque aplicamos medidas razonables de protección, ningún sistema es completamente infalible. En caso de incidente relevante, adoptaremos las medidas de mitigación y comunicación que correspondan conforme a la normativa aplicable.",
+    ],
+  },
+  {
+    id: "derechos",
+    title: "12. Derechos de los titulares",
+    body: [
+      "Como titular de datos personales, puedes solicitar acceso a los datos personales que mantenemos sobre ti, rectificación de datos inexactos o incompletos, eliminación de datos cuando corresponda legalmente, oposición al tratamiento en ciertos casos, revocación del consentimiento otorgado, limitación del tratamiento cuando sea aplicable y portabilidad de datos cuando corresponda conforme a la normativa aplicable.",
+      `Para ejercer tus derechos, puedes escribir a ${site.email}. En la solicitud, indica tu nombre, medio de contacto y el derecho que deseas ejercer. Podremos solicitar información adicional para verificar tu identidad antes de procesar la solicitud.`,
+    ],
+  },
+  {
+    id: "comerciales",
+    title: "13. Comunicaciones comerciales",
+    body: [
+      "Podemos enviarte comunicaciones relacionadas con servicios, contenidos, novedades o recomendaciones de Enix Studio cuando nos hayas otorgado tu consentimiento, exista una relación comercial previa, hayas solicitado información o diagnóstico, o la normativa aplicable lo permita.",
+      `Puedes solicitar dejar de recibir comunicaciones comerciales escribiendo a ${site.email} o utilizando el mecanismo de baja disponible en los correos, cuando corresponda.`,
+    ],
+  },
+  {
+    id: "enlaces",
+    title: "14. Enlaces a sitios de terceros",
+    body: [
+      "Nuestro sitio puede contener enlaces a sitios web, plataformas o servicios de terceros.",
+      "Enix Studio no es responsable por las prácticas de privacidad, seguridad o contenido de dichos sitios externos. Recomendamos revisar sus propias políticas antes de entregar información personal.",
+    ],
+  },
+  {
+    id: "menores",
+    title: "15. Menores de edad",
+    body: [
+      "Nuestros servicios están dirigidos principalmente a empresas, emprendedores y personas mayores de edad.",
+      "No buscamos recopilar intencionalmente datos personales de niños, niñas o adolescentes. Si detectamos que se ha proporcionado información de un menor sin autorización correspondiente, podremos eliminarla o adoptar las medidas necesarias conforme a la normativa aplicable.",
+    ],
+  },
+  {
+    id: "cambios",
+    title: "16. Cambios a esta Política",
+    body: [
+      "Podemos actualizar esta Política de Privacidad para reflejar cambios legales, técnicos, comerciales o en nuestras prácticas de tratamiento de datos.",
+      "La versión vigente estará disponible en esta página e indicará su fecha de última actualización.",
+    ],
+  },
+  {
+    id: "contacto",
+    title: "17. Contacto",
+    body: [
+      `Para consultas sobre esta Política de Privacidad, tratamiento de datos personales o ejercicio de derechos, puedes escribir a ${site.email}.`,
+      "También puedes contactarnos mediante los formularios disponibles en nuestro sitio web.",
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Política de Privacidad | Enix Studio"
+  description="Conoce cómo Enix Studio recopila, utiliza, protege y trata los datos personales entregados a través de su sitio web, formularios, servicios digitales y comunicaciones."
+  canonical={canonical}
+  breadcrumbs={[{ name: "Inicio", url: site.url }, { name: "Política de Privacidad", url: canonical }]}
+>
+  <Header currentPath={Astro.url.pathname} client:load />
+  <LeadModal client:idle />
+
+  <main>
+    <section class="relative isolate overflow-hidden bg-enix-ink pb-20 pt-36 text-white md:pt-44">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_18%_0%,rgba(220,38,38,0.18),transparent_34%),linear-gradient(135deg,#0B1120_0%,#111827_55%,#16070b_100%)]"></div>
+      <div class="container relative z-10">
+        <p class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.07] px-4 py-2 text-xs font-black uppercase text-red-100">
+          <span class="size-2 rounded-full bg-enix-glow"></span>
+          Privacidad y protección de datos
+        </p>
+        <h1 class="mt-6 max-w-4xl text-5xl font-black leading-[0.98] md:text-7xl">Política de Privacidad</h1>
+        <p class="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
+          Conoce cómo Enix Studio recopila, utiliza y protege los datos personales entregados a través de nuestro sitio web, formularios y servicios digitales.
+        </p>
+        <p class="mt-5 text-sm font-bold text-slate-400">Fecha de última actualización: {lastUpdated}</p>
+      </div>
+    </section>
+
+    <section class="section bg-enix-pearl">
+      <div class="container">
+        <div class="grid gap-4 md:grid-cols-4">
+          {summaryCards.map(([icon, title, text]) => (
+            <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <span class="icon-box mb-5"><Icon name={icon} class="size-5" /></span>
+              <h2 class="text-lg font-black">{title}</h2>
+              <p class="mt-3 text-sm leading-6 text-slate-600">{text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white py-16">
+      <div class="container grid gap-10 lg:grid-cols-[0.28fr_0.72fr]">
+        <aside class="lg:sticky lg:top-28 lg:self-start">
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <h2 class="text-lg font-black">Índice</h2>
+            <nav class="mt-5 grid gap-2 text-sm font-bold text-slate-600" aria-label="Índice de política de privacidad">
+              {indexItems.map(([label, href]) => (
+                <a class="rounded-xl px-3 py-2 transition hover:bg-white hover:text-enix-red" href={`#${href}`}>{label}</a>
+              ))}
+            </nav>
+          </div>
+        </aside>
+
+        <article class="prose max-w-none">
+          <div class="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-10">
+            <h2 class="text-3xl font-black text-slate-950">POLÍTICA DE PRIVACIDAD DE ENIX STUDIO</h2>
+            <p class="mt-4 leading-8 text-slate-700">
+              En Enix Studio, agencia digital de NOVVOR, valoramos la confianza de quienes visitan nuestro sitio web, completan formularios, solicitan información o contratan nuestros servicios.
+            </p>
+            <p class="mt-4 leading-8 text-slate-700">
+              Esta Política de Privacidad explica de forma clara qué datos personales podemos recopilar, para qué los usamos, con quién podríamos compartirlos, cómo los protegemos y qué derechos puedes ejercer respecto de tu información.
+            </p>
+            <p class="mt-4 leading-8 text-slate-700">
+              Al utilizar nuestro sitio web, interactuar con nuestros formularios o comunicarte con Enix Studio, declaras haber leído esta Política de Privacidad.
+            </p>
+
+            {sections.map((section) => (
+              <section id={section.id} class="scroll-mt-28 border-t border-slate-200 pt-10 first:mt-0 mt-10">
+                <h2 class="text-2xl font-black text-slate-950 md:text-3xl">{section.title}</h2>
+                {section.body.map((paragraph) => (
+                  <p class="mt-4 leading-8 text-slate-700">{paragraph}</p>
+                ))}
+                {section.groups && (
+                  <div class="mt-6 grid gap-4 md:grid-cols-2">
+                    {section.groups.map(([title, items]) => (
+                      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                        <h3 class="font-black text-slate-950">{title}</h3>
+                        <ul class="mt-4 grid gap-2">
+                          {(items as string[]).map((item) => (
+                            <li class="flex gap-3 text-sm leading-6 text-slate-700"><Icon name="check" class="mt-1 size-4 shrink-0 text-enix-red" /> {item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {section.bullets && (
+                  <ul class="mt-5 grid gap-3">
+                    {section.bullets.map((item) => (
+                      <li class="flex gap-3 rounded-xl bg-slate-50 p-4 leading-7 text-slate-700"><Icon name="check" class="mt-1 size-4 shrink-0 text-enix-red" /> {item}</li>
+                    ))}
+                  </ul>
+                )}
+                {section.note && <p class="mt-5 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold leading-6 text-red-950">{section.note}</p>}
+              </section>
+            ))}
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section bg-enix-ink text-white">
+      <div class="container grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
+        <div>
+          <p class="eyebrow">Contacto de privacidad</p>
+          <h2 class="mt-3 text-4xl font-black md:text-5xl">¿Tienes dudas sobre privacidad?</h2>
+          <p class="mt-4 max-w-2xl text-lg leading-8 text-slate-300">Escríbenos a {site.email} para consultas sobre esta política o tratamiento de datos personales.</p>
+        </div>
+        <a class="btn btn-primary" href={`mailto:${site.email}`}><Icon name="mail" class="size-5" /> Escribir a {site.email}</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -26,10 +26,10 @@ const canonical = `${site.url}/blog/categoria/${categorySlug(category)}/`;
   breadcrumbs={[{ name: "Inicio", url: site.url }, { name: "Blog", url: `${site.url}/blog/` }, { name: category, url: canonical }]}
 >
   <Header currentPath={Astro.url.pathname} client:load />
-  <LeadModal client:load />
+  <LeadModal client:idle />
   <main>
     <section class="motion-reduce-safe relative isolate overflow-hidden bg-[#070b14] pb-20 pt-36 text-white md:pt-44">
-      <AnimatedHeroBackground client:load variant="blog" intensity="soft" />
+      <AnimatedHeroBackground variant="blog" intensity="soft" />
       <div class="container relative z-10">
         <p class="eyebrow">Categoría</p>
         <h1 class="mt-4 max-w-4xl text-5xl font-black md:text-7xl">{category}</h1>

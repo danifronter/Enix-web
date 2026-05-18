@@ -314,7 +314,12 @@ export default function LeadModal() {
                 <button className="btn btn-primary mt-2 w-full" type="submit" disabled={status === "loading"}>
                   {status === "loading" ? "Enviando..." : "Solicitar diagnóstico"}
                 </button>
-                <p className="text-center text-xs font-semibold leading-5 text-slate-400">Sin compromiso. Revisamos tu caso y te respondemos con oportunidades concretas.</p>
+                <p className="text-center text-xs font-semibold leading-5 text-slate-400">
+                  Sin compromiso. Revisamos tu caso y te respondemos con oportunidades concretas. Al enviar aceptas nuestra{" "}
+                  <a className="font-black text-red-300 hover:underline" href="/politica-de-privacidad/">
+                    Política de Privacidad
+                  </a>.
+                </p>
               </form>
             </>
           )}

@@ -19,10 +19,10 @@ const popular = blogArticles.slice(1, 5);
   breadcrumbs={[{ name: "Inicio", url: site.url }, { name: "Blog", url: `${site.url}/blog/` }]}
 >
   <Header currentPath={Astro.url.pathname} client:load />
-  <LeadModal client:load />
+  <LeadModal client:idle />
   <main>
     <section class="motion-reduce-safe relative isolate overflow-hidden bg-[#070b14] pb-20 pt-36 text-white md:pt-44">
-      <AnimatedHeroBackground client:load variant="blog" intensity="soft" />
+      <AnimatedHeroBackground variant="blog" intensity="soft" />
       <div class="container relative z-10 grid gap-10 lg:grid-cols-[1fr_0.72fr] lg:items-end">
         <div>
           <p class="eyebrow">Blog SEO-first</p>

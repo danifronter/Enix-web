@@ -34,10 +34,10 @@ const after = ["Mensaje claro", "Diseño premium", "Mayor confianza", "CTA estra
   breadcrumbs={[{ name: "Inicio", url: site.url }, { name: "Casos", url: `${site.url}/casos/` }]}
 >
   <Header currentPath={Astro.url.pathname} client:load />
-  <LeadModal client:load />
+  <LeadModal client:idle />
   <main>
     <section class="motion-reduce-safe relative isolate overflow-hidden bg-[#070b14] pb-20 pt-36 text-white md:pt-44">
-      <AnimatedHeroBackground client:load variant="cases" intensity="medium" />
+      <AnimatedHeroBackground variant="cases" intensity="medium" />
       <div class="container relative z-10 grid gap-10 lg:grid-cols-[1fr_0.75fr] lg:items-end">
         <div>
           <p class="eyebrow">Casos y soluciones</p>

@@ -6,16 +6,23 @@ import LeadModal from "@/components/LeadModal";
 import { site } from "@/data/site";
 ---
 
-<BaseLayout title="Políticas | ENIX STUDIO" canonical={`${site.url}/politicas/`}>
+<BaseLayout
+  title="Política de Privacidad | Enix Studio"
+  description="La política de privacidad de Enix Studio ahora está disponible en una ruta actualizada."
+  canonical={`${site.url}/politica-de-privacidad/`}
+  breadcrumbs={[{ name: "Inicio", url: site.url }, { name: "Política de Privacidad", url: `${site.url}/politica-de-privacidad/` }]}
+>
   <Header currentPath={Astro.url.pathname} client:load />
-  <LeadModal client:load />
+  <LeadModal client:idle />
   <main>
     <section class="section bg-white">
       <div class="container max-w-3xl">
-        <p class="eyebrow">Políticas</p>
-        <h1 class="mt-4 text-5xl font-black">Privacidad y uso del sitio</h1>
-        <p class="mt-6 leading-8 text-slate-700">ENIX STUDIO utiliza la información enviada en formularios únicamente para responder solicitudes, preparar diagnósticos y mantener comunicación comercial relacionada.</p>
-        <p class="mt-4 leading-8 text-slate-700">Los datos de navegación pueden analizarse de forma agregada para mejorar performance, experiencia y medición de conversiones.</p>
+        <p class="eyebrow">Política actualizada</p>
+        <h1 class="mt-4 text-5xl font-black">Política de Privacidad</h1>
+        <p class="mt-6 leading-8 text-slate-700">
+          Esta página fue movida para mantener una URL más clara y específica.
+        </p>
+        <a class="btn btn-primary mt-8" href="/politica-de-privacidad/">Ver Política de Privacidad</a>
       </div>
     </section>
   </main>

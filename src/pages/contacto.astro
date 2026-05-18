@@ -9,179 +9,263 @@ import { site } from "@/data/site";
 
 const canonical = `${site.url}/contacto/`;
 
-const improveOptions = [
-  ["lineChart", "Mi web no vende", "conversion"],
-  ["search", "Quiero aparecer en Google", "seo"],
-  ["megaphone", "Estoy invirtiendo en publicidad", "paid-media"],
-  ["bot", "Quiero automatizar atención", "automatizacion"],
-  ["globe", "No tengo web", "web"],
-  ["target", "Necesito una estrategia completa", "estrategia"],
+const contactReasons = [
+  "Nuevo proyecto",
+  "Consulta comercial",
+  "Cliente actual / soporte",
+  "Alianza estratégica",
+  "Prensa o comunicaciones",
+  "Proveedor",
+  "Otro",
 ];
 
-const nextSteps = [
-  ["search", "Revisamos tu situación", "Analizamos tu problema, sitio web o presencia digital."],
-  ["radar", "Detectamos oportunidades", "Identificamos puntos que podrían afectar visibilidad, confianza o conversión."],
-  ["target", "Te recomendamos un camino", "Te indicamos si conviene partir por web, SEO, campañas, automatización o estrategia."],
-  ["message", "Si hace sentido, agendamos", "Solo si vemos una oportunidad clara, coordinamos una reunión."],
+const contactCards = [
+  {
+    icon: "briefcase",
+    title: "Nuevos proyectos",
+    text: "Para empresas que desean desarrollar una web, campaña, automatización o estrategia digital.",
+    cta: "Ir a diagnóstico",
+    href: "/diagnostico/",
+  },
+  {
+    icon: "message",
+    title: "Clientes actuales",
+    text: "Para soporte, continuidad operativa o solicitudes relacionadas con servicios activos.",
+    cta: "Escribir a soporte",
+    href: `mailto:${site.email}?subject=Soporte%20cliente%20actual`,
+  },
+  {
+    icon: "layers",
+    title: "Alianzas y partners",
+    text: "Para propuestas de colaboración, integraciones, tecnología o crecimiento conjunto.",
+    cta: "Contactar equipo",
+    href: `mailto:${site.email}?subject=Alianza%20estratégica`,
+  },
+  {
+    icon: "mail",
+    title: "Consultas generales",
+    text: "Para cualquier otra solicitud institucional, administrativa o comercial.",
+    cta: "Enviar mensaje",
+    href: "#formulario-contacto",
+  },
 ];
 
-const symptomCards = [
-  ["lineChart", "Pocas consultas", "Revisar conversión"],
-  ["search", "No apareces en Google", "Revisar SEO"],
-  ["barChart", "Publicidad sin claridad", "Revisar tracking y landing"],
-  ["bot", "Leads sin respuesta", "Revisar automatización"],
-  ["badgeCheck", "Marca poco profesional", "Revisar branding y web"],
+const routingSteps = [
+  ["mail", "Recibimos tu solicitud"],
+  ["search", "Identificamos el motivo"],
+  ["users", "Derivamos al área correcta"],
+  ["chevronRight", "Respondemos próximos pasos"],
 ];
 
-const contactFaqs: [string, string][] = [
-  ["¿El diagnóstico tiene costo?", "No. Es una orientación inicial gratuita para entender tu caso."],
-  ["¿Me van a vender algo de inmediato?", "No. Primero revisamos tu situación y te sugerimos un camino lógico."],
-  ["¿Necesito tener una web?", "No. Podemos orientarte tanto si ya tienes web como si estás partiendo."],
-  ["¿Cuánto tardan en responder?", "Normalmente respondemos dentro de un plazo breve en horario hábil."],
+const officialChannels = [
+  ["mail", "Email", site.email, `mailto:${site.email}`],
+  ["message", "WhatsApp", "Coordinación según solicitud", "#formulario-contacto"],
+  ["map", "Ubicación", "Chile", "#"],
+  ["clock", "Horario", "Lunes a viernes · horario hábil", "#"],
 ];
 
-const services = [
-  ["Desarrollo Web Premium", "/servicios/desarrollo-web/"],
-  ["SEO Avanzado", "/servicios/seo/"],
-  ["Paid Media", "/servicios/paid-media/"],
-  ["Automatización e IA", "/servicios/automatizacion-ia/"],
-  ["Branding", "/servicios/branding/"],
-  ["Analítica y Tracking", "/servicios/analitica-tracking/"],
+const institutionalLinks = [
+  ["Nosotros", "/nosotros/"],
+  ["Servicios", "/servicios/"],
+  ["Casos", "/casos/"],
+  ["Diagnóstico", "/diagnostico/"],
 ];
 
 const contactPageSchema = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
-  name: "Diagnóstico Digital Gratuito | Enix Studio",
+  name: "Contacto | Enix Studio",
   url: canonical,
-  description: "Contacto y diagnóstico digital gratuito con Enix Studio.",
+  description:
+    "Contacta a Enix Studio, agencia digital de NOVVOR, por nuevos proyectos, consultas comerciales, soporte, alianzas o solicitudes institucionales.",
   mainEntity: {
     "@type": "Organization",
     name: site.name,
+    alternateName: "ENIX STUDIO by NOVVOR",
     email: site.email,
     url: site.url,
+    brand: { "@type": "Brand", name: "NOVVOR" },
+    areaServed: "Chile",
   },
 };
 ---
 
 <BaseLayout
-  title="Contacto y Diagnóstico Digital Gratuito | Enix Studio"
-  description="Solicita un diagnóstico digital gratuito con Enix Studio. Revisamos tu web, SEO, campañas, automatización o presencia digital y te orientamos con una recomendación inicial."
+  title="Contacto | Enix Studio"
+  description="Contacta a Enix Studio, agencia digital de NOVVOR. Escríbenos por nuevos proyectos, consultas comerciales, soporte, alianzas o solicitudes institucionales."
   canonical={canonical}
   breadcrumbs={[{ name: "Inicio", url: site.url }, { name: "Contacto", url: canonical }]}
-  faqItems={contactFaqs}
 >
   <Header currentPath={Astro.url.pathname} client:load />
-  <LeadModal client:load />
+  <LeadModal client:idle />
   <script is:inline type="application/ld+json" set:html={JSON.stringify(contactPageSchema)} />
 
   <main>
     <section id="top" class="motion-reduce-safe relative isolate overflow-hidden bg-[#070b14] pb-20 pt-36 text-white md:pt-44">
-      <AnimatedHeroBackground client:load variant="diagnostic" intensity="strong" />
-      <div class="container relative z-10 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+      <AnimatedHeroBackground variant="default" intensity="medium" />
+      <div class="container relative z-10 grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <div>
           <p class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.07] px-4 py-2 text-xs font-black uppercase text-red-100">
             <span class="size-2 rounded-full bg-enix-glow shadow-[0_0_18px_rgba(239,68,68,0.85)]"></span>
-            Diagnóstico gratuito · Agencia digital de NOVVOR
+            Contacto corporativo
           </p>
           <h1 class="mt-6 max-w-4xl text-5xl font-black leading-[0.98] tracking-tight md:text-7xl">
-            Descubre qué está frenando tus resultados digitales.
+            Conversemos sobre tu próximo proyecto digital.
           </h1>
           <p class="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
-            Cuéntanos brevemente tu situación y te orientamos con una recomendación inicial para mejorar visibilidad, confianza, conversión o automatización.
+            Si necesitas hablar con Enix Studio por un proyecto, alianza, soporte o consulta general, escríbenos y derivaremos tu solicitud al equipo correspondiente.
           </p>
-          <div class="mt-8 grid gap-3 sm:grid-cols-2">
-            {[
-              "No necesitas saber qué pedir",
-              "Diagnóstico inicial gratuito",
-              "Sin venta agresiva",
-              "Recomendación clara y accionable",
-            ].map((item) => (
-              <div class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.055] px-4 py-3 text-sm font-bold text-slate-200">
-                <span class="grid size-8 shrink-0 place-items-center rounded-xl bg-enix-red/15 text-enix-glow"><Icon name="check" class="size-4" /></span>
-                {item}
-              </div>
-            ))}
-          </div>
-          <div class="mt-8 rounded-3xl border border-white/10 bg-white/[0.055] p-5">
-            <p class="text-sm font-black uppercase tracking-[0.2em] text-red-300">Respuesta esperada</p>
-            <p class="mt-3 leading-7 text-slate-300">Te respondemos con una orientación clara, no con una venta agresiva. Primero entendemos tu caso.</p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a class="btn btn-primary" href="#formulario-contacto"><Icon name="mail" class="size-5" /> Enviar mensaje</a>
+            <a class="btn btn-secondary" href="/diagnostico/"><Icon name="search" class="size-5" /> Solicitar diagnóstico gratuito</a>
           </div>
         </div>
 
-        <form class="relative overflow-hidden rounded-[2rem] border border-white/12 bg-white/[0.065] p-5 shadow-2xl shadow-black/35 backdrop-blur-2xl md:p-7" name="contacto-diagnostico" method="post">
-          <div class="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-enix-red/15 blur-3xl"></div>
-          <div class="relative">
-            <p class="text-xs font-black uppercase tracking-[0.24em] text-red-300">Solicita una orientación inicial sin compromiso</p>
-            <h2 class="mt-3 text-3xl font-black text-white">Cuéntanos qué quieres mejorar</h2>
-            <p class="mt-3 text-sm leading-6 text-slate-400">Formulario corto. Campos claros. Respuesta orientada a decisión.</p>
-
-            <input type="hidden" name="form-name" value="contacto-diagnostico" />
-            <input type="hidden" name="origen" value="pagina-contacto" />
-
-            <fieldset class="mt-6">
-              <legend class="text-sm font-black text-slate-200">¿Qué quieres mejorar?</legend>
-              <div class="mt-3 grid gap-3 sm:grid-cols-2">
-                {improveOptions.map(([icon, label, value], index) => (
-                  <label class="group cursor-pointer">
-                    <input class="peer sr-only" type="radio" name="necesidad" value={value} required checked={index === 0} />
-                    <span class="flex min-h-16 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.045] px-4 py-3 text-sm font-black text-slate-200 transition peer-checked:border-red-300/70 peer-checked:bg-red-600/20 peer-checked:text-white hover:border-red-300/50 hover:bg-red-500/10">
-                      <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-white/10 text-red-300"><Icon name={icon} class="size-5" /></span>
-                      {label}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-
-            <div class="mt-5 grid gap-4 md:grid-cols-2">
-              <label class="block text-sm font-extrabold text-slate-200">
-                Nombre
-                <input class="mt-2 w-full rounded-2xl border border-white/10 bg-white/[0.07] px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-enix-glow focus:ring-2 focus:ring-red-400/20" name="nombre" autocomplete="name" placeholder="Tu nombre" required />
-              </label>
-              <label class="block text-sm font-extrabold text-slate-200">
-                Email
-                <input class="mt-2 w-full rounded-2xl border border-white/10 bg-white/[0.07] px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-enix-glow focus:ring-2 focus:ring-red-400/20" name="email" type="email" autocomplete="email" placeholder="correo@empresa.cl" required />
-              </label>
-              <label class="block text-sm font-extrabold text-slate-200">
-                WhatsApp <span class="font-semibold text-slate-500">opcional</span>
-                <input class="mt-2 w-full rounded-2xl border border-white/10 bg-white/[0.07] px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-enix-glow focus:ring-2 focus:ring-red-400/20" name="whatsapp" autocomplete="tel" placeholder="+56 9..." />
-              </label>
-              <label class="block text-sm font-extrabold text-slate-200">
-                Sitio web <span class="font-semibold text-slate-500">opcional</span>
-                <input class="mt-2 w-full rounded-2xl border border-white/10 bg-white/[0.07] px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-enix-glow focus:ring-2 focus:ring-red-400/20" name="sitio" inputmode="url" placeholder="https://tuempresa.cl" />
-              </label>
-            </div>
-
-            <label class="mt-5 block text-sm font-extrabold text-slate-200">
-              Cuéntanos brevemente qué está pasando <span class="font-semibold text-slate-500">opcional</span>
-              <textarea class="mt-2 min-h-28 w-full rounded-2xl border border-white/10 bg-white/[0.07] px-4 py-4 text-white outline-none transition placeholder:text-slate-500 focus:border-enix-glow focus:ring-2 focus:ring-red-400/20" name="mensaje" placeholder="Ej: Tengo una web, pero no recibo consultas. Hago publicaciones, pero no sé si generan clientes..."></textarea>
-            </label>
-
-            <button class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-enix-red px-7 py-4 text-sm font-black text-white shadow-xl shadow-red-950/40 transition hover:-translate-y-0.5 hover:bg-red-500" type="submit">
-              <Icon name="arrowUp" class="size-5" /> Solicitar diagnóstico gratuito
-            </button>
-            <p class="mt-3 text-center text-xs font-semibold leading-5 text-slate-500">Te responderemos con una orientación inicial. No compartimos tus datos.</p>
+        <div class="rounded-[2rem] border border-white/10 bg-white/[0.06] p-5 shadow-2xl shadow-black/25 backdrop-blur-xl md:p-7">
+          <img src="/brand/enix-logo.png" alt="Enix Studio" width="210" height="54" class="h-10 w-auto object-contain brightness-0 invert md:h-11" />
+          <p class="mt-6 text-lg leading-8 text-slate-300">
+            Enix Studio es la agencia digital de NOVVOR, especializada en estrategia, diseño, tecnología, marketing y automatización para empresas.
+          </p>
+          <div class="mt-8 grid gap-3 sm:grid-cols-2">
+            {officialChannels.map(([icon, label, value, href]) => (
+              <a href={href} class="group rounded-2xl border border-white/10 bg-white/[0.055] p-4 transition hover:border-red-300/40 hover:bg-white/[0.08]">
+                <span class="grid size-10 place-items-center rounded-xl bg-red-500/10 text-red-200"><Icon name={icon} class="size-5" /></span>
+                <p class="mt-4 text-xs font-black uppercase tracking-[0.16em] text-slate-500">{label}</p>
+                <p class="mt-1 text-sm font-black text-white group-hover:text-red-100">{value}</p>
+              </a>
+            ))}
           </div>
-        </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-enix-pearl py-16">
+      <div class="container grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {contactCards.map((card) => (
+          <article class="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-enix-red/30 hover:shadow-premium">
+            <span class="icon-box mb-5"><Icon name={card.icon} class="size-5" /></span>
+            <h2 class="text-xl font-black">{card.title}</h2>
+            <p class="mt-3 text-sm leading-6 text-slate-600">{card.text}</p>
+            <a class="mt-6 inline-flex items-center gap-2 text-sm font-black text-slate-950 transition group-hover:text-enix-red" href={card.href}>
+              {card.cta} <Icon name="chevronRight" class="size-4" />
+            </a>
+          </article>
+        ))}
       </div>
     </section>
 
     <section class="section bg-white">
-      <div class="container grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+      <div class="container grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+        <aside class="lg:sticky lg:top-28">
+          <p class="eyebrow">Enix Studio</p>
+          <h2 class="mt-3 text-4xl font-black md:text-5xl">Comunicación clara, ordenada y profesional.</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-600">
+            Usa este canal para solicitudes corporativas, coordinación de reuniones, soporte, alianzas, prensa, proveedores o consultas generales.
+          </p>
+          <div class="mt-8 rounded-3xl border border-slate-200 bg-slate-50 p-6">
+            <h3 class="text-xl font-black">Canales oficiales</h3>
+            <div class="mt-5 grid gap-4">
+              <a class="flex items-center gap-3 font-bold text-slate-700 transition hover:text-enix-red" href={`mailto:${site.email}`}>
+                <Icon name="mail" class="size-5 text-enix-red" /> {site.email}
+              </a>
+              <p class="flex items-center gap-3 font-bold text-slate-700"><Icon name="map" class="size-5 text-enix-red" /> Chile</p>
+              <p class="flex items-center gap-3 font-bold text-slate-700"><Icon name="clock" class="size-5 text-enix-red" /> Lunes a viernes · horario hábil</p>
+            </div>
+          </div>
+        </aside>
+
+        <form id="formulario-contacto" class="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-premium md:p-8" name="contacto-corporativo" method="post">
+          <input type="hidden" name="form-name" value="contacto-corporativo" />
+          <input type="hidden" name="origen" value="pagina-contacto-corporativa" />
+
+          <div>
+            <p class="eyebrow">Formulario corporativo</p>
+            <h2 class="mt-3 text-3xl font-black text-slate-950 md:text-4xl">Enviar mensaje</h2>
+            <p class="mt-3 leading-7 text-slate-600">Completa los datos principales y selecciona el motivo para derivar tu solicitud correctamente.</p>
+          </div>
+
+          <div class="mt-8 grid gap-5 md:grid-cols-2">
+            <label class="block text-sm font-extrabold text-slate-800">
+              Nombre
+              <input class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-enix-red focus:bg-white focus:ring-2 focus:ring-red-500/10" name="nombre" autocomplete="name" placeholder="Tu nombre" required />
+            </label>
+            <label class="block text-sm font-extrabold text-slate-800">
+              Email corporativo
+              <input class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-enix-red focus:bg-white focus:ring-2 focus:ring-red-500/10" name="email" type="email" autocomplete="email" placeholder="correo@empresa.cl" required />
+            </label>
+            <label class="block text-sm font-extrabold text-slate-800">
+              Empresa
+              <input class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-enix-red focus:bg-white focus:ring-2 focus:ring-red-500/10" name="empresa" autocomplete="organization" placeholder="Nombre de empresa" required />
+            </label>
+            <label class="block text-sm font-extrabold text-slate-800">
+              Motivo de contacto
+              <select class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-slate-950 outline-none transition focus:border-enix-red focus:bg-white focus:ring-2 focus:ring-red-500/10" name="motivo" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                {contactReasons.map((reason) => <option value={reason}>{reason}</option>)}
+              </select>
+            </label>
+            <label class="block text-sm font-extrabold text-slate-800">
+              Teléfono / WhatsApp <span class="font-semibold text-slate-400">opcional</span>
+              <input class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-enix-red focus:bg-white focus:ring-2 focus:ring-red-500/10" name="telefono" autocomplete="tel" placeholder="+56 9..." />
+            </label>
+            <label class="block text-sm font-extrabold text-slate-800">
+              Sitio web <span class="font-semibold text-slate-400">opcional</span>
+              <input class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-enix-red focus:bg-white focus:ring-2 focus:ring-red-500/10" name="sitio" inputmode="url" placeholder="https://empresa.cl" />
+            </label>
+          </div>
+
+          <label class="mt-5 block text-sm font-extrabold text-slate-800">
+            Mensaje
+            <textarea class="mt-2 min-h-36 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-enix-red focus:bg-white focus:ring-2 focus:ring-red-500/10" name="mensaje" placeholder="Cuéntanos brevemente cómo podemos ayudarte." required></textarea>
+          </label>
+
+          <button class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-enix-red px-7 py-4 text-sm font-black text-white shadow-xl shadow-red-100 transition hover:-translate-y-0.5 hover:bg-red-500" type="submit">
+            <Icon name="mail" class="size-5" /> Enviar mensaje
+          </button>
+          <p class="mt-3 text-center text-xs font-semibold leading-5 text-slate-500">
+            Responderemos tu solicitud a la brevedad según el tipo de consulta. Al enviar aceptas nuestra
+            <a class="font-black text-enix-red hover:underline" href="/politica-de-privacidad/"> Política de Privacidad</a>.
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <section class="section bg-enix-ink text-white">
+      <div class="container grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
         <div>
-          <p class="eyebrow">Después de enviar</p>
-          <h2 class="mt-3 text-4xl font-black md:text-5xl">¿Qué pasa después de enviar tu solicitud?</h2>
-          <p class="mt-5 text-lg leading-8 text-slate-600">El proceso está diseñado para darte claridad antes de tomar una decisión.</p>
+          <p class="eyebrow">Derivación interna</p>
+          <h2 class="mt-3 text-4xl font-black md:text-5xl">Tu mensaje llega al equipo correcto.</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-300">
+            Esto nos permite responder de forma más ordenada y evitar que tu consulta se pierda entre solicitudes generales.
+          </p>
         </div>
-        <div class="grid gap-4 md:grid-cols-2">
-          {nextSteps.map(([icon, title, text], index) => (
-            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-6">
-              <span class="text-xs font-black text-enix-red">0{index + 1}</span>
-              <span class="mt-4 grid size-11 place-items-center rounded-xl bg-red-50 text-enix-red"><Icon name={icon} class="size-5" /></span>
-              <h3 class="mt-5 text-xl font-black">{title}</h3>
-              <p class="mt-3 text-sm leading-6 text-slate-600">{text}</p>
+        <div class="grid gap-4 md:grid-cols-4">
+          {routingSteps.map(([icon, title], index) => (
+            <article class="rounded-2xl border border-white/10 bg-white/[0.055] p-5">
+              <span class="text-xs font-black text-red-300">0{index + 1}</span>
+              <span class="mt-5 grid size-11 place-items-center rounded-xl bg-red-500/10 text-red-200"><Icon name={icon} class="size-5" /></span>
+              <h3 class="mt-5 text-lg font-black leading-tight">{title}</h3>
             </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-white">
+      <div class="container grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div>
+          <p class="eyebrow">NOVVOR</p>
+          <h2 class="mt-3 text-4xl font-black md:text-5xl">Una agencia digital respaldada por NOVVOR.</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-600">
+            Enix Studio forma parte del ecosistema NOVVOR, combinando estrategia, tecnología, marketing, automatización y analítica para acompañar a empresas que buscan mejorar su presencia digital.
+          </p>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          {institutionalLinks.map(([label, href]) => (
+            <a class="group flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-5 font-black text-slate-950 transition hover:-translate-y-1 hover:border-enix-red/30 hover:bg-white hover:shadow-premium" href={href}>
+              {label}
+              <Icon name="chevronRight" class="size-5 text-enix-red transition group-hover:translate-x-1" />
+            </a>
           ))}
         </div>
       </div>
@@ -189,64 +273,16 @@ const contactPageSchema = {
 
     <section class="section bg-enix-pearl">
       <div class="container">
-        <div class="max-w-3xl">
-          <p class="eyebrow">No necesitas saber qué pedir</p>
-          <h2 class="mt-3 text-4xl font-black md:text-5xl">Llegas con síntomas. Nosotros ayudamos a ordenar el diagnóstico.</h2>
+        <div class="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm md:p-10 lg:grid lg:grid-cols-[1fr_auto] lg:items-center lg:gap-10">
+          <div>
+            <p class="eyebrow">Ruta alternativa</p>
+            <h2 class="mt-3 text-3xl font-black md:text-5xl">¿Buscas una recomendación sobre tu web, SEO o marketing?</h2>
+            <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
+              Si quieres que revisemos tu situación digital y te orientemos sobre qué mejorar primero, puedes solicitar un diagnóstico gratuito.
+            </p>
+          </div>
+          <a class="btn btn-primary mt-8 lg:mt-0" href="/diagnostico/"><Icon name="search" class="size-5" /> Solicitar diagnóstico gratuito</a>
         </div>
-        <div class="mt-10 grid gap-4 md:grid-cols-5">
-          {symptomCards.map(([icon, symptom, action]) => (
-            <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <span class="icon-box mb-5"><Icon name={icon} class="size-5" /></span>
-              <h3 class="text-lg font-black">{symptom}</h3>
-              <p class="mt-3 text-sm font-bold text-enix-red">{action}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="section bg-enix-ink text-white">
-      <div class="container grid gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-center">
-        <div>
-          <p class="eyebrow">Criterio antes que venta</p>
-          <h2 class="mt-3 text-4xl font-black md:text-5xl">Un diagnóstico orientado a decisiones, no a venderte cualquier cosa.</h2>
-          <p class="mt-5 text-lg leading-8 text-slate-300">Si tu problema está en SEO, no te venderemos una campaña primero. Si tu web no convierte, no tiene sentido aumentar presupuesto sin corregir la base.</p>
-        </div>
-        <div class="grid gap-3 sm:grid-cols-2">
-          {services.map(([label, href]) => (
-            <a class="group flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.055] p-5 font-black text-white transition hover:-translate-y-1 hover:border-red-300/50 hover:bg-red-500/10" href={href}>
-              {label}
-              <Icon name="chevronRight" class="size-5 text-red-300 transition group-hover:translate-x-1" />
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="section bg-white">
-      <div class="container">
-        <div class="max-w-3xl">
-          <p class="eyebrow">Preguntas frecuentes</p>
-          <h2 class="mt-3 text-4xl font-black md:text-5xl">Dudas normales antes de preguntar.</h2>
-        </div>
-        <div class="mt-10 grid gap-4 md:grid-cols-2">
-          {contactFaqs.map(([question, answer]) => (
-            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-6">
-              <h3 class="text-xl font-black">{question}</h3>
-              <p class="mt-3 leading-7 text-slate-600">{answer}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="section bg-enix-red text-white">
-      <div class="container grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
-        <div>
-          <h2 class="text-4xl font-black md:text-5xl">Pregunta sin tener todo resuelto.</h2>
-          <p class="mt-4 max-w-2xl text-lg leading-8 text-red-50">Te ayudamos a entender por dónde empezar y qué no conviene hacer todavía.</p>
-        </div>
-        <a class="rounded-full bg-white px-7 py-4 text-sm font-black text-enix-red shadow-xl transition hover:-translate-y-0.5" href="#top">Solicitar diagnóstico</a>
       </div>
     </section>
   </main>
