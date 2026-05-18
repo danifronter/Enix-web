@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 
+const RESEND_API_URL = "https://api.resend.com/emails";
 const allowedTypes = ["contact", "diagnostic", "audit", "service", "newsletter"] as const;
 
 type FormType = (typeof allowedTypes)[number];
@@ -19,6 +20,13 @@ const fieldAliases = {
   consent: ["consent", "privacy", "acepta"],
 };
 
+function sanitize(value: unknown, maxLength = 2000) {
+  return String(value ?? "")
+    .replace(/[<>]/g, "")
+    .trim()
+    .slice(0, maxLength);
+}
+
 function getValue(data: Record<string, unknown>, keys: string[], maxLength = 2000) {
   for (const key of keys) {
     const value = data[key];
@@ -28,13 +36,6 @@ function getValue(data: Record<string, unknown>, keys: string[], maxLength = 200
   }
 
   return "";
-}
-
-function sanitize(value: unknown, maxLength = 2000) {
-  return String(value ?? "")
-    .replace(/[<>]/g, "")
-    .trim()
-    .slice(0, maxLength);
 }
 
 function escapeHtml(value: string) {
@@ -48,15 +49,6 @@ function escapeHtml(value: string) {
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function extractEmailAddress(value: string) {
-  const match = value.match(/<([^<>]+)>/);
-  return (match?.[1] ?? value).trim();
-}
-
-function isValidSender(value: string) {
-  return Boolean(value.trim()) && isValidEmail(extractEmailAddress(value));
 }
 
 function hasConsent(value: string) {
@@ -86,6 +78,14 @@ function jsonResponse(data: unknown, status = 200) {
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    const resendApiKey = String(import.meta.env.RESEND_API_KEY || "").trim();
+    const toEmail = String(import.meta.env.CONTACT_TO_EMAIL || "hello@enix.studio").trim();
+    const fromEmail = String(import.meta.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev").trim();
+
+    if (!resendApiKey) {
+      return jsonResponse({ ok: false, message: "Falta configurar RESEND_API_KEY." }, 500);
+    }
+
     const contentType = request.headers.get("content-type") || "";
     let rawData: Record<string, unknown> = {};
 
@@ -118,16 +118,8 @@ export const POST: APIRoute = async ({ request }) => {
       return jsonResponse({ ok: false, message: "Ingresa tu nombre." }, 400);
     }
 
-    if (email && !isValidEmail(email)) {
+    if (!email || !isValidEmail(email)) {
       return jsonResponse({ ok: false, message: "Ingresa un correo válido." }, 400);
-    }
-
-    if (type === "newsletter" && !email) {
-      return jsonResponse({ ok: false, message: "Ingresa un correo válido." }, 400);
-    }
-
-    if (type !== "newsletter" && !email && !phone) {
-      return jsonResponse({ ok: false, message: "Ingresa un correo o WhatsApp de contacto." }, 400);
     }
 
     if (type !== "newsletter" && !message && !problem && !reason && !service) {
@@ -138,32 +130,7 @@ export const POST: APIRoute = async ({ request }) => {
       return jsonResponse({ ok: false, message: "Debes aceptar ser contactado para responder tu solicitud." }, 400);
     }
 
-    const apiKey = String(import.meta.env.RESEND_API_KEY || "").trim();
-    const toEmail = String(import.meta.env.CONTACT_TO_EMAIL || "").trim();
-    const fromEmail = String(import.meta.env.CONTACT_FROM_EMAIL || "").trim();
-
-    if (!apiKey || !toEmail || !fromEmail) {
-      return jsonResponse(
-        {
-          ok: false,
-          message: "El envío de formularios no está configurado. Revisa las variables de entorno.",
-        },
-        500,
-      );
-    }
-
-    if (!isValidEmail(toEmail) || !isValidSender(fromEmail)) {
-      return jsonResponse(
-        {
-          ok: false,
-          message: "La configuración de correos no tiene un formato válido. Revisa CONTACT_TO_EMAIL y CONTACT_FROM_EMAIL.",
-        },
-        500,
-      );
-    }
-
     const formLabel = labelByType(type);
-    const subject = `Nuevo lead Enix Studio - ${formLabel}`;
     const html = `
       <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111827;">
         <h2>Nuevo formulario recibido</h2>
@@ -172,7 +139,7 @@ export const POST: APIRoute = async ({ request }) => {
         <p><strong>URL:</strong> ${escapeHtml(pageUrl || "No indicada")}</p>
         <hr />
         <p><strong>Nombre:</strong> ${escapeHtml(name || "No indicado")}</p>
-        <p><strong>Email:</strong> ${escapeHtml(email || "No indicado")}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
         <p><strong>WhatsApp/Teléfono:</strong> ${escapeHtml(phone || "No indicado")}</p>
         <p><strong>Empresa:</strong> ${escapeHtml(company || "No indicada")}</p>
         <p><strong>Sitio web:</strong> ${escapeHtml(website || "No indicado")}</p>
@@ -188,39 +155,43 @@ export const POST: APIRoute = async ({ request }) => {
       </div>
     `;
 
-    const resendResponse = await fetch("https://api.resend.com/emails", {
+    const resendResponse = await fetch(RESEND_API_URL, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${resendApiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         from: fromEmail,
         to: [toEmail],
-        ...(email && isValidEmail(email) ? { reply_to: email } : {}),
-        subject,
+        reply_to: email,
+        subject: `Nuevo lead Enix Studio - ${formLabel}`,
         html,
       }),
     });
 
-    if (!resendResponse.ok) {
-      const error = await resendResponse.json().catch(() => null);
-      console.error("Resend error:", error);
-      const message = error?.message
-        ? String(error.message)
-        : "Resend rechazó el envío. Revisa el remitente, dominio verificado y variables de entorno.";
+    const resendResult = await resendResponse.json().catch(() => null);
 
-      return jsonResponse({ ok: false, message }, 502);
+    if (!resendResponse.ok) {
+      console.error("Resend error:", resendResult);
+      return jsonResponse(
+        {
+          ok: false,
+          message: resendResult?.message || resendResult?.error || "Resend rechazó el envío del correo.",
+        },
+        500,
+      );
     }
 
     return jsonResponse({ ok: true, message: "Solicitud enviada correctamente." });
   } catch (error) {
     console.error("Form endpoint error:", error);
-    const message =
-      error instanceof Error && error.message
-        ? error.message
-        : "No se pudo enviar la solicitud. Intenta nuevamente.";
-
-    return jsonResponse({ ok: false, message }, 500);
+    return jsonResponse(
+      {
+        ok: false,
+        message: error instanceof Error ? error.message : "No se pudo enviar la solicitud.",
+      },
+      500,
+    );
   }
 };

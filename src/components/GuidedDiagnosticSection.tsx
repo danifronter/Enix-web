@@ -288,7 +288,7 @@ export default function GuidedDiagnosticSection() {
                   setSubmitMessage("");
 
                   try {
-                    const response = await fetch(new URL("/api/forms", window.location.origin).toString(), {
+                    const response = await fetch("/api/forms", {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify(payload),

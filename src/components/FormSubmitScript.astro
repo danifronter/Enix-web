@@ -23,7 +23,7 @@
       }
 
       try {
-        const response = await fetch(new URL("/api/forms", window.location.origin).toString(), {
+        const response = await fetch("/api/forms", {
           method: "POST",
           body: new FormData(currentForm),
         });

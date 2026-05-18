@@ -77,6 +77,7 @@ function validate(form: FormState) {
   if (!form.website.trim()) errors.website = "Indica tu sitio actual o escribe 'No tengo'.";
   if (!form.name.trim()) errors.name = "Déjanos tu nombre para responderte.";
   if (!form.whatsapp.trim()) errors.whatsapp = "Necesitamos un WhatsApp de contacto.";
+  if (!form.email.trim()) errors.email = "Indica tu email para responder el diagnóstico.";
   if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
     errors.email = "El email no parece válido.";
   }
@@ -185,7 +186,7 @@ export default function LeadModal() {
 
     try {
       if (import.meta.env.DEV) console.info("[ENIX lead payload]", payload);
-      const response = await fetch(new URL("/api/forms", window.location.origin).toString(), {
+      const response = await fetch("/api/forms", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -303,7 +304,7 @@ export default function LeadModal() {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="block text-sm font-extrabold">
-                    Email opcional
+                    Email
                     <input
                       className="mt-2 w-full rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-enix-glow focus:bg-white/10"
                       value={form.email}
