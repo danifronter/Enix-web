@@ -20,6 +20,7 @@ const fieldAliases = {
   origin: ["origin", "origen", "ctaOrigin"],
   pageUrl: ["pageUrl", "currentUrl"],
   consent: ["consent", "privacy", "acepta"],
+  formName: ["formName", "form-name", "formulario"],
 };
 
 function sanitize(value: unknown, maxLength = 2000) {
@@ -67,6 +68,38 @@ function labelByType(type: FormType) {
   };
 
   return labels[type];
+}
+
+function formSourceLabel(type: FormType, formName: string, origin: string) {
+  if (formName === "contacto-corporativo" || origin === "pagina-contacto-corporativa") {
+    return "Contacto corporativo";
+  }
+
+  if (origin === "home-cta-final") {
+    return "Home - CTA final";
+  }
+
+  if (origin === "pagina-diagnostico") {
+    return "Página Diagnóstico";
+  }
+
+  if (origin === "home-guided-diagnostic") {
+    return "Home - Prediagnóstico guiado";
+  }
+
+  if (origin === "hero-primary") {
+    return "Home - Hero / Growth Command Center";
+  }
+
+  if (origin) {
+    return origin;
+  }
+
+  if (formName) {
+    return formName;
+  }
+
+  return labelByType(type);
 }
 
 function emailValue(value: string, fallback = "No indicado") {
@@ -141,6 +174,7 @@ export const POST: APIRoute = async ({ request }) => {
     const origin = getValue(rawData, fieldAliases.origin, 180);
     const pageUrl = getValue(rawData, fieldAliases.pageUrl, 240);
     const consent = getValue(rawData, fieldAliases.consent, 20);
+    const formName = getValue(rawData, fieldAliases.formName, 180);
 
     if (type !== "newsletter" && !name) {
       return jsonResponse({ ok: false, message: "Ingresa tu nombre." }, 400);
@@ -159,10 +193,12 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const formLabel = labelByType(type);
+    const sourceLabel = formSourceLabel(type, formName, origin);
     const submittedAt = new Date().toLocaleString("es-CL", { timeZone: "America/Santiago" });
-    const replyHref = `mailto:${email}?subject=${encodeURIComponent(`Respuesta Enix Studio - ${formLabel}`)}`;
+    const replyHref = `mailto:${email}?subject=${encodeURIComponent(`Respuesta Enix Studio - ${sourceLabel}`)}`;
     const websiteHref = website && /^https?:\/\//i.test(website) ? website : website ? `https://${website}` : "";
     const pageHref = pageUrl && /^https?:\/\//i.test(pageUrl) ? pageUrl : "";
+    const primaryNeed = service || problem || reason || message || "Revisar solicitud";
     const html = `
       <div style="margin:0;padding:0;background:#f1f5f9;font-family:Inter,Arial,sans-serif;color:#0f172a;">
         <div style="max-width:680px;margin:0 auto;padding:28px 14px;">
@@ -175,7 +211,7 @@ export const POST: APIRoute = async ({ request }) => {
                 Nuevo lead recibido
               </h1>
               <p style="margin:12px 0 0;color:#cbd5e1;font-size:15px;line-height:1.7;">
-                ${emailValue(name, "Un contacto")} envió una solicitud desde Enix Studio. Responde con contexto y próximos pasos.
+                ${emailValue(name, "Un contacto")} envió una solicitud desde <strong style="color:#ffffff;">${escapeHtml(sourceLabel)}</strong>.
               </p>
             </div>
 
@@ -188,7 +224,7 @@ export const POST: APIRoute = async ({ request }) => {
                 </div>
                 <div style="border-radius:18px;background:#fff7ed;border:1px solid #fed7aa;padding:16px;">
                   <div style="color:#9a3412;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;">Prioridad comercial</div>
-                  <div style="margin-top:7px;color:#991b1b;font-size:18px;font-weight:900;">Revisar y responder</div>
+                  <div style="margin-top:7px;color:#991b1b;font-size:18px;font-weight:900;">${escapeHtml(primaryNeed)}</div>
                   <div style="margin-top:4px;color:#9a3412;font-size:13px;font-weight:700;">${escapeHtml(submittedAt)}</div>
                 </div>
               </div>
@@ -199,7 +235,7 @@ export const POST: APIRoute = async ({ request }) => {
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-top:1px solid #e2e8f0;">
                 ${emailRow("Nombre", name)}
                 ${emailRow("Email", email, { href: `mailto:${email}` })}
-                ${emailRow("WhatsApp/Teléfono", phone, { href: phone ? `tel:${phone}` : undefined })}
+                ${emailRow("Teléfono", phone, { href: phone ? `tel:${phone}` : undefined })}
                 ${emailRow("Empresa", company)}
                 ${emailRow("Sitio web", website, { href: websiteHref })}
               </table>
@@ -211,6 +247,7 @@ export const POST: APIRoute = async ({ request }) => {
                 ${emailRow("Motivo", reason)}
                 ${emailRow("Problema", problem)}
                 ${emailRow("Servicio", service)}
+                ${emailRow("Formulario", formName)}
                 ${emailRow("Origen", origin)}
                 ${emailRow("URL", pageUrl, { href: pageHref, fallback: "No indicada" })}
               </table>
@@ -246,7 +283,7 @@ export const POST: APIRoute = async ({ request }) => {
         from: fromEmail,
         to: [toEmail],
         reply_to: email,
-        subject: `Nuevo lead Enix Studio - ${formLabel}`,
+        subject: `Nuevo lead Enix Studio - ${sourceLabel}`,
         html,
       }),
     });

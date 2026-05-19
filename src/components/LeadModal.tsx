@@ -10,7 +10,7 @@ type ModalContext = LeadCard & {
 type FormState = {
   website: string;
   name: string;
-  whatsapp: string;
+  phone: string;
   email: string;
   need: string;
 };
@@ -18,7 +18,7 @@ type FormState = {
 const initialForm: FormState = {
   website: "",
   name: "",
-  whatsapp: "",
+  phone: "",
   email: "",
   need: "No sé qué necesito, quiero orientación",
 };
@@ -91,7 +91,6 @@ function validate(form: FormState) {
 
   if (!form.website.trim()) errors.website = "Indica tu sitio actual o escribe 'No tengo'.";
   if (!form.name.trim()) errors.name = "Déjanos tu nombre para responderte.";
-  if (!form.whatsapp.trim()) errors.whatsapp = "Necesitamos un WhatsApp de contacto.";
   if (!form.email.trim()) errors.email = "Indica tu email para responder el diagnóstico.";
   if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
     errors.email = "El email no parece válido.";
@@ -182,8 +181,8 @@ export default function LeadModal() {
 
     const payload = {
       type: "diagnostic",
+      formName: "modal-diagnostico-contextual",
       ...form,
-      phone: form.whatsapp,
       website: form.website,
       problem: form.need,
       service: context.modalFocus || context.title,
@@ -231,7 +230,7 @@ export default function LeadModal() {
     >
       <div
         ref={dialogRef}
-        className="relative max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-white/12 bg-[#0b1120] text-white shadow-[0_30px_120px_rgba(0,0,0,0.48)] outline-none"
+        className="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-[2rem] border border-white/12 bg-[#0b1120] text-white shadow-[0_30px_120px_rgba(0,0,0,0.48)] outline-none"
         role="dialog"
         aria-modal="true"
         aria-labelledby="lead-modal-title"
@@ -257,9 +256,11 @@ export default function LeadModal() {
               </div>
               <p className="mx-auto mt-5 w-fit rounded-full border border-enix-red/30 bg-enix-red/12 px-3 py-1 text-xs font-black uppercase text-red-100">Diagnóstico iniciado</p>
               <h2 id="lead-modal-title" className="mt-5 text-4xl font-black">Recibimos tu solicitud</h2>
-              <p className="mx-auto mt-4 max-w-md leading-7 text-slate-300">Vamos a revisar tu caso y te contactaremos con una orientación inicial.</p>
+              <p className="mx-auto mt-4 max-w-md leading-7 text-slate-300">
+                Vamos a revisar tu caso y te responderemos por email con una orientación inicial.
+              </p>
               <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-                <a className="btn btn-primary" href="https://wa.me/56900000000" target="_blank" rel="noreferrer">Hablar ahora por WhatsApp</a>
+                <a className="btn btn-primary" href="/contacto/">Ir a contacto</a>
                 <button className="btn btn-secondary" type="button" onClick={close}>Cerrar</button>
               </div>
             </div>
@@ -276,7 +277,7 @@ export default function LeadModal() {
                 <p className="mt-4 leading-7 text-slate-300">{context.modalDescription}</p>
               </div>
 
-              <form className="mt-7 grid gap-4" onSubmit={submit} noValidate>
+              <form className="mt-7 grid gap-4 rounded-3xl border border-white/10 bg-white/[0.035] p-4 sm:p-5" onSubmit={submit} noValidate>
                 <input type="hidden" name="selectedFocus" value={context.modalFocus} />
                 <input type="hidden" name="hiddenCategory" value={context.hiddenCategory} />
                 <input type="hidden" name="ctaOrigin" value={context.ctaOrigin} />
@@ -306,14 +307,13 @@ export default function LeadModal() {
                     {errors.name && <span className="mt-2 block text-xs font-bold text-red-200">{errors.name}</span>}
                   </label>
                   <label className="block text-sm font-extrabold">
-                    WhatsApp
+                    Teléfono <span className="font-semibold text-slate-500">opcional</span>
                     <input
                       className="mt-2 w-full rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-enix-glow focus:bg-white/10"
-                      value={form.whatsapp}
-                      onChange={(event) => updateField("whatsapp", event.target.value)}
-                      placeholder="+56 9 XXXX XXXX"
+                      value={form.phone}
+                      onChange={(event) => updateField("phone", event.target.value)}
+                      placeholder="+56 9..."
                     />
-                    {errors.whatsapp && <span className="mt-2 block text-xs font-bold text-red-200">{errors.whatsapp}</span>}
                   </label>
                 </div>
 

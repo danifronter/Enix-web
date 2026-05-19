@@ -60,8 +60,7 @@ const routingSteps = [
 
 const officialChannels = [
   ["mail", "Email", site.email, `mailto:${site.email}`],
-  ["message", "WhatsApp", "Coordinación según solicitud", "#formulario-contacto"],
-  ["map", "Ubicación", "Chile", "#"],
+  ["message", "Formulario", "Derivación según solicitud", "#formulario-contacto"],
   ["clock", "Horario", "Lunes a viernes · horario hábil", "#"],
 ];
 
@@ -207,7 +206,7 @@ const contactPageSchema = {
               </select>
             </label>
             <label class="block text-sm font-extrabold text-slate-800">
-              Teléfono / WhatsApp <span class="font-semibold text-slate-400">opcional</span>
+              Teléfono <span class="font-semibold text-slate-400">opcional</span>
               <input class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-enix-red focus:bg-white focus:ring-2 focus:ring-red-500/10" name="telefono" autocomplete="tel" placeholder="+56 9..." />
             </label>
             <label class="block text-sm font-extrabold text-slate-800">

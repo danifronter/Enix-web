@@ -285,6 +285,7 @@ export default function GuidedDiagnosticSection() {
                   const data = new FormData(form);
                   const payload = {
                     type: "diagnostic",
+                    formName: "home-prediagnostico-interactivo",
                     origin: "home-guided-diagnostic",
                     problem: current.key,
                     service: current.service,
