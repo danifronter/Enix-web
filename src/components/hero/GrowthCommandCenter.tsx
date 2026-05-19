@@ -1,9 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { heroEvents } from "@/data/heroMetricsData";
 import type { HeroProblem } from "@/data/heroProblemsData";
-import GrowthInsightCard from "./GrowthInsightCard";
 import GrowthMetrics from "./GrowthMetrics";
 import GrowthPipeline from "./GrowthPipeline";
+import OpportunitySignalPanel from "./OpportunitySignalPanel";
 
 type Props = {
   activeProblem: HeroProblem;
@@ -13,7 +12,6 @@ type Props = {
 
 export default function GrowthCommandCenter({ activeProblem, mode, onModeChange }: Props) {
   const isChaos = mode === "chaos";
-  const events = isChaos ? activeProblem.chaosEvents : heroEvents;
 
   return (
     <div className="relative mx-auto w-full min-w-0">
@@ -92,44 +90,9 @@ export default function GrowthCommandCenter({ activeProblem, mode, onModeChange 
             </AnimatePresence>
           </motion.div>
 
-          <motion.div className="mt-5 grid items-stretch gap-4 xl:grid-cols-[1fr_0.58fr]">
+          <motion.div className="mt-5">
             <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={`${mode}-insight-${activeProblem.id}`}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.28, ease: "easeOut" }}
-                className="h-full"
-              >
-                <GrowthInsightCard problem={activeProblem} mode={mode} />
-              </motion.div>
-            </AnimatePresence>
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={`${mode}-events-${activeProblem.id}`}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.28, ease: "easeOut", delay: 0.04 }}
-                className="h-[190px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.055] p-4"
-              >
-                <p className="text-xs font-black uppercase text-slate-400">Eventos</p>
-                <div className="mt-3 grid gap-2">
-                  {events.map((event, index) => (
-                    <motion.div
-                      key={`${activeProblem.id}-${mode}-${event}`}
-                      initial={{ opacity: 0, x: -8, scale: 0.98 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.26, delay: index * 0.06, ease: "easeOut" }}
-                      className="flex h-10 items-center gap-2 rounded-xl bg-white/[0.055] px-3 py-2 text-xs font-bold leading-4 text-slate-300"
-                    >
-                      <span className={`size-2 shrink-0 rounded-full ${isChaos ? "bg-red-300" : "bg-emerald-300"}`}></span>
-                      <span className="min-w-0 whitespace-nowrap">{event}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
+              <OpportunitySignalPanel mode={mode} problem={activeProblem} />
             </AnimatePresence>
           </motion.div>
 

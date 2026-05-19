@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { ArrowRight, Bot, CheckCircle2, Globe, Megaphone, Search, ShieldCheck, Target, TrendingUp } from "lucide-react";
+import { ArrowRight, Bot, CheckCircle2, Globe, Megaphone, Search, ShieldCheck, Target } from "lucide-react";
+import RecommendedRoutePanel, { recommendedRouteOptions, type RouteKey } from "./services/RecommendedRoutePanel";
 
 const problems = [
   {
@@ -73,45 +74,6 @@ const problems = [
     cta: "Quiero orientación",
     href: "/diagnostico/?problema=estrategia",
     score: 52,
-  },
-];
-
-const routes = [
-  {
-    id: "partiendo",
-    label: "Estoy partiendo",
-    route: ["Branding", "Web", "SEO base", "Tracking"],
-    href: "/diagnostico/?etapa=partiendo",
-  },
-  {
-    id: "web-no-vende",
-    label: "Tengo web, pero no vende",
-    route: ["Auditoría", "Rediseño", "Conversión", "Tracking"],
-    href: "/diagnostico/?etapa=web-no-vende",
-  },
-  {
-    id: "mas-clientes",
-    label: "Quiero más clientes",
-    route: ["Landing", "Paid Media", "CRM", "Optimización"],
-    href: "/diagnostico/?etapa=mas-clientes",
-  },
-  {
-    id: "organico",
-    label: "Quiero crecer orgánicamente",
-    route: ["SEO técnico", "Contenido", "Blog", "Autoridad"],
-    href: "/diagnostico/?etapa=organico",
-  },
-  {
-    id: "ventas",
-    label: "Quiero ordenar ventas",
-    route: ["CRM", "Automatización", "IA", "Seguimiento"],
-    href: "/diagnostico/?etapa=ventas",
-  },
-  {
-    id: "escalar",
-    label: "Quiero escalar",
-    route: ["Estrategia", "Web", "SEO", "Ads", "Automatización", "Datos"],
-    href: "/diagnostico/?etapa=escalar",
   },
 ];
 
@@ -200,58 +162,38 @@ export function ServicesProblemSelector() {
 }
 
 export function ServicesRouteRecommender() {
-  const [selectedId, setSelectedId] = useState(routes[0].id);
-  const current = useMemo(() => routes.find((route) => route.id === selectedId) ?? routes[0], [selectedId]);
+  const [selectedId, setSelectedId] = useState<RouteKey>("scale");
 
   return (
-    <section className="section bg-enix-pearl">
+    <section className="section bg-enix-pearl text-slate-950">
       <div className="container">
         <div className="max-w-4xl">
           <p className="eyebrow">Ruta recomendada</p>
-          <h2 className="mt-3 text-4xl font-black md:text-5xl">No todos los negocios necesitan lo mismo.</h2>
-          <p className="mt-5 text-lg leading-8 text-slate-600">Elige tu etapa y te mostramos una ruta lógica antes de invertir en piezas sueltas.</p>
+          <h2 className="mt-4 text-4xl font-black leading-tight tracking-tight md:text-6xl">No todos los negocios necesitan lo mismo.</h2>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
+            Elige tu etapa y te mostramos una ruta lógica antes de invertir en piezas sueltas.
+          </p>
         </div>
-        <div className="mt-10 grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
-          <div className="grid gap-3">
-            {routes.map((route) => (
+        <div className="mt-14 grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
+          <div className="grid gap-3 self-start">
+            {recommendedRouteOptions.map((route) => (
               <button
-                key={route.id}
+                key={route.key}
                 type="button"
-                onClick={() => setSelectedId(route.id)}
-                className={`rounded-2xl border p-4 text-left font-black transition ${
-                  route.id === selectedId ? "border-red-300 bg-white text-enix-red shadow-premium" : "border-slate-200 bg-white/70 text-slate-700 hover:bg-white"
+                onClick={() => setSelectedId(route.key)}
+                className={`rounded-[1.35rem] border px-5 py-5 text-left text-base font-black transition duration-300 md:text-lg ${
+                  route.key === selectedId
+                    ? "border-red-300 bg-white text-enix-red shadow-xl shadow-red-950/10"
+                    : "border-slate-200 bg-white/75 text-slate-700 hover:border-red-200 hover:bg-white hover:text-slate-950"
                 }`}
               >
                 {route.label}
               </button>
             ))}
           </div>
-          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-premium">
-            <div className="flex items-center gap-3">
-              <span className="grid size-12 place-items-center rounded-2xl bg-red-50 text-enix-red">
-                <TrendingUp className="h-6 w-6" />
-              </span>
-              <div>
-                <p className="text-sm font-black uppercase text-enix-red">Ruta para</p>
-                <h3 className="text-2xl font-black">{current.label}</h3>
-              </div>
-            </div>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              {current.route.map((step, index) => (
-                <div key={step} className="flex items-center gap-3">
-                  <span className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-black text-slate-800">{step}</span>
-                  {index < current.route.length - 1 && <ArrowRight className="hidden h-4 w-4 text-enix-red sm:block" />}
-                </div>
-              ))}
-            </div>
-            <a href={current.href} className="mt-8 inline-flex items-center justify-center rounded-full bg-red-600 px-7 py-4 text-sm font-black text-white shadow-xl shadow-red-100 transition hover:-translate-y-0.5 hover:bg-red-500">
-              Solicitar recomendación personalizada
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
-          </div>
+          <RecommendedRoutePanel activeRoute={selectedId} />
         </div>
       </div>
     </section>
   );
 }
-
