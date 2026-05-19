@@ -17,13 +17,15 @@ export default function HeroCopyBlock({ onOpenModal }: Props) {
         Agencia digital de NOVVOR · Marketing, IA y automatización
       </div>
 
-      <h1 className="mt-7 max-w-[700px] text-balance text-[clamp(2.45rem,4.35vw,4.05rem)] font-black leading-[0.98] tracking-tight xl:text-[4.35rem]">
-        Creamos sistemas digitales que convierten visitas en oportunidades.
-      </h1>
+      <h1 className="mt-6 max-w-[620px] text-balance text-[clamp(2.15rem,3.8vw,3.45rem)] font-black leading-[1.02] tracking-tight xl:text-[3.75rem]">
 
-      <p className="mt-6 max-w-[640px] text-balance text-base leading-8 text-slate-300 md:text-lg">
-        Unimos desarrollo web, SEO, campañas, automatización, IA y analítica para que tu presencia digital trabaje como un sistema comercial, no como piezas sueltas.
-      </p>
+  Creamos sistemas digitales que convierten visitas en oportunidades.
+
+</h1>
+
+      <p className="mt-5 max-w-[580px] text-balance text-base leading-7 text-slate-300 md:text-lg">
+  Unimos desarrollo web, SEO, campañas, automatización, IA y analítica para que tu presencia digital trabaje como un sistema comercial, no como piezas sueltas.
+</p>
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
         <button className="btn btn-primary" type="button" onClick={onOpenModal}>
