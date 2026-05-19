@@ -4,9 +4,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer.astro";
 import Icon from "@/components/Icon.astro";
 import LeadModal from "@/components/LeadModal";
-import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
-import WebExperienceMockup from "@/components/services/WebExperienceMockup";
+import ServiceHero from "@/components/services/ServiceHero";
 import ServiceLeadForm from "@/components/services/ServiceLeadForm";
+import type { ServiceVisualVariant } from "@/components/services/ServiceHeroVisual";
 import { servicePages, type ServicePage } from "@/data/servicePagesData";
 import { site } from "@/data/site";
 
@@ -52,15 +52,6 @@ const faqSchema = {
   })),
 };
 
-const webTrustItems = [
-  ["SEO tecnico desde el inicio", "Arquitectura, metadata y base tecnica preparada para crecer."],
-  ["Formularios conectados", "Solicitudes listas para llegar a correo, CRM o automatizacion."],
-  ["Analitica y eventos", "Medicion de CTAs, formularios, campanas y rutas criticas."],
-  ["Mobile-first", "Experiencias pensadas para decidir rapido desde el telefono."],
-  ["Performance optimizada", "Velocidad, carga liviana y buenas practicas de frontend."],
-  ["Escalable", "Base flexible para sumar landings, SEO, ecommerce o plataformas."],
-];
-
 const webSolutionCards = [
   ["Web corporativa", "Para empresas B2B y servicios profesionales.", "Transmite confianza y convierte visitas en solicitudes."],
   ["Landing page", "Para campanas, lanzamientos o servicios especificos.", "Reduce friccion y enfoca al usuario en una accion."],
@@ -92,6 +83,81 @@ const webTimeline = [
 ];
 
 const webTechnologies = ["Astro", "WordPress", "WooCommerce", "Shopify", "React", "Tailwind", "Cloudflare", "Vercel", "GA4", "GTM", "Resend", "Supabase", "OpenAI"];
+
+type HeroConfig = {
+  badge: string;
+  title: string;
+  description: string;
+  benefits: string[];
+  visual: ServiceVisualVariant;
+  cta: string;
+};
+
+const heroBySlug: Record<string, HeroConfig> = {
+  "desarrollo-web": {
+    badge: "Desarrollo Web",
+    title: "Webs y plataformas digitales pensadas para vender, operar y crecer.",
+    description:
+      "Creamos sitios, ecommerce y plataformas rapidas, claras y conectadas a SEO, formularios, analitica y automatizacion.",
+    benefits: ["Webs rapidas y responsive", "Formularios y WhatsApp conectados", "SEO tecnico y medicion desde el inicio"],
+    visual: "web",
+    cta: "Revisar mi proyecto web",
+  },
+  seo: {
+    badge: "SEO Avanzado",
+    title: "Haz que tus clientes te encuentren cuando ya estan buscando.",
+    description:
+      "Ordenamos la estructura, contenido y senales tecnicas de tu sitio para mejorar visibilidad organica y captar trafico con intencion real.",
+    benefits: ["Arquitectura SEO clara", "Contenido orientado a busqueda", "Mejor base tecnica para Google"],
+    visual: "seo",
+    cta: "Revisar mi posicionamiento",
+  },
+  "paid-media": {
+    badge: "Paid Media",
+    title: "Campanas digitales con estrategia, medicion y foco en oportunidades.",
+    description:
+      "Creamos campanas conectadas a landing pages, eventos y datos para entender que canal genera resultados.",
+    benefits: ["Google Ads y Meta Ads", "Landing y tracking conectado", "Optimizacion basada en datos"],
+    visual: "paid",
+    cta: "Revisar mis campanas",
+  },
+  "automatizacion-ia": {
+    badge: "Automatizacion e IA",
+    title: "Responde, clasifica y sigue oportunidades sin perder clientes.",
+    description:
+      "Conectamos formularios, WhatsApp, CRM, correos e IA para ordenar la atencion y seguimiento comercial.",
+    benefits: ["Leads centralizados", "Respuestas y flujos automaticos", "IA como apoyo, no reemplazo humano"],
+    visual: "automation",
+    cta: "Revisar mi seguimiento",
+  },
+  branding: {
+    badge: "Branding",
+    title: "Haz que tu empresa transmita confianza antes de vender.",
+    description:
+      "Construimos identidad, mensaje y sistema visual para que tu marca se vea clara, profesional y coherente.",
+    benefits: ["Identidad visual profesional", "Mensaje comercial claro", "Coherencia en web, redes y campanas"],
+    visual: "branding",
+    cta: "Revisar mi marca",
+  },
+  "analitica-tracking": {
+    badge: "Analitica y Tracking",
+    title: "Mide lo que importa antes de seguir invirtiendo.",
+    description:
+      "Configuramos eventos, conversiones y dashboards para saber que paginas, campanas y canales generan oportunidades.",
+    benefits: ["GA4 y GTM ordenados", "Eventos de formularios y WhatsApp", "Dashboard claro para decidir"],
+    visual: "analytics",
+    cta: "Revisar mi medicion",
+  },
+};
+
+const hero = heroBySlug[service.slug] ?? {
+  badge: service.shortTitle,
+  title: service.h1,
+  description: service.heroSubtitle,
+  benefits: service.modules.slice(0, 3),
+  visual: "web" as ServiceVisualVariant,
+  cta: service.cta,
+};
 ---
 
 <BaseLayout
@@ -106,95 +172,16 @@ const webTechnologies = ["Astro", "WordPress", "WooCommerce", "Shopify", "React"
   <Header currentPath={Astro.url.pathname} client:load />
   <LeadModal client:idle />
   <main>
-    <section class="motion-reduce-safe relative isolate overflow-hidden bg-[#070b14] pb-20 pt-36 text-white md:pb-28 md:pt-44">
-      <AnimatedHeroBackground variant="services" intensity="medium" />
-      <div class={`container relative z-10 grid gap-12 ${isWebService ? "lg:grid-cols-[0.92fr_0.72fr] lg:items-start" : "lg:grid-cols-[0.92fr_1.08fr] lg:items-center"}`}>
-        <div>
-          <p class="eyebrow">Servicio especializado</p>
-          <h1 class="mt-5 max-w-4xl text-4xl font-black leading-[0.98] md:text-5xl lg:text-6xl">{service.h1}</h1>
-          <p class="mt-7 max-w-2xl text-lg leading-8 text-slate-300">{service.heroSubtitle}</p>
-          {isWebService && (
-            <div class="mt-7 grid gap-3 sm:grid-cols-2">
-              {["Webs corporativas y landing pages", "Ecommerce y catalogos digitales", "Plataformas y portales a medida", "SEO tecnico, velocidad y analitica"].map((item) => (
-                <div class="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.055] px-4 py-3 text-sm font-black text-slate-100">
-                  <Icon name="check" class="size-4 shrink-0 text-enix-glow" />
-                  {item}
-                </div>
-              ))}
-            </div>
-          )}
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a class="btn btn-primary" href={`/diagnostico/?servicio=${service.slug}`}><Icon name="search" class="size-5" /> {service.cta}</a>
-            <a class="btn btn-secondary" href="#ejemplos"><Icon name="layers" class="size-5" /> {service.secondaryCta}</a>
-          </div>
-          <p class="mt-4 max-w-xl text-sm font-semibold leading-6 text-slate-400">No partimos vendiendo una solución cerrada. Primero revisamos qué necesita tu empresa y qué conviene priorizar.</p>
-        </div>
-
-        {isWebService ? (
-          <ServiceLeadForm
-            client:load
-            service="Desarrollo Web y Plataformas Digitales"
-            title="Solicita una revision de tu proyecto web"
-            buttonLabel="Quiero revisar mi proyecto"
-            origin="servicio-desarrollo-web-hero"
-          />
-        ) : (
-          <div class="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.055] p-5 shadow-2xl shadow-black/35 backdrop-blur-xl md:p-7">
-            <div class="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-red-500/20 blur-3xl"></div>
-            <div class="relative">
-              <div class="flex items-center justify-between gap-4">
-                <span class="grid size-14 place-items-center rounded-2xl bg-enix-red/15 text-enix-glow"><Icon name={service.icon} class="size-7" /></span>
-                <span class="rounded-full border border-red-300/20 bg-red-500/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-red-200">Sistema conectado</span>
-              </div>
-              <h2 class="mt-8 text-3xl font-black md:text-4xl">{service.heroTitle}</h2>
-              <div class="mt-6 grid gap-3 sm:grid-cols-2">
-                {service.modules.map((module) => (
-                  <span class="rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-black text-slate-100">{module}</span>
-                ))}
-              </div>
-              <div class="mt-7 rounded-3xl border border-white/10 bg-black/20 p-5">
-                <p class="text-xs font-black uppercase tracking-[0.24em] text-red-300">Problema que resolvemos</p>
-                <p class="mt-3 leading-7 text-slate-300">{service.problem}</p>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
-
-    {isWebService && (
-      <>
-        <section class="section bg-enix-ink text-white">
-          <div class="container grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
-            <div>
-              <p class="eyebrow">Visual principal</p>
-              <h2 class="mt-3 text-4xl font-black leading-tight md:text-5xl">Una web moderna debe verse bien, convertir y conectar datos.</h2>
-              <p class="mt-5 text-lg leading-8 text-slate-300">
-                El mockup resume lo que debe pasar en un proyecto web serio: propuesta clara, CTA visible, formulario conectado, SEO listo, performance y tracking.
-              </p>
-            </div>
-            <WebExperienceMockup client:visible />
-          </div>
-        </section>
-
-        <section class="bg-white py-8">
-          <div class="container">
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-6">
-              <h2 class="text-2xl font-black">Construimos experiencias digitales preparadas para campanas, SEO, automatizacion y crecimiento.</h2>
-              <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {webTrustItems.map(([title, text]) => (
-                  <article class="rounded-xl border border-slate-200 bg-white p-4">
-                    <h3 class="font-black">{title}</h3>
-                    <p class="mt-2 text-sm font-semibold leading-6 text-slate-600">{text}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      </>
-    )}
-
+    <ServiceHero
+      client:visible
+      badge={hero.badge}
+      title={hero.title}
+      description={hero.description}
+      benefits={hero.benefits}
+      service={service.title}
+      visual={hero.visual}
+      cta={hero.cta}
+    />
     <section class="section bg-white">
       <div class="container grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
         <div>
@@ -409,11 +396,8 @@ const webTechnologies = ["Astro", "WordPress", "WooCommerce", "Shopify", "React"
           {isWebService ? (
             <ServiceLeadForm
               client:load
-              compact
               service="Desarrollo Web y Plataformas Digitales"
-              title="Solicitar orientacion web"
-              buttonLabel="Solicitar orientacion web"
-              origin="servicio-desarrollo-web-final"
+              cta="Solicitar orientacion web"
             />
           ) : (
             <div class="flex flex-col gap-3">
