@@ -18,7 +18,6 @@ type Market = {
   name: string;
   eyebrow: string;
   href: string;
-  status: "active" | "soon";
   description: string;
   industries: string[];
   problems: string[];
@@ -34,7 +33,6 @@ const markets: Market[] = [
     name: "Region Metropolitana",
     eyebrow: "Santiago - B2B - Servicios - Tecnologia",
     href: "/cl/region-metropolitana/",
-    status: "active",
     description:
       "Mercado altamente competitivo donde las empresas necesitan diferenciarse, convertir mejor y medir cada canal digital.",
     industries: ["B2B", "Servicios profesionales", "Ecommerce", "Tecnologia"],
@@ -54,9 +52,8 @@ const markets: Market[] = [
     name: "Region de Antofagasta",
     eyebrow: "Industria - Mineria - Servicios tecnicos - B2B",
     href: "/cl/region-antofagasta/",
-    status: "active",
     description:
-      "Zona industrial y minera donde la presencia digital debe transmitir seriedad, capacidad tecnica y confianza corporativa.",
+      "Soluciones digitales para empresas industriales, proveedores mineros, servicios tecnicos y negocios B2B en Antofagasta, Calama, Mejillones y otras zonas del norte de Chile.",
     industries: ["Industria", "Proveedores mineros", "Servicios tecnicos", "Logistica"],
     problems: [
       "Presencia digital debil",
@@ -73,10 +70,9 @@ const markets: Market[] = [
     id: "valparaiso",
     name: "Valparaiso",
     eyebrow: "Comercio - Turismo - Educacion - Servicios",
-    href: "/cl/valparaiso/",
-    status: "soon",
+    href: "/diagnostico?zona=valparaiso",
     description:
-      "Mercado regional con oportunidades para negocios que necesitan mejorar visibilidad, confianza y captacion digital.",
+      "Marketing digital, desarrollo web y posicionamiento para empresas regionales, comercio, turismo, educacion y servicios en Valparaiso.",
     industries: ["Comercio", "Turismo", "Educacion", "Servicios"],
     problems: [
       "Dependencia de redes sociales",
@@ -93,10 +89,9 @@ const markets: Market[] = [
     id: "biobio",
     name: "Biobio",
     eyebrow: "Industria - Educacion - Servicios - B2B",
-    href: "/cl/biobio/",
-    status: "soon",
+    href: "/diagnostico?zona=biobio",
     description:
-      "Zona con empresas industriales, educativas y de servicios que pueden crecer con presencia digital mas clara y medible.",
+      "Servicios digitales para empresas industriales, educativas, regionales y B2B en Biobio con foco en presencia, captacion y medicion.",
     industries: ["Industria", "Educacion", "Servicios", "B2B"],
     problems: [
       "Presencia poco profesional",
@@ -110,11 +105,105 @@ const markets: Market[] = [
     metricC: "Escala",
   },
   {
+    id: "tarapaca",
+    name: "Tarapaca",
+    eyebrow: "Comercio - Logistica - Servicios - Industria",
+    href: "/diagnostico?zona=tarapaca",
+    description:
+      "Presencia digital, SEO y campanas para empresas de comercio, servicios, logistica e industria en Tarapaca.",
+    industries: ["Comercio", "Logistica", "Servicios", "Industria"],
+    problems: [
+      "Baja visibilidad digital",
+      "Dependencia de referidos",
+      "Poca medicion comercial",
+      "Web desactualizada",
+    ],
+    services: ["Web", "SEO", "Paid Media", "Tracking"],
+    metricA: "Norte",
+    metricB: "Visibilidad",
+    metricC: "Leads",
+  },
+  {
+    id: "coquimbo",
+    name: "Coquimbo",
+    eyebrow: "Servicios - Turismo - Comercio - Educacion",
+    href: "/diagnostico?zona=coquimbo",
+    description:
+      "Marketing digital, desarrollo web y automatizacion para empresas de servicios, turismo, comercio y educacion en Coquimbo.",
+    industries: ["Servicios", "Turismo", "Comercio", "Educacion"],
+    problems: [
+      "Poca diferenciacion",
+      "Webs con baja conversion",
+      "SEO local debil",
+      "Seguimiento manual",
+    ],
+    services: ["Web", "SEO local", "Branding", "Automatizacion"],
+    metricA: "Servicios",
+    metricB: "Confianza",
+    metricC: "Consultas",
+  },
+  {
+    id: "maule",
+    name: "Maule",
+    eyebrow: "Agroindustria - Servicios - Comercio - B2B",
+    href: "/diagnostico?zona=maule",
+    description:
+      "Soluciones digitales para empresas de servicios, comercio, agroindustria y negocios B2B en Maule.",
+    industries: ["Agroindustria", "Servicios", "Comercio", "B2B"],
+    problems: [
+      "Presencia digital basica",
+      "Poca captacion online",
+      "Sitios sin medicion",
+      "Procesos comerciales manuales",
+    ],
+    services: ["Web", "SEO", "Analitica", "Automatizacion"],
+    metricA: "Regional",
+    metricB: "Captacion",
+    metricC: "Medicion",
+  },
+  {
+    id: "araucania",
+    name: "La Araucania",
+    eyebrow: "Servicios - Educacion - Turismo - Comercio",
+    href: "/diagnostico?zona=araucania",
+    description:
+      "Desarrollo web, SEO y campanas para empresas de servicios, educacion, turismo y comercio en La Araucania.",
+    industries: ["Servicios", "Educacion", "Turismo", "Comercio"],
+    problems: [
+      "Baja visibilidad organica",
+      "Marca poco diferenciada",
+      "Consultas sin trazabilidad",
+      "Campanas sin optimizacion",
+    ],
+    services: ["Web", "SEO", "Paid Media", "Branding"],
+    metricA: "Regional",
+    metricB: "SEO",
+    metricC: "Confianza",
+  },
+  {
+    id: "los-lagos",
+    name: "Los Lagos",
+    eyebrow: "Turismo - Industria - Servicios - Comercio",
+    href: "/diagnostico?zona=los-lagos",
+    description:
+      "Servicios digitales para empresas de turismo, industria, comercio y servicios en Los Lagos que buscan mejorar presencia y captacion.",
+    industries: ["Turismo", "Industria", "Servicios", "Comercio"],
+    problems: [
+      "Dependencia estacional",
+      "Poca presencia digital",
+      "Falta de contenido SEO",
+      "Medicion incompleta",
+    ],
+    services: ["Web", "SEO", "Campanas", "Analitica"],
+    metricA: "Sur",
+    metricB: "Contenido",
+    metricC: "Captacion",
+  },
+  {
     id: "chile",
     name: "Cobertura nacional",
     eyebrow: "Chile - Remoto - Estrategia - Ejecucion",
     href: "/cl/",
-    status: "active",
     description:
       "Trabajamos con empresas en distintas regiones mediante procesos digitales, reuniones online y ejecucion estructurada.",
     industries: ["B2B", "Industria", "Servicios", "Tecnologia"],
@@ -146,14 +235,14 @@ export default function ChileMarketIntelligence() {
 
       <div className="container relative">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="eyebrow">Market Intelligence Chile</p>
+          <p className="eyebrow">Cobertura digital para empresas en Chile</p>
           <h2 className="mt-5 text-4xl font-black leading-tight md:text-6xl">
-            Estrategia digital segun el mercado donde compite tu empresa.
+            Soluciones digitales segun el mercado donde compite tu empresa.
           </h2>
           <p className="mt-6 text-lg leading-8 text-slate-300">
-            No todas las regiones ni industrias venden igual. Adaptamos web,
-            SEO, campanas, automatizacion y analitica al contexto comercial de
-            cada empresa.
+            Trabajamos con empresas en distintas regiones de Chile mediante
+            desarrollo web, SEO, campanas, automatizacion, IA y analitica,
+            adaptando la estrategia al contexto comercial de cada mercado.
           </p>
         </div>
 
@@ -194,15 +283,6 @@ export default function ChileMarketIntelligence() {
                           {market.eyebrow}
                         </p>
                       </div>
-                      {market.status === "soon" ? (
-                        <span className="shrink-0 rounded-full bg-white/10 px-3 py-1 text-[11px] font-bold text-slate-300">
-                          Proximamente
-                        </span>
-                      ) : (
-                        <span className="shrink-0 rounded-full bg-emerald-400/10 px-3 py-1 text-[11px] font-bold text-emerald-300">
-                          Activo
-                        </span>
-                      )}
                     </div>
                   </button>
                 );
@@ -275,23 +355,15 @@ export default function ChileMarketIntelligence() {
             </div>
 
             <div className="flex flex-col gap-3 border-t border-white/10 bg-white/[0.025] p-6 sm:flex-row">
-              {active.status === "active" ? (
-                <a
-                  href={active.href}
-                  className="inline-flex items-center justify-center rounded-full bg-red-600 px-7 py-4 text-sm font-black text-white shadow-xl shadow-red-950/40 transition hover:bg-red-500"
-                >
-                  Ver soluciones regionales
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              ) : (
-                <a
-                  href="/diagnostico"
-                  className="inline-flex items-center justify-center rounded-full bg-red-600 px-7 py-4 text-sm font-black text-white shadow-xl shadow-red-950/40 transition hover:bg-red-500"
-                >
-                  Solicitar diagnostico
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              )}
+              <a
+                href={active.href}
+                className="inline-flex items-center justify-center rounded-full bg-red-600 px-7 py-4 text-sm font-black text-white shadow-xl shadow-red-950/40 transition hover:bg-red-500"
+              >
+                {active.href.startsWith("/diagnostico")
+                  ? "Solicitar diagnostico regional"
+                  : "Ver soluciones regionales"}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </a>
               <a
                 href={`/diagnostico?zona=${active.id}`}
                 className="inline-flex items-center justify-center rounded-full border border-white/15 px-7 py-4 text-sm font-black text-white transition hover:border-red-300/70 hover:bg-red-500/10"
@@ -311,9 +383,7 @@ export default function ChileMarketIntelligence() {
           </div>
 
           <div className="grid gap-5 md:grid-cols-2">
-            {markets
-              .filter((market) => market.status === "active")
-              .map((market) => (
+            {markets.map((market) => (
                 <article
                   key={market.id}
                   className="rounded-xl border border-white/10 bg-white/[0.04] p-6"
