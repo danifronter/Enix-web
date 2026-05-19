@@ -5,6 +5,8 @@ const allowedTypes = ["contact", "diagnostic", "audit", "service", "newsletter"]
 
 type FormType = (typeof allowedTypes)[number];
 
+export const prerender = false;
+
 const fieldAliases = {
   name: ["name", "nombre"],
   email: ["email", "correo"],
@@ -81,6 +83,14 @@ export const POST: APIRoute = async ({ request }) => {
     const resendApiKey = String(import.meta.env.RESEND_API_KEY || "").trim();
     const toEmail = String(import.meta.env.CONTACT_TO_EMAIL || "hello@enix.studio").trim();
     const fromEmail = String(import.meta.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev").trim();
+
+    console.info("[ENIX forms] env check", {
+      hasResendApiKey: Boolean(resendApiKey),
+      hasContactToEmail: Boolean(toEmail),
+      hasContactFromEmail: Boolean(fromEmail),
+      contactToEmail: toEmail,
+      contactFromEmail: fromEmail,
+    });
 
     if (!resendApiKey) {
       return jsonResponse({ ok: false, message: "Falta configurar RESEND_API_KEY." }, 500);
