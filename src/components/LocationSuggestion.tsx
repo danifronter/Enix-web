@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 
 const regionMap: Record<string, { label: string; href: string }> = {
-  santiago: { label: "Santiago", href: "/cl/santiago/" },
-  metropolitana: { label: "Santiago", href: "/cl/santiago/" },
-  antofagasta: { label: "Antofagasta", href: "/cl/antofagasta/" },
-  calama: { label: "Calama", href: "/cl/calama/" },
+  santiago: { label: "Region Metropolitana", href: "/cl/region-metropolitana/" },
+  metropolitana: { label: "Region Metropolitana", href: "/cl/region-metropolitana/" },
+  "region-metropolitana": { label: "Region Metropolitana", href: "/cl/region-metropolitana/" },
+  antofagasta: { label: "Region de Antofagasta", href: "/cl/region-antofagasta/" },
+  "region-antofagasta": { label: "Region de Antofagasta", href: "/cl/region-antofagasta/" },
+  calama: { label: "Region de Antofagasta", href: "/cl/region-antofagasta/" },
 };
 
 export default function LocationSuggestion() {

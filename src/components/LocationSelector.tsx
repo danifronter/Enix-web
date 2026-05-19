@@ -5,9 +5,8 @@ type LocationOption = {
 };
 
 const locations: LocationOption[] = [
-  { label: "Santiago", href: "/cl/santiago/", description: "B2B, tecnologia, ecommerce y servicios profesionales." },
-  { label: "Antofagasta", href: "/cl/antofagasta/", description: "Industria, mineria, servicios tecnicos y logistica." },
-  { label: "Calama", href: "/cl/calama/", description: "Servicios locales, proveedores industriales y comercio." },
+  { label: "Region Metropolitana", href: "/cl/region-metropolitana/", description: "B2B, tecnologia, ecommerce y servicios profesionales." },
+  { label: "Region de Antofagasta", href: "/cl/region-antofagasta/", description: "Industria, mineria, servicios tecnicos, logistica y B2B." },
   { label: "Chile", href: "/cl/", description: "Cobertura nacional y diagnostico general." },
 ];
 
