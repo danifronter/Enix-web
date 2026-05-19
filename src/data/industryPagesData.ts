@@ -65,4 +65,40 @@ export const industryPages: IndustryPage[] = [
     services: ["Desarrollo web", "Branding industrial", "SEO B2B", "Formularios de cotizacion", "Analitica"],
     outcomes: ["Mayor confianza corporativa", "Servicios mejor explicados", "Consultas mas ordenadas", "Base digital lista para prospeccion"],
   },
+  {
+    slug: "servicios-profesionales",
+    title: "Servicios profesionales",
+    seoTitle: "Marketing Digital para Servicios Profesionales | Enix Studio",
+    metaDescription:
+      "Desarrollo web, SEO, branding, automatizacion y analitica para consultoras, estudios, asesorias y empresas de servicios profesionales.",
+    h1: "Marketing digital para servicios profesionales que necesitan transmitir confianza",
+    intro:
+      "Las empresas de servicios profesionales venden confianza, criterio y experiencia. Enix Studio ayuda a convertir esa propuesta en una presencia digital clara, con contenido, formularios, SEO y seguimiento para generar conversaciones comerciales de mayor calidad.",
+    challenges: [
+      "Servicios dificiles de diferenciar frente a competidores similares",
+      "Webs con poca claridad sobre oferta, experiencia y resultados",
+      "Baja visibilidad en busquedas de alto valor comercial",
+      "Consultas sin trazabilidad ni seguimiento ordenado",
+    ],
+    services: ["Desarrollo web", "SEO", "Branding", "Paid media", "Analitica y tracking"],
+    outcomes: ["Mayor autoridad percibida", "Mejor calidad de consultas", "Contenido mas claro", "Seguimiento comercial medible"],
+  },
+  {
+    slug: "ecommerce",
+    title: "Ecommerce",
+    seoTitle: "Marketing Digital para Ecommerce | Enix Studio",
+    metaDescription:
+      "Estrategia digital, desarrollo ecommerce, SEO, paid media, tracking y automatizacion para tiendas online que necesitan vender y medir mejor.",
+    h1: "Marketing digital para ecommerce que necesitan vender y medir mejor",
+    intro:
+      "Un ecommerce necesita mucho mas que una tienda visualmente correcta. Enix Studio trabaja conversion, velocidad, catalogo, SEO, campanas, eventos y automatizacion para que cada canal pueda medirse y optimizarse.",
+    challenges: [
+      "Tienda lenta o dificil de usar en mobile",
+      "Campanas sin medicion clara de conversiones reales",
+      "Catalogos y categorias poco preparados para SEO",
+      "Abandono de compra y seguimiento manual de clientes",
+    ],
+    services: ["Ecommerce", "SEO tecnico", "Paid media", "Tracking", "Automatizacion"],
+    outcomes: ["Mejor experiencia de compra", "Mas claridad de conversion", "Categorias optimizadas", "Base lista para escalar campanas"],
+  },
 ];
