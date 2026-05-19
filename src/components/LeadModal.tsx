@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { LeadCard } from "@/data/servicesData";
+import { SkeletonInlineStatus } from "./ui/SkeletonLoaders";
 
 type ModalContext = LeadCard & {
   ctaOrigin: string;
@@ -31,6 +32,20 @@ const needOptions = [
   "Quiero ordenar mi proceso comercial",
   "No sé qué necesito, quiero orientación",
 ];
+
+async function readJsonResponse(response: Response) {
+  const text = await response.text();
+
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    throw new Error(
+      response.ok
+        ? "La API no devolvió una respuesta JSON válida."
+        : `La API devolvió una respuesta no válida (${response.status}). Revisa el deploy y los logs de Vercel.`,
+    );
+  }
+}
 
 const iconPaths: Record<string, string> = {
   badgeCheck: '<path d="M3.9 12.8a2 2 0 0 1 0-1.6l.9-1.6a2 2 0 0 0 .2-1.4l-.3-1.8a2 2 0 0 1 1.7-2.3l1.8-.3a2 2 0 0 0 1.2-.7l1.2-1.4a2 2 0 0 1 3 0l1.2 1.4a2 2 0 0 0 1.2.7l1.8.3a2 2 0 0 1 1.7 2.3l-.3 1.8a2 2 0 0 0 .2 1.4l.9 1.6a2 2 0 0 1 0 1.6l-.9 1.6a2 2 0 0 0-.2 1.4l.3 1.8a2 2 0 0 1-1.7 2.3l-1.8.3a2 2 0 0 0-1.2.7l-1.2 1.4a2 2 0 0 1-3 0l-1.2-1.4a2 2 0 0 0-1.2-.7l-1.8-.3a2 2 0 0 1-1.7-2.3l.3-1.8a2 2 0 0 0-.2-1.4l-.9-1.6Z"/><path d="m9 12 2 2 4-4"/>',
@@ -188,10 +203,10 @@ export default function LeadModal() {
       if (import.meta.env.DEV) console.info("[ENIX lead payload]", payload);
       const response = await fetch("/api/forms", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(payload),
       });
-      const result = await response.json();
+      const result = await readJsonResponse(response);
 
       if (!response.ok || !result.ok) {
         throw new Error(result.message || "No pudimos enviar la solicitud.");
@@ -328,6 +343,8 @@ export default function LeadModal() {
                 </div>
 
                 {errors.need && <p className="rounded-xl border border-red-400/20 bg-red-500/10 p-3 text-sm font-bold text-red-100">{errors.need}</p>}
+
+                {status === "loading" && <SkeletonInlineStatus />}
 
                 <button className="btn btn-primary mt-2 w-full" type="submit" disabled={status === "loading"}>
                   {status === "loading" ? "Enviando..." : "Solicitar diagnóstico"}

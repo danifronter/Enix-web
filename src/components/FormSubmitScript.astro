@@ -1,6 +1,36 @@
 <script>
   const forms = document.querySelectorAll("form[data-enix-form]");
 
+  async function readJsonResponse(response: Response) {
+    const text = await response.text();
+
+    try {
+      return text ? JSON.parse(text) : {};
+    } catch {
+      throw new Error(
+        response.ok
+          ? "La API no devolvió una respuesta JSON válida."
+          : `La API devolvió una respuesta no válida (${response.status}). Revisa el deploy y los logs de Vercel.`,
+      );
+    }
+  }
+
+  function renderLoadingStatus(status: HTMLElement) {
+    status.dataset.state = "loading";
+    status.innerHTML = `
+      <div class="rounded-2xl border border-white/10 bg-[#0B1120]/95 p-4 text-left shadow-lg shadow-black/20">
+        <div class="flex items-center gap-3">
+          <span class="h-2.5 w-2.5 animate-pulse rounded-full bg-red-400"></span>
+          <span class="text-sm font-bold text-slate-300">Procesando tu solicitud...</span>
+        </div>
+        <div class="mt-4 grid gap-2">
+          <span class="enix-skeleton relative block h-3 w-full overflow-hidden rounded-full bg-white/[0.07]"></span>
+          <span class="enix-skeleton relative block h-3 w-2/3 overflow-hidden rounded-full bg-white/[0.07]"></span>
+        </div>
+      </div>
+    `;
+  }
+
   forms.forEach((form) => {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -18,16 +48,18 @@
       }
 
       if (status instanceof HTMLElement) {
-        status.textContent = "";
-        status.dataset.state = "loading";
+        renderLoadingStatus(status);
       }
 
       try {
         const response = await fetch("/api/forms", {
           method: "POST",
+          headers: {
+            Accept: "application/json",
+          },
           body: new FormData(currentForm),
         });
-        const result = await response.json();
+        const result = await readJsonResponse(response);
 
         if (!response.ok || !result.ok) {
           throw new Error(result.message || "No se pudo enviar la solicitud.");

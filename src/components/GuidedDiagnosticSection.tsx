@@ -12,6 +12,7 @@ import {
   TrendingDown,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { SkeletonInlineStatus } from "./ui/SkeletonLoaders";
 
 type ProblemKey =
   | "sin-web"
@@ -83,6 +84,20 @@ const problems = [
     checks: ["Diagnóstico comercial", "Mapa de servicios", "Embudo", "Tracking", "Optimización"],
   },
 ] as const;
+
+async function readJsonResponse(response: Response) {
+  const text = await response.text();
+
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    throw new Error(
+      response.ok
+        ? "La API no devolvió una respuesta JSON válida."
+        : `La API devolvió una respuesta no válida (${response.status}). Revisa el deploy y los logs de Vercel.`,
+    );
+  }
+}
 
 export default function GuidedDiagnosticSection() {
   const [selected, setSelected] = useState<ProblemKey | null>(null);
@@ -290,10 +305,10 @@ export default function GuidedDiagnosticSection() {
                   try {
                     const response = await fetch("/api/forms", {
                       method: "POST",
-                      headers: { "Content-Type": "application/json" },
+                      headers: { "Content-Type": "application/json", Accept: "application/json" },
                       body: JSON.stringify(payload),
                     });
-                    const result = await response.json();
+                    const result = await readJsonResponse(response);
 
                     if (!response.ok || !result.ok) {
                       throw new Error(result.message || "No pudimos enviar la recomendación.");
@@ -355,6 +370,8 @@ export default function GuidedDiagnosticSection() {
                     {submitMessage}
                   </p>
                 )}
+
+                {submitState === "loading" && <SkeletonInlineStatus />}
 
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <button
