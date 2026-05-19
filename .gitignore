@@ -1,5 +1,6 @@
 node_modules/
 dist/
+.tools/
 .astro/
 .vercel/
 .DS_Store

@@ -12,6 +12,7 @@ interface Props {
   ogImage?: string;
   breadcrumbs?: { name: string; url: string }[];
   faqItems?: [string, string][];
+  extraSchemas?: Record<string, unknown>[];
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   ogImage = `${site.url}/og-enix-studio.svg`,
   breadcrumbs = [{ name: "Inicio", url: site.url }],
   faqItems = [],
+  extraSchemas = [],
 } = Astro.props;
 
 const organizationSchema = {
@@ -104,6 +106,7 @@ const breadcrumbSchema = {
     <script is:inline type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
     {faqItems.length > 0 && <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
     <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    {extraSchemas.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />)}
   </head>
   <body>
     <slot />

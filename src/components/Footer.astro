@@ -26,6 +26,15 @@ const columns = [
     ],
   },
   {
+    title: "Cobertura",
+    links: [
+      ["Chile", "/cl/"],
+      ["Santiago", "/cl/santiago/"],
+      ["Antofagasta", "/cl/antofagasta/"],
+      ["Calama", "/cl/calama/"],
+    ],
+  },
+  {
     title: "Recursos",
     links: [
       ["Diagnóstico gratuito", "/#diagnostico"],
@@ -46,7 +55,7 @@ const contact = [
   <div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-enix-red/70 to-transparent"></div>
 
   <div class="container relative py-16 lg:py-20">
-    <div class="grid gap-12 lg:grid-cols-[1.15fr_1.55fr_0.75fr]">
+    <div class="grid gap-12 lg:grid-cols-[1.05fr_1.7fr_0.75fr]">
       <section class="max-w-md">
         <a class="inline-flex" href="/" aria-label="ENIX STUDIO inicio">
           <img
@@ -65,7 +74,7 @@ const contact = [
         <a class="btn btn-primary mt-7" href="/#diagnostico">Solicitar diagnóstico gratuito</a>
       </section>
 
-      <nav class="grid gap-8 sm:grid-cols-3" aria-label="Navegación del footer">
+      <nav class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4" aria-label="Navegación del footer">
         {columns.map((column) => (
           <div>
             <h2 class="text-sm font-black uppercase tracking-[0.12em] text-white">{column.title}</h2>
