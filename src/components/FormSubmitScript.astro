@@ -53,6 +53,7 @@
 
       try {
         const payload = Object.fromEntries(new FormData(currentForm).entries());
+        payload.pageUrl = window.location.href;
         const response = await fetch("/api/forms", {
           method: "POST",
           headers: {
