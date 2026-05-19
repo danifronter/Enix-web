@@ -1,0 +1,103 @@
+<script>
+  const REVEAL_SELECTOR = "[data-reveal]";
+  const AUTO_SECTION_SELECTOR = "main > section, footer section";
+  const AUTO_CONTENT_SELECTOR = [
+    ".eyebrow",
+    "h1",
+    "h2",
+    "section > .container > p",
+    "section > .container > div > p",
+    "article",
+    "form",
+    "details",
+    ".surface",
+    ".glass",
+    ".icon-box",
+  ].join(",");
+  const SKIP_SELECTOR = [
+    "header",
+    "nav",
+    "script",
+    "style",
+    "[data-no-reveal]",
+    ".prose",
+    "[aria-label='Navegacion del footer'] a",
+    "footer a",
+  ].join(",");
+
+  function shouldSkip(element: Element) {
+    return element.closest(SKIP_SELECTOR) || element.hasAttribute("data-reveal");
+  }
+
+  function setReveal(element: Element, value: string, delay?: number) {
+    if (shouldSkip(element)) return;
+    element.setAttribute("data-reveal", value);
+    if (delay) element.setAttribute("data-reveal-delay", String(delay));
+  }
+
+  function autoApplyReveal() {
+    document.querySelectorAll(AUTO_SECTION_SELECTOR).forEach((section) => {
+      if (section.matches("[data-no-reveal]")) return;
+
+      const headingBlock = section.querySelector(":scope > .container, :scope > div");
+      headingBlock
+        ?.querySelectorAll(":scope .eyebrow, :scope h1, :scope h2")
+        .forEach((element, index) => setReveal(element, "up", Math.min(index, 2)));
+
+      headingBlock
+        ?.querySelectorAll(":scope > p, :scope > div > p")
+        .forEach((element) => setReveal(element, "up", 2));
+
+      section.querySelectorAll(AUTO_CONTENT_SELECTOR).forEach((element, index) => {
+        if (shouldSkip(element)) return;
+        const tagName = element.tagName.toLowerCase();
+        const isCard = tagName === "article" || tagName === "details" || element.classList.contains("surface") || element.classList.contains("glass");
+
+        if (isCard) {
+          element.classList.add("reveal-card");
+          setReveal(element, "up", Math.min(index % 4, 3));
+          return;
+        }
+
+        if (tagName === "form") {
+          setReveal(element, "scale", 1);
+        }
+      });
+    });
+  }
+
+  function initScrollReveal() {
+    autoApplyReveal();
+
+    const elements = Array.from(document.querySelectorAll(REVEAL_SELECTOR));
+    if (!elements.length) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      elements.forEach((element) => element.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, currentObserver) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          currentObserver.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -8% 0px",
+      },
+    );
+
+    elements.forEach((element) => observer.observe(element));
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initScrollReveal, { once: true });
+  } else {
+    initScrollReveal();
+  }
+</script>

@@ -22,7 +22,7 @@ export default function ServiceHero({
   cta,
 }: ServiceHeroProps) {
   return (
-    <section className="relative isolate overflow-hidden bg-[#070b14] py-24 text-white md:py-32">
+    <section id="formulario-servicio" className="relative isolate scroll-mt-24 overflow-hidden bg-[#070b14] py-24 text-white md:py-32">
       <div className="absolute inset-0">
         <div className="absolute left-[-10%] top-[-20%] h-[460px] w-[460px] rounded-full bg-red-600/20 blur-[120px]" />
         <div className="absolute bottom-[-20%] right-[-10%] h-[460px] w-[460px] rounded-full bg-blue-500/16 blur-[120px]" />

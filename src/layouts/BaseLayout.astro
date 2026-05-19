@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import { site, services } from "@/data/site";
 import CookieConsent from "@/components/CookieConsent";
+import ScrollRevealInit from "@/components/ScrollRevealInit.astro";
 import Analytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 
@@ -110,6 +111,7 @@ const breadcrumbSchema = {
   </head>
   <body>
     <slot />
+    <ScrollRevealInit />
     <CookieConsent client:idle />
     <Analytics />
     <SpeedInsights />
