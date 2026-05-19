@@ -5,7 +5,7 @@ import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
 
 export default defineConfig({
-  site: "https://enixstudio.cl",
+  site: "https://www.enix.studio",
   integrations: [
     react(),
     tailwind({ applyBaseStyles: false }),

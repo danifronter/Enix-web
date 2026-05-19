@@ -1,7 +1,7 @@
 export const site = {
   name: "ENIX STUDIO",
   relation: "Agencia digital de NOVVOR",
-  url: "https://enixstudio.cl",
+  url: "https://www.enix.studio",
   email: "hello@enix.studio",
   linkedin: "https://www.linkedin.com/company/enixstudio/",
   description:
