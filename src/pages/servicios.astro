@@ -5,6 +5,7 @@ import Footer from "@/components/Footer.astro";
 import Icon from "@/components/Icon.astro";
 import LeadModal from "@/components/LeadModal";
 import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
+import ServiceShowcaseCard from "@/components/services/ServiceShowcaseCard";
 import { ServicesProblemSelector, ServicesRouteRecommender } from "@/components/ServicesDecisionTool";
 import { site } from "@/data/site";
 
@@ -26,7 +27,7 @@ const services = [
     includes: ["Arquitectura UX/UI", "Diseño responsive", "Desarrollo optimizado", "SEO técnico base", "Performance", "Formularios y CTAs", "Integración con analítica", "Preparación para conversión"],
     result: "Una web más clara, profesional, rápida y preparada para captar oportunidades.",
     when: ["No tienes web", "Tu web se ve antigua", "Tu web no genera consultas", "Tu empresa se ve menos profesional que la competencia", "Quieres una base sólida para campañas o SEO"],
-    cta: "Quiero revisar mi proyecto web",
+    cta: "Revisar mi proyecto web",
     href: "/servicios/desarrollo-web/",
     related: ["SEO", "Branding", "Tracking"],
   },
@@ -50,7 +51,7 @@ const services = [
     includes: ["Google Ads", "Meta Ads", "Estrategia de campaña", "Segmentación", "Creatividades", "Landing pages", "Tracking de conversiones", "Reportes", "Optimización"],
     result: "Campañas más ordenadas, medibles y enfocadas en generar oportunidades comerciales.",
     when: ["Estás invirtiendo y no ves retorno claro", "No sabes qué canal funciona", "No tienes eventos bien configurados", "Mandas tráfico a una página débil", "Necesitas captar leads rápidamente"],
-    cta: "Quiero optimizar campañas",
+    cta: "Revisar mis campañas",
     href: "/servicios/paid-media/",
     related: ["Landing", "Tracking", "CRM"],
   },
@@ -62,7 +63,7 @@ const services = [
     includes: ["Flujos de automatización", "Chatbots", "IA para atención inicial", "CRM", "Formularios conectados", "Email automático", "Segmentación de leads", "Derivación a humanos", "Notificaciones internas"],
     result: "Procesos más rápidos, ordenados y preparados para responder oportunidades sin depender solo del trabajo manual.",
     when: ["Recibes consultas por WhatsApp y se pierden", "No tienes seguimiento comercial", "El equipo responde manualmente todo", "Quieres ordenar leads", "Quieres atención inicial 24/7"],
-    cta: "Quiero automatizar mis leads",
+    cta: "Ordenar mi seguimiento",
     href: "/servicios/automatizacion-ia/",
     related: ["CRM", "IA", "Email"],
   },
@@ -74,7 +75,7 @@ const services = [
     includes: ["Identidad visual", "Sistema de marca", "Mensaje comercial", "Tono de comunicación", "Propuesta de valor", "Diseño aplicado", "Coherencia digital"],
     result: "Una marca más profesional, clara y consistente en cada punto de contacto.",
     when: ["Tu marca se ve antigua", "No tienes identidad clara", "Tu web y redes no se sienten coherentes", "Tu empresa se ve menos profesional de lo que realmente es", "Quieres vender con mayor percepción de valor"],
-    cta: "Quiero mejorar mi marca",
+    cta: "Revisar mi marca",
     href: "/servicios/branding/",
     related: ["Web", "Mensaje", "Diseño"],
   },
@@ -91,6 +92,8 @@ const services = [
     related: ["GA4", "GTM", "Dashboards"],
   },
 ];
+
+const serviceVariants = ["web", "seo", "paid", "automation", "branding", "analytics"] as const;
 
 const looseVsSystem = [
   ["Web sin estrategia", "Web conectada a objetivos"],
@@ -196,42 +199,21 @@ const faqs: [string, string][] = [
       <div class="container">
         <p class="eyebrow">Soluciones principales</p>
         <h2 class="mt-3 max-w-4xl text-4xl font-black md:text-6xl">Servicios pensados como soluciones comerciales, no como tareas sueltas.</h2>
-        <div class="mt-12 grid gap-8">
+        <div class="mt-12 space-y-10">
           {services.map((service, index) => (
-            <article class={`grid gap-8 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm lg:grid-cols-[0.88fr_1.12fr] lg:p-8 ${index % 2 === 1 ? "lg:[&>div:first-child]:order-2" : ""}`}>
-              <div>
-                <span class="icon-box mb-6"><Icon name={service.icon} class="size-5" /></span>
-                <h2 class="text-4xl font-black leading-tight md:text-5xl">{service.title}</h2>
-                <p class="mt-4 text-xl font-bold leading-8 text-slate-700">{service.phrase}</p>
-                <div class="mt-6 rounded-2xl bg-red-50 p-5">
-                  <p class="text-xs font-black uppercase text-enix-red">Problema que resuelve</p>
-                  <p class="mt-2 leading-7 text-slate-700">{service.problem}</p>
-                </div>
-                <p class="mt-6 text-xs font-black uppercase text-slate-500">Servicios relacionados</p>
-                <div class="mt-3 flex flex-wrap gap-2">{service.related.map((tag) => <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">{tag}</span>)}</div>
-                <a class="btn btn-light mt-7" href={service.href}>{service.cta}</a>
-              </div>
-              <div class="grid gap-4">
-                <div class="rounded-3xl bg-enix-ink p-6 text-white">
-                  <p class="text-xs font-black uppercase text-red-300">Qué hacemos</p>
-                  <div class="mt-5 grid gap-2 sm:grid-cols-2">
-                    {service.includes.map((item) => <div class="rounded-2xl border border-white/10 bg-white/[0.055] px-4 py-3 text-sm font-bold text-slate-200"><Icon name="check" class="mr-2 inline size-4 text-red-300" />{item}</div>)}
-                  </div>
-                </div>
-                <div class="grid gap-4 md:grid-cols-2">
-                  <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-                    <p class="text-xs font-black uppercase text-enix-red">Resultado esperado</p>
-                    <p class="mt-3 font-bold leading-7 text-slate-700">{service.result}</p>
-                  </div>
-                  <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-                    <p class="text-xs font-black uppercase text-enix-red">Cuándo lo necesitas</p>
-                    <ul class="mt-3 grid gap-2 text-sm font-semibold leading-6 text-slate-700">
-                      {service.when.map((item) => <li class="flex gap-2"><Icon name="chevronRight" class="mt-1 size-4 shrink-0 text-enix-red" />{item}</li>)}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </article>
+            <ServiceShowcaseCard
+              variant={serviceVariants[index]}
+              title={service.title}
+              subtitle={service.phrase}
+              problem={service.problem}
+              outcome={service.result}
+              when={service.when}
+              features={service.includes}
+              related={service.related}
+              cta={service.cta}
+              href={service.href}
+              reverse={index % 2 === 1}
+            />
           ))}
         </div>
       </div>
