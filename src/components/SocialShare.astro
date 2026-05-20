@@ -1,0 +1,70 @@
+---
+import { site } from "@/data/site";
+
+interface Props {
+  url: string;
+  title: string;
+  variant?: "light" | "dark";
+}
+
+const { url, title, variant = "light" } = Astro.props;
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+const isDark = variant === "dark";
+const linkClass = isDark
+  ? "inline-flex items-center justify-center rounded-full border border-white/15 bg-white/[0.04] px-4 py-2.5 text-sm font-black text-white transition hover:border-red-300/70 hover:bg-red-500/10"
+  : "inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-black text-slate-700 transition hover:border-red-200 hover:text-enix-red hover:shadow-sm";
+---
+
+<aside class={isDark ? "rounded-2xl border border-white/10 bg-white/[0.045] p-4" : "rounded-2xl border border-slate-200 bg-slate-50 p-4"} aria-label="Compartir esta página">
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <p class={isDark ? "text-sm font-black text-slate-200" : "text-sm font-black text-slate-700"}>Compartir</p>
+    <div class="flex flex-wrap gap-2">
+      <a
+        class={linkClass}
+        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        aria-label={`Compartir ${title} en LinkedIn`}
+      >
+        LinkedIn
+      </a>
+      <a
+        class={linkClass}
+        href={`https://wa.me/?text=${encodedTitle}%20${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        aria-label={`Compartir ${title} por WhatsApp`}
+      >
+        WhatsApp
+      </a>
+      <button class={linkClass} type="button" data-share-copy={url}>
+        Copiar enlace
+      </button>
+    </div>
+  </div>
+  <p class={isDark ? "mt-3 text-xs font-semibold text-slate-500" : "mt-3 text-xs font-semibold text-slate-500"}>
+    Enix Studio · <a class="font-black hover:underline" href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn oficial</a>
+  </p>
+</aside>
+
+<script>
+  document.addEventListener("click", async (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-share-copy]");
+    if (!button) return;
+
+    const url = button.dataset.shareCopy;
+    if (!url) return;
+
+    try {
+      await navigator.clipboard.writeText(url);
+      const previous = button.textContent;
+      button.textContent = "Enlace copiado";
+      window.setTimeout(() => {
+        button.textContent = previous || "Copiar enlace";
+      }, 1800);
+    } catch {
+      window.prompt("Copia este enlace:", url);
+    }
+  });
+</script>

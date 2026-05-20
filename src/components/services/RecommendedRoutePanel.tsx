@@ -202,6 +202,7 @@ export default function RecommendedRoutePanel({ activeRoute }: { activeRoute: Ro
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href={route.href}
+              rel="nofollow"
               className="inline-flex items-center justify-center rounded-full bg-red-600 px-7 py-4 text-sm font-black text-white shadow-xl shadow-red-950/40 transition hover:-translate-y-0.5 hover:bg-red-500"
             >
               Solicitar recomendación personalizada

@@ -357,6 +357,7 @@ export default function ChileMarketIntelligence() {
             <div className="flex flex-col gap-3 border-t border-white/10 bg-white/[0.025] p-6 sm:flex-row">
               <a
                 href={active.href}
+                rel={active.href.includes("?") ? "nofollow" : undefined}
                 className="inline-flex items-center justify-center rounded-full bg-red-600 px-7 py-4 text-sm font-black text-white shadow-xl shadow-red-950/40 transition hover:bg-red-500"
               >
                 {active.href.startsWith("/diagnostico")
@@ -366,6 +367,7 @@ export default function ChileMarketIntelligence() {
               </a>
               <a
                 href={`/diagnostico?zona=${active.id}`}
+                rel="nofollow"
                 className="inline-flex items-center justify-center rounded-full border border-white/15 px-7 py-4 text-sm font-black text-white transition hover:border-red-300/70 hover:bg-red-500/10"
               >
                 Diagnostico para este mercado
@@ -388,12 +390,13 @@ export default function ChileMarketIntelligence() {
                   key={market.id}
                   className="rounded-xl border border-white/10 bg-white/[0.04] p-6"
                 >
-                  <h4 className="text-xl font-black text-white">{market.name}</h4>
+                  <p className="text-xl font-black text-white">{market.name}</p>
                   <p className="mt-4 leading-7 text-slate-300">
                     {market.description}
                   </p>
                   <a
                     href={market.href}
+                    rel={market.href.includes("?") ? "nofollow" : undefined}
                     className="mt-5 inline-flex items-center text-sm font-black text-red-300 hover:text-red-200"
                   >
                     Ver contenido regional

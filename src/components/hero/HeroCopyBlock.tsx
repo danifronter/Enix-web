@@ -50,6 +50,7 @@ export default function HeroCopyBlock({ onOpenModal }: Props) {
             <a
               key={chip.href}
               href={chip.href}
+              rel="nofollow"
               className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/[0.04] px-4 py-3 text-sm font-black leading-none text-white transition-all duration-300 hover:border-red-300/80 hover:bg-red-500/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-400/50 focus:ring-offset-2 focus:ring-offset-[#080d18]"
             >
               {chip.label}

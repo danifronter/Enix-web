@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer.astro";
 import Icon from "@/components/Icon.astro";
 import LeadModal from "@/components/LeadModal";
+import SocialShare from "@/components/SocialShare.astro";
 import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
 import { cases } from "@/data/casesData";
 import { site } from "@/data/site";
@@ -39,6 +40,9 @@ const canonical = `${site.url}/casos/${item.slug}/`;
         <div class="mt-8 flex flex-wrap gap-2">
           {item.services.map((service) => <span class="rounded-full border border-white/10 bg-white/[0.06] px-3 py-2 text-xs font-black text-slate-200">{service}</span>)}
         </div>
+        <div class="mt-8 max-w-3xl">
+          <SocialShare url={canonical} title={item.title} variant="dark" />
+        </div>
       </div>
     </section>
 
@@ -47,7 +51,7 @@ const canonical = `${site.url}/casos/${item.slug}/`;
         <aside class="lg:sticky lg:top-28 lg:self-start">
           <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
             <p class="eyebrow">Resumen</p>
-            <h2 class="mt-3 text-2xl font-black">{item.category}</h2>
+            <p class="mt-3 text-2xl font-black">{item.category}</p>
             <p class="mt-4 leading-7 text-slate-600">{item.objective}</p>
             <a class="btn btn-primary mt-6" href="/#diagnostico">Quiero un diagnóstico</a>
           </div>
@@ -129,11 +133,15 @@ const canonical = `${site.url}/casos/${item.slug}/`;
 
           <section class="mt-12 rounded-[2rem] bg-enix-pearl p-8">
             <p class="eyebrow">Servicios relacionados</p>
-            <h2 class="mt-3 text-3xl font-black">Podemos aplicar una solución similar a tu empresa.</h2>
+            <p class="mt-3 text-3xl font-black">Podemos aplicar una solución similar a tu empresa.</p>
             <div class="mt-5 flex flex-wrap gap-2">
               {item.services.map((service) => <a class="rounded-full bg-white px-4 py-2 text-sm font-black text-slate-700 transition hover:text-enix-red" href="/servicios/">{service}</a>)}
             </div>
-            <a class="btn btn-primary mt-7" href="/#diagnostico"><Icon name="arrowUp" class="size-5" /> Solicitar diagnóstico gratuito</a>
+            <a class="btn btn-primary mt-7" href="/#diagnostico"><Icon name="arrowUp" class="size-5" /> Revisar una solución similar</a>
+          </section>
+
+          <section class="mt-12">
+            <SocialShare url={canonical} title={item.title} />
           </section>
         </div>
       </div>
