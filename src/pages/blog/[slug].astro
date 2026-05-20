@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer.astro";
 import Icon from "@/components/Icon.astro";
 import LeadModal from "@/components/LeadModal";
+import ReadingProgress from "@/components/ReadingProgress";
 import SocialShare from "@/components/SocialShare.astro";
 import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
 import { blogArticles, categorySlug, type BlogArticle } from "@/data/blogData";
@@ -58,11 +59,9 @@ const faqSchema = {
   <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   <Header currentPath={Astro.url.pathname} client:load />
   <LeadModal client:idle />
+  <ReadingProgress client:idle />
   <main>
-    <div class="fixed inset-x-0 top-0 z-[45] h-1 bg-transparent">
-      <div class="h-full w-1/3 bg-gradient-to-r from-enix-red to-enix-glow"></div>
-    </div>
-    <article>
+    <article data-reading-content>
       <header class="motion-reduce-safe relative isolate overflow-hidden bg-[#070b14] pb-20 pt-36 text-white md:pt-44">
         <AnimatedHeroBackground variant="blog" intensity="soft" />
         <div class="container relative z-10 max-w-5xl">

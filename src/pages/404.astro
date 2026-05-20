@@ -1,0 +1,58 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer.astro";
+import Icon from "@/components/Icon.astro";
+import { site } from "@/data/site";
+
+export const prerender = true;
+---
+
+<BaseLayout
+  title="Página no encontrada | Enix Studio"
+  description="La página que buscas no existe o fue movida."
+  canonical={`${site.url}/404/`}
+  noindex
+>
+  <Header currentPath={Astro.url.pathname} client:load />
+  <main class="relative overflow-hidden bg-[#070B14] py-28 text-white md:py-36">
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:72px_72px] opacity-20"></div>
+    <div class="absolute left-[-10%] top-[-20%] h-[520px] w-[520px] rounded-full bg-red-600/15 blur-[130px]"></div>
+    <div class="absolute bottom-[-20%] right-[-10%] h-[520px] w-[520px] rounded-full bg-blue-500/15 blur-[130px]"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-[#070B14]/20 via-[#070B14]/80 to-[#070B14]"></div>
+
+    <section class="container relative z-10">
+      <div class="mx-auto max-w-3xl text-center">
+        <p class="text-sm font-black uppercase tracking-[0.35em] text-red-400">Error 404</p>
+        <h1 class="mt-6 text-5xl font-black leading-tight tracking-tight md:text-7xl">
+          Esta página no existe, pero podemos ayudarte a encontrar el camino.
+        </h1>
+        <p class="mt-6 text-lg leading-8 text-slate-300">
+          Puede que el enlace haya cambiado o que la página ya no esté disponible. Explora nuestras soluciones digitales o solicita una orientación inicial.
+        </p>
+        <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+          <a class="btn btn-primary" href="/">Volver al inicio</a>
+          <a class="btn btn-secondary" href="/servicios/">Ver servicios</a>
+          <a class="btn btn-secondary" href="/diagnostico/">Solicitar diagnóstico</a>
+        </div>
+      </div>
+
+      <div class="mx-auto mt-14 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          ["Desarrollo Web", "/servicios/desarrollo-web/", "code"],
+          ["SEO Avanzado", "/servicios/seo/", "search"],
+          ["Automatización e IA", "/servicios/automatizacion-ia/", "bot"],
+          ["Blog", "/blog/", "lineChart"],
+        ].map(([label, href, icon]) => (
+          <a class="group rounded-2xl border border-white/10 bg-white/[0.055] p-5 font-black transition hover:-translate-y-1 hover:border-red-300/50 hover:bg-red-500/10" href={href}>
+            <span class="mb-4 flex size-11 items-center justify-center rounded-xl bg-red-500/10 text-red-300 transition group-hover:bg-red-500/20">
+              <Icon name={icon} class="size-5" />
+            </span>
+            {label}
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
