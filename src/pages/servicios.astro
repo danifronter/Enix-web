@@ -5,7 +5,7 @@ import Footer from "@/components/Footer.astro";
 import Icon from "@/components/Icon.astro";
 import LeadModal from "@/components/LeadModal";
 import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
-import ServiceShowcaseCard from "@/components/services/ServiceShowcaseCard";
+import ServicesExplorer from "@/components/services/ServicesExplorer";
 import { ServicesProblemSelector, ServicesRouteRecommender } from "@/components/ServicesDecisionTool";
 import { site } from "@/data/site";
 
@@ -17,83 +17,6 @@ const systemStages = [
   ["barChart", "Medición", "GA4, GTM, eventos y dashboards para decidir con datos.", ["GA4", "GTM", "Eventos"]],
   ["activity", "Optimización", "Iteración continua basada en comportamiento y resultados.", ["Datos", "Pruebas", "Mejora"]],
 ];
-
-const services = [
-  {
-    icon: "lineChart",
-    title: "Desarrollo Web y Plataformas Digitales",
-    phrase: "Sitios rápidos, modernos y diseñados para convertir visitas en oportunidades.",
-    problem: "Tu empresa puede tener una web, pero si no transmite confianza, carga lento o no guía al usuario, está perdiendo consultas.",
-    includes: ["Arquitectura UX/UI", "Diseño responsive", "Desarrollo optimizado", "SEO técnico base", "Performance", "Formularios y CTAs", "Integración con analítica", "Preparación para conversión"],
-    result: "Una web más clara, profesional, rápida y preparada para captar oportunidades.",
-    when: ["No tienes web", "Tu web se ve antigua", "Tu web no genera consultas", "Tu empresa se ve menos profesional que la competencia", "Quieres una base sólida para campañas o SEO"],
-    cta: "Revisar mi proyecto web",
-    href: "/servicios/desarrollo-web/",
-    related: ["SEO", "Branding", "Tracking"],
-  },
-  {
-    icon: "search",
-    title: "SEO Avanzado",
-    phrase: "Aparece cuando tus clientes buscan soluciones como la tuya.",
-    problem: "No basta con tener una web. Si Google no entiende tu sitio, tus servicios o tu contenido, tus clientes no te encuentran.",
-    includes: ["Auditoría SEO", "Arquitectura de información", "Optimización técnica", "Contenido por intención", "SEO local", "Schema", "Enlazado interno", "Velocidad", "Monitoreo"],
-    result: "Mayor visibilidad orgánica, mejor estructura y más oportunidades desde búsquedas relevantes.",
-    when: ["No apareces en Google", "Dependes demasiado de publicidad pagada", "Tu competencia aparece antes", "Tu sitio tiene poco tráfico orgánico", "Quieres construir autoridad a largo plazo"],
-    cta: "Quiero aparecer en Google",
-    href: "/servicios/seo/",
-    related: ["Web", "Contenido", "Analítica"],
-  },
-  {
-    icon: "megaphone",
-    title: "Paid Media",
-    phrase: "Campañas con estrategia, medición y enfoque real en oportunidades.",
-    problem: "Muchas empresas gastan en anuncios sin saber qué campaña genera clientes, qué landing convierte o qué canal realmente funciona.",
-    includes: ["Google Ads", "Meta Ads", "Estrategia de campaña", "Segmentación", "Creatividades", "Landing pages", "Tracking de conversiones", "Reportes", "Optimización"],
-    result: "Campañas más ordenadas, medibles y enfocadas en generar oportunidades comerciales.",
-    when: ["Estás invirtiendo y no ves retorno claro", "No sabes qué canal funciona", "No tienes eventos bien configurados", "Mandas tráfico a una página débil", "Necesitas captar leads rápidamente"],
-    cta: "Revisar mis campañas",
-    href: "/servicios/paid-media/",
-    related: ["Landing", "Tracking", "CRM"],
-  },
-  {
-    icon: "bot",
-    title: "Automatización e IA",
-    phrase: "Atención, clasificación y seguimiento inteligente para no perder oportunidades.",
-    problem: "Si un cliente escribe y nadie responde rápido, o si no existe seguimiento, la oportunidad se enfría.",
-    includes: ["Flujos de automatización", "Chatbots", "IA para atención inicial", "CRM", "Formularios conectados", "Email automático", "Segmentación de leads", "Derivación a humanos", "Notificaciones internas"],
-    result: "Procesos más rápidos, ordenados y preparados para responder oportunidades sin depender solo del trabajo manual.",
-    when: ["Recibes consultas por WhatsApp y se pierden", "No tienes seguimiento comercial", "El equipo responde manualmente todo", "Quieres ordenar leads", "Quieres atención inicial 24/7"],
-    cta: "Ordenar mi seguimiento",
-    href: "/servicios/automatizacion-ia/",
-    related: ["CRM", "IA", "Email"],
-  },
-  {
-    icon: "badgeCheck",
-    title: "Branding y Comunicación",
-    phrase: "Haz que tu empresa transmita confianza antes de vender.",
-    problem: "El cliente decide si confiar antes de pedir una cotización. Si tu marca se ve improvisada, tu propuesta pierde valor.",
-    includes: ["Identidad visual", "Sistema de marca", "Mensaje comercial", "Tono de comunicación", "Propuesta de valor", "Diseño aplicado", "Coherencia digital"],
-    result: "Una marca más profesional, clara y consistente en cada punto de contacto.",
-    when: ["Tu marca se ve antigua", "No tienes identidad clara", "Tu web y redes no se sienten coherentes", "Tu empresa se ve menos profesional de lo que realmente es", "Quieres vender con mayor percepción de valor"],
-    cta: "Revisar mi marca",
-    href: "/servicios/branding/",
-    related: ["Web", "Mensaje", "Diseño"],
-  },
-  {
-    icon: "barChart",
-    title: "Analítica y Tracking",
-    phrase: "Si no mides, no sabes qué está funcionando.",
-    problem: "Sin datos claros, una empresa puede invertir en marketing sin saber qué canal genera oportunidades reales.",
-    includes: ["GA4", "Google Tag Manager", "Eventos de conversión", "Meta Pixel", "Dashboards", "Medición de formularios", "Medición de WhatsApp", "Reportes accionables"],
-    result: "Mayor claridad para tomar decisiones y optimizar campañas, contenidos y conversiones.",
-    when: ["No sabes de dónde llegan los clientes", "No tienes eventos configurados", "No sabes qué campaña funciona", "No puedes medir formularios ni clics", "Necesitas reportes claros"],
-    cta: "Quiero medir mejor",
-    href: "/servicios/analitica-tracking/",
-    related: ["GA4", "GTM", "Dashboards"],
-  },
-];
-
-const serviceVariants = ["web", "seo", "paid", "automation", "branding", "analytics"] as const;
 
 const looseVsSystem = [
   ["Web sin estrategia", "Web conectada a objetivos"],
@@ -195,29 +118,7 @@ const faqs: [string, string][] = [
       </div>
     </section>
 
-    <section class="bg-enix-pearl py-24">
-      <div class="container">
-        <p class="eyebrow">Soluciones principales</p>
-        <h2 class="mt-3 max-w-4xl text-4xl font-black md:text-6xl">Servicios pensados como soluciones comerciales, no como tareas sueltas.</h2>
-        <div class="mt-12 space-y-10">
-          {services.map((service, index) => (
-            <ServiceShowcaseCard
-              variant={serviceVariants[index]}
-              title={service.title}
-              subtitle={service.phrase}
-              problem={service.problem}
-              outcome={service.result}
-              when={service.when}
-              features={service.includes}
-              related={service.related}
-              cta={service.cta}
-              href={service.href}
-              reverse={index % 2 === 1}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
+    <ServicesExplorer client:load />
 
     <section class="section bg-white">
       <div class="container">
