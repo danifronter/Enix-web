@@ -26,7 +26,7 @@ const popular = blogArticles.slice(1, 5);
       <div class="container relative z-10 grid gap-10 lg:grid-cols-[1fr_0.72fr] lg:items-end">
         <div>
           <p class="eyebrow">Blog SEO-first</p>
-          <h1 class="mt-5 max-w-5xl text-5xl font-black leading-[0.98] md:text-7xl">Insights para empresas que quieren crecer con tecnología, marketing y estrategia.</h1>
+          <h1 class="mt-5 max-w-5xl text-[clamp(2.1rem,3.5vw,3.55rem)] font-black leading-[1.03] tracking-tight">Insights para empresas que quieren crecer con tecnología, marketing y estrategia.</h1>
           <p class="mt-7 max-w-2xl text-lg leading-8 text-slate-300">Guías prácticas sobre SEO, diseño web, automatización, IA y conversión para tomar mejores decisiones digitales.</p>
           <a class="btn btn-primary mt-8" href="/#diagnostico"><Icon name="search" class="size-5" /> Solicitar diagnóstico gratuito</a>
         </div>
@@ -53,7 +53,7 @@ const popular = blogArticles.slice(1, 5);
           <a href={`/blog/${featured.slug}/`} class="group relative overflow-hidden rounded-[2rem] bg-enix-ink p-8 text-white shadow-premium">
             <div class="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-enix-red/25 blur-3xl transition group-hover:bg-enix-red/35"></div>
             <p class="eyebrow">Artículo destacado</p>
-            <h2 class="relative mt-4 max-w-3xl text-4xl font-black md:text-6xl">{featured.title}</h2>
+            <h2 class="relative mt-4 max-w-3xl text-[clamp(2rem,3.4vw,3.25rem)] font-black leading-[1.04] tracking-tight">{featured.title}</h2>
             <p class="relative mt-5 max-w-2xl text-lg leading-8 text-slate-300">{featured.description}</p>
             <div class="relative mt-8 flex flex-wrap gap-3 text-sm font-bold text-slate-300">
               <span>{featured.category}</span><span>·</span><span>{featured.readingTime}</span><span>·</span><span>{featured.updatedAt}</span>

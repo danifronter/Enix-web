@@ -35,7 +35,7 @@ const canonical = `${site.url}/casos/${item.slug}/`;
       <AnimatedHeroBackground variant="cases" intensity="medium" />
       <div class="container relative z-10 max-w-5xl">
         <p class="eyebrow">{item.label}</p>
-        <h1 class="mt-5 text-5xl font-black leading-[0.98] md:text-7xl">{item.title}</h1>
+        <h1 class="mt-5 text-[clamp(2.1rem,3.5vw,3.55rem)] font-black leading-[1.03] tracking-tight">{item.title}</h1>
         <p class="mt-7 max-w-3xl text-lg leading-8 text-slate-300">{item.summary}</p>
         <div class="mt-8 flex flex-wrap gap-2">
           {item.services.map((service) => <span class="rounded-full border border-white/10 bg-white/[0.06] px-3 py-2 text-xs font-black text-slate-200">{service}</span>)}

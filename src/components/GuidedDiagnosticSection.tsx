@@ -129,7 +129,7 @@ export default function GuidedDiagnosticSection() {
           <p className="text-sm font-black uppercase tracking-[0.35em] text-red-500">
             Diagnóstico guiado
           </p>
-          <h2 className="mt-5 max-w-xl text-4xl font-black leading-[0.95] tracking-tight md:text-6xl">
+          <h2 className="mt-5 max-w-xl text-[clamp(2rem,3.4vw,3.25rem)] font-black leading-[1.04] tracking-tight">
             Descubre qué está frenando tus ventas digitales.
           </h2>
           <p className="mt-7 max-w-xl text-lg leading-8 text-slate-300">

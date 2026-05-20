@@ -142,7 +142,7 @@ export default function ServicesExplorer() {
             Servicios Enix
           </p>
 
-          <h2 className="mt-5 text-4xl font-black leading-tight tracking-tight md:text-6xl">
+          <h2 className="mt-5 text-[clamp(2rem,3.4vw,3.25rem)] font-black leading-[1.04] tracking-tight">
             No vendemos piezas sueltas. Conectamos lo que hace crecer.
           </h2>
 

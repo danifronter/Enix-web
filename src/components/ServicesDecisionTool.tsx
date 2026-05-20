@@ -83,14 +83,16 @@ export function ServicesProblemSelector() {
   const CurrentIcon = current.icon;
 
   return (
-    <section id="selector-problema" className="relative overflow-hidden bg-[#080d18] py-24 text-white md:py-28">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_0%,rgba(220,38,38,0.18),transparent_34%),radial-gradient(circle_at_88%_22%,rgba(59,130,246,0.13),transparent_34%)]" />
-      <div className="relative mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[0.9fr_1.1fr]">
+    <section id="selector-problema" className="relative overflow-hidden bg-slate-50 py-24 text-slate-950">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgba(220,38,38,0.07),transparent_30%),radial-gradient(circle_at_90%_20%,rgba(96,165,250,0.10),transparent_32%)]" />
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
         <div>
-          <p className="text-sm font-black uppercase tracking-[0.24em] text-red-400">Selector de problema</p>
-          <h2 className="mt-4 text-4xl font-black leading-tight md:text-6xl">¿Qué problema quieres resolver primero?</h2>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
-            Elige lo que más se parece a tu situación y te mostraremos qué servicio tiene más sentido.
+          <p className="text-sm font-black uppercase tracking-[0.28em] text-red-600">Selector de problema</p>
+          <h2 className="mt-5 max-w-[680px] text-balance text-[clamp(2rem,3.4vw,3.25rem)] font-black leading-[1.04] tracking-tight text-slate-950">
+            Encuentra qué servicio necesita tu empresa primero.
+          </h2>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+            Selecciona el problema más cercano a tu situación y te mostramos una ruta recomendada antes de invertir en piezas sueltas.
           </p>
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
             {problems.map((problem) => {
@@ -101,61 +103,71 @@ export function ServicesProblemSelector() {
                   key={problem.id}
                   type="button"
                   onClick={() => setSelectedId(problem.id)}
-                  className={`group flex min-h-16 items-center gap-3 rounded-2xl border p-4 text-left text-sm font-black transition ${
+                  className={`group rounded-2xl border p-4 text-left transition duration-300 ${
                     active
-                      ? "border-red-300 bg-red-600 text-white shadow-xl shadow-red-950/30"
-                      : "border-white/10 bg-white/[0.045] text-slate-200 hover:border-red-300/50 hover:bg-red-500/10"
+                      ? "border-red-500 bg-red-600 text-white shadow-xl shadow-red-600/20"
+                      : "border-slate-200 bg-white text-slate-800 shadow-sm hover:-translate-y-0.5 hover:border-red-200 hover:shadow-lg hover:shadow-slate-950/5"
                   }`}
                 >
-                  <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${active ? "bg-white/15" : "bg-red-500/10 text-red-300"}`}>
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  {problem.label}
+                  <div className="flex items-center gap-4">
+                    <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl transition ${active ? "bg-white/15 text-white" : "bg-red-50 text-red-600 group-hover:bg-red-100"}`}>
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span className="text-sm font-black leading-5">{problem.label}</span>
+                  </div>
                 </button>
               );
             })}
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-white/10 bg-white/[0.055] p-5 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-7">
-          <div className="grid gap-5 md:grid-cols-[150px_1fr]">
-            <div className="rounded-3xl border border-red-400/20 bg-red-500/10 p-5 text-center">
-              <CurrentIcon className="mx-auto h-8 w-8 text-red-300" />
-              <p className="mt-4 text-sm font-bold text-slate-300">Score inicial</p>
-              <strong className="mt-2 block text-5xl font-black">{current.score}</strong>
-              <span className="mt-2 block text-xs font-black uppercase text-red-200">Revisión recomendada</span>
+        <article className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-5 shadow-2xl shadow-slate-950/[0.08] md:p-7">
+          <div className="absolute -right-28 -top-28 h-72 w-72 rounded-full bg-red-500/[0.08] blur-[90px]" />
+          <div className="absolute -bottom-28 left-1/3 h-72 w-72 rounded-full bg-blue-500/[0.08] blur-[90px]" />
+          <div className="relative grid gap-5 md:grid-cols-[0.28fr_1fr]">
+            <div className="rounded-[1.5rem] border border-red-100 bg-red-50 p-5 text-center">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-red-600 shadow-sm">
+                <CurrentIcon className="h-6 w-6" />
+              </div>
+              <p className="mt-4 text-xs font-black uppercase tracking-[0.18em] text-red-600">Diagnóstico</p>
+              <p className="mt-2 text-2xl font-black leading-tight text-slate-950">Revisión recomendada</p>
+              <span className="mt-3 inline-flex rounded-full bg-white px-3 py-1 text-xs font-black text-red-600 shadow-sm">
+                Prioridad {current.score}
+              </span>
             </div>
-            <div className="rounded-3xl border border-white/10 bg-black/20 p-5">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-red-300">Diagnóstico probable</p>
-              <h3 className="mt-3 text-2xl font-black">{current.diagnosis}</h3>
-              <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-slate-500">Riesgo comercial</p>
-              <p className="mt-2 leading-7 text-slate-300">{current.risk}</p>
+            <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5">
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-red-600">Diagnóstico probable</p>
+              <h3 className="mt-3 text-2xl font-black leading-tight tracking-tight text-slate-950 md:text-3xl">{current.diagnosis}</h3>
+              <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-4">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-500">Riesgo comercial</p>
+                <p className="mt-2 text-base leading-7 text-slate-600">{current.risk}</p>
+              </div>
             </div>
           </div>
 
-          <div className="mt-5 rounded-3xl border border-white/10 bg-white/[0.035] p-5">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-500">Qué deberías revisar</p>
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              {current.checks.map((check) => (
-                <div key={check} className="flex items-center gap-3 rounded-2xl bg-white/[0.055] px-4 py-3 text-sm font-bold text-slate-200">
-                  <CheckCircle2 className="h-4 w-4 text-red-300" />
-                  {check}
+          <div className="relative mt-5 rounded-[1.5rem] border border-slate-200 bg-white p-5">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-slate-500">Qué deberías revisar</p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {current.checks.slice(0, 4).map((check) => (
+                <div key={check} className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-red-500" />
+                  <p className="text-sm font-black text-slate-700">{check}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mt-5 flex flex-col gap-4 rounded-3xl border border-red-400/20 bg-gradient-to-r from-red-600/15 to-white/[0.04] p-5 md:flex-row md:items-center md:justify-between">
+          <div className="relative mt-5 flex flex-col gap-4 rounded-[1.5rem] border border-red-100 bg-gradient-to-r from-red-50 to-white p-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-bold text-red-300">Servicio recomendado</p>
-              <p className="mt-1 text-2xl font-black">{current.service}</p>
+              <p className="text-sm font-black text-red-600">Servicio recomendado</p>
+              <p className="mt-1 text-2xl font-black tracking-tight text-slate-950">{current.service}</p>
             </div>
-            <a href={current.href} className="inline-flex items-center justify-center rounded-full bg-red-600 px-6 py-4 text-sm font-black text-white shadow-xl shadow-red-950/40 transition hover:-translate-y-0.5 hover:bg-red-500">
+            <a href={current.href} className="inline-flex items-center justify-center rounded-full bg-red-600 px-6 py-4 text-sm font-black text-white shadow-xl shadow-red-600/20 transition hover:-translate-y-0.5 hover:bg-red-500">
               {current.cta}
               <ArrowRight className="ml-2 h-4 w-4" />
             </a>
           </div>
-        </div>
+        </article>
       </div>
     </section>
   );
@@ -169,7 +181,7 @@ export function ServicesRouteRecommender() {
       <div className="container">
         <div className="max-w-4xl">
           <p className="eyebrow">Ruta recomendada</p>
-          <h2 className="mt-4 text-4xl font-black leading-tight tracking-tight md:text-6xl">No todos los negocios necesitan lo mismo.</h2>
+          <h2 className="mt-4 text-[clamp(2rem,3.4vw,3.25rem)] font-black leading-[1.04] tracking-tight">No todos los negocios necesitan lo mismo.</h2>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
             Elige tu etapa y te mostramos una ruta lógica antes de invertir en piezas sueltas.
           </p>

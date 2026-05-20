@@ -168,7 +168,7 @@ export default function GrowthSystemSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.65, delay: 0.05 }}
-            className="text-balance text-4xl font-black leading-[0.95] tracking-tight md:text-6xl lg:text-7xl"
+            className="text-balance text-[clamp(2rem,3.4vw,3.25rem)] font-black leading-[1.04] tracking-tight"
           >
             No hacemos piezas sueltas.{" "}
             <span className="bg-gradient-to-r from-white via-red-100 to-blue-200 bg-clip-text text-transparent">

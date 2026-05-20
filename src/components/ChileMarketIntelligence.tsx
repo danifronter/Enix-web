@@ -236,7 +236,7 @@ export default function ChileMarketIntelligence() {
       <div className="container relative">
         <div className="mx-auto max-w-3xl text-center">
           <p className="eyebrow">Cobertura digital para empresas en Chile</p>
-          <h2 className="mt-5 text-4xl font-black leading-tight md:text-6xl">
+          <h2 className="mt-5 text-[clamp(2rem,3.4vw,3.25rem)] font-black leading-[1.04] tracking-tight">
             Soluciones digitales segun el mercado donde compite tu empresa.
           </h2>
           <p className="mt-6 text-lg leading-8 text-slate-300">

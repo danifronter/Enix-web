@@ -66,7 +66,7 @@ const faqSchema = {
         <AnimatedHeroBackground variant="blog" intensity="soft" />
         <div class="container relative z-10 max-w-5xl">
           <a class="eyebrow" href={`/blog/categoria/${categorySlug(article.category)}/`}>{article.category}</a>
-          <h1 class="mt-5 text-5xl font-black leading-[0.98] md:text-7xl">{article.title}</h1>
+          <h1 class="mt-5 text-[clamp(2.1rem,3.5vw,3.55rem)] font-black leading-[1.03] tracking-tight">{article.title}</h1>
           <p class="mt-7 max-w-3xl text-xl leading-9 text-slate-300">{article.description}</p>
           <div class="mt-8 flex flex-wrap gap-3 text-sm font-bold text-slate-400">
             <span>{article.author}</span><span>·</span><time datetime={article.publishedAt}>{article.publishedAt}</time><span>·</span><span>Actualizado {article.updatedAt}</span><span>·</span><span>{article.readingTime}</span>
