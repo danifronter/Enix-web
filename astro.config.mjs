@@ -12,6 +12,14 @@ export default defineConfig({
     sitemap({
       changefreq: "weekly",
       priority: 0.8,
+      filter: (page) =>
+        !page.includes("?") &&
+        !page.includes("/api/") &&
+        !page.includes("/404") &&
+        !page.includes("/politicas/") &&
+        !page.includes("/demo") &&
+        !page.includes("/draft") &&
+        !page.includes("/prueba"),
     }),
   ],
   output: "server",

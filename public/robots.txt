@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://enixstudio.cl/sitemap-index.xml
+Sitemap: https://www.enix.studio/sitemap-index.xml
