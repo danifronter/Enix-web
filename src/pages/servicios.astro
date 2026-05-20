@@ -6,7 +6,8 @@ import Icon from "@/components/Icon.astro";
 import LeadModal from "@/components/LeadModal";
 import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
 import ServicesExplorer from "@/components/services/ServicesExplorer";
-import { ServicesProblemSelector, ServicesRouteRecommender } from "@/components/ServicesDecisionTool";
+import GoogleStyleProblemSelector from "@/components/services/GoogleStyleProblemSelector";
+import { ServicesRouteRecommender } from "@/components/ServicesDecisionTool";
 import { site } from "@/data/site";
 
 const systemStages = [
@@ -96,7 +97,7 @@ const faqs: [string, string][] = [
       </div>
     </section>
 
-    <ServicesProblemSelector client:visible />
+    <GoogleStyleProblemSelector client:load />
 
     <section class="section bg-white">
       <div class="container">
