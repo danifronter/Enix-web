@@ -94,7 +94,7 @@ export default function Header({ currentPath = "/" }: HeaderProps) {
                   key={item.href}
                   href={item.href}
                   className={[
-                    "rounded-full px-4 py-2.5 text-sm font-black transition duration-300",
+                    "min-h-11 rounded-full px-4 py-3 text-sm font-black transition duration-300",
                     active
                       ? "bg-white text-slate-950 shadow-lg shadow-black/20"
                       : "text-slate-300 hover:bg-white/[0.07] hover:text-white",

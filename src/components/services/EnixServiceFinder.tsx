@@ -241,7 +241,7 @@ export default function EnixServiceFinder() {
                   type="button"
                   onClick={() => setActiveKey(key)}
                   className={[
-                    "inline-flex min-w-max items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-black transition duration-200",
+                    "inline-flex min-h-11 min-w-max items-center gap-2 rounded-full border px-4 py-3 text-sm font-black transition duration-200",
                     isActive
                       ? "border-[#1A73E8] bg-[#E8F0FE] text-[#174EA6]"
                       : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50",
@@ -257,7 +257,7 @@ export default function EnixServiceFinder() {
           <div className="mt-3 flex justify-center">
             <a
               href="/servicios/catalogo/"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black text-slate-500 transition hover:border-[#1A73E8]/30 hover:bg-[#E8F0FE] hover:text-[#174EA6]"
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-xs font-black text-slate-500 transition hover:border-[#1A73E8]/30 hover:bg-[#E8F0FE] hover:text-[#174EA6]"
             >
               Explorar catálogo de servicios
               <ArrowRight className="h-3.5 w-3.5" />
@@ -383,6 +383,7 @@ export default function EnixServiceFinder() {
               <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <a
                   href={active.href}
+                  rel={active.href.includes("?") ? "nofollow" : undefined}
                   className="inline-flex items-center justify-center rounded-full bg-red-600 px-7 py-4 text-sm font-black text-white shadow-xl shadow-red-600/20 transition hover:-translate-y-0.5 hover:bg-red-500"
                 >
                   {active.cta}

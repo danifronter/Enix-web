@@ -162,7 +162,7 @@ export function ServicesProblemSelector() {
               <p className="text-sm font-black text-red-600">Servicio recomendado</p>
               <p className="mt-1 text-2xl font-black tracking-tight text-slate-950">{current.service}</p>
             </div>
-            <a href={current.href} className="inline-flex items-center justify-center rounded-full bg-red-600 px-6 py-4 text-sm font-black text-white shadow-xl shadow-red-600/20 transition hover:-translate-y-0.5 hover:bg-red-500">
+            <a href={current.href} rel="nofollow" className="inline-flex items-center justify-center rounded-full bg-red-600 px-6 py-4 text-sm font-black text-white shadow-xl shadow-red-600/20 transition hover:-translate-y-0.5 hover:bg-red-500">
               {current.cta}
               <ArrowRight className="ml-2 h-4 w-4" />
             </a>

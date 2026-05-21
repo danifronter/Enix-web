@@ -199,7 +199,7 @@ export default function ServicesCatalog() {
                   type="button"
                   onClick={() => setActiveCategory(category)}
                   className={[
-                    "inline-flex min-w-max items-center rounded-full border px-4 py-2.5 text-sm font-black transition duration-200",
+                    "inline-flex min-h-11 min-w-max items-center rounded-full border px-4 py-3 text-sm font-black transition duration-200",
                     isActive
                       ? "border-[#1A73E8] bg-[#E8F0FE] text-[#174EA6]"
                       : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50",

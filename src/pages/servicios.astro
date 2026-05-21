@@ -96,7 +96,7 @@ const faqs: [string, string][] = [
       </div>
     </section>
 
-    <EnixServiceFinder client:load />
+    <EnixServiceFinder client:visible />
 
     <section class="section bg-white">
       <div class="container">
@@ -134,7 +134,7 @@ const faqs: [string, string][] = [
             <div class="mt-6 grid gap-3">{looseVsSystem.map(([, system]) => <div class="rounded-2xl border border-white/10 bg-white/[0.055] p-4 font-bold text-slate-200"><Icon name="check" class="mr-2 inline size-4 text-red-300" />{system}</div>)}</div>
           </article>
         </div>
-        <a class="btn btn-primary mt-8" href="/diagnostico/?problema=sistema">Quiero construir un sistema, no piezas sueltas</a>
+        <a class="btn btn-primary mt-8" href="/diagnostico/?problema=sistema" rel="nofollow">Quiero construir un sistema, no piezas sueltas</a>
       </div>
     </section>
 
@@ -168,7 +168,7 @@ const faqs: [string, string][] = [
             <article class={`rounded-[2rem] border p-6 ${index === 3 ? "border-red-300/40 bg-red-600/15 shadow-glow" : "border-white/10 bg-white/[0.055]"}`}>
               <h3 class="text-2xl font-black">{title}</h3><p class="mt-4 text-sm leading-6 text-slate-300">{text}</p>
               <ul class="mt-6 grid gap-2 text-sm font-bold text-slate-200">{(items as string[]).map((item) => <li><Icon name="check" class="mr-2 inline size-4 text-red-300" />{item}</li>)}</ul>
-              <a class="mt-7 inline-flex font-black text-red-200 hover:text-white" href={href as string}>Solicitar recomendación <Icon name="chevronRight" class="ml-1 size-4" /></a>
+              <a class="mt-7 inline-flex min-h-11 items-center font-black text-red-200 hover:text-white" href={href as string} rel={(href as string).includes("?") ? "nofollow" : undefined}>Solicitar recomendación <Icon name="chevronRight" class="ml-1 size-4" /></a>
             </article>
           ))}
         </div>

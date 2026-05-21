@@ -244,7 +244,7 @@ export default function LeadModal() {
 
   return (
     <div
-      className="fixed inset-0 z-[120] flex items-center justify-center px-4 py-6"
+      className="fixed inset-0 z-[980] flex items-center justify-center px-4 py-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}
@@ -258,7 +258,7 @@ export default function LeadModal() {
 
       <div
         ref={dialogRef}
-        className="relative w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-[#0B1120]/95 text-white shadow-2xl shadow-black/50"
+        className="relative w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-[#0B1120] text-white shadow-2xl shadow-black/60"
       >
         <div className="absolute left-[-120px] top-[-120px] h-[320px] w-[320px] rounded-full bg-red-600/20 blur-[90px]" />
         <div className="absolute bottom-[-120px] right-[-120px] h-[320px] w-[320px] rounded-full bg-blue-500/20 blur-[90px]" />
