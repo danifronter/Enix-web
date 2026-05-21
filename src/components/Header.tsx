@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { globalHeaderLinks, homeHeaderLinks, homeMegaMenuLinks } from "@/data/headerData";
+import GlobalSearch from "@/components/search/GlobalSearch";
 
 function Logo() {
   return (
@@ -137,28 +138,28 @@ export default function Header({ currentPath = "/" }: HeaderProps) {
                 )}
               </nav>
 
-              <div className="hidden items-center gap-3 lg:flex">
+              <div className="flex items-center gap-2 lg:gap-3">
+                <GlobalSearch />
                 <a
-                  className="whitespace-nowrap rounded-full bg-gradient-to-r from-enix-red to-enix-darkRed px-5 py-2.5 text-sm font-black text-white shadow-[0_14px_34px_rgba(220,38,38,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_44px_rgba(220,38,38,0.28)]"
+                  className="hidden whitespace-nowrap rounded-full bg-gradient-to-r from-enix-red to-enix-darkRed px-5 py-2.5 text-sm font-black text-white shadow-[0_14px_34px_rgba(220,38,38,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_44px_rgba(220,38,38,0.28)] lg:inline-flex"
                   href={diagnosticHref}
                 >
                   Diagnóstico gratuito
                 </a>
+                <button
+                  className="grid size-11 place-items-center rounded-full border border-white/10 bg-white/[0.06] text-white transition hover:border-enix-red/40 hover:bg-enix-red/10 lg:hidden"
+                  type="button"
+                  onClick={() => setOpen(true)}
+                  aria-label="Abrir menú"
+                  aria-expanded={open}
+                >
+                  <span className="grid gap-1.5">
+                    <span className="block h-0.5 w-5 rounded-full bg-current"></span>
+                    <span className="block h-0.5 w-5 rounded-full bg-current"></span>
+                    <span className="block h-0.5 w-5 rounded-full bg-current"></span>
+                  </span>
+                </button>
               </div>
-
-              <button
-                className="grid size-11 place-items-center rounded-full border border-white/10 bg-white/[0.06] text-white transition hover:border-enix-red/40 hover:bg-enix-red/10 lg:hidden"
-                type="button"
-                onClick={() => setOpen(true)}
-                aria-label="Abrir menú"
-                aria-expanded={open}
-              >
-                <span className="grid gap-1.5">
-                  <span className="block h-0.5 w-5 rounded-full bg-current"></span>
-                  <span className="block h-0.5 w-5 rounded-full bg-current"></span>
-                  <span className="block h-0.5 w-5 rounded-full bg-current"></span>
-                </span>
-              </button>
             </div>
           </div>
         </div>
