@@ -66,10 +66,10 @@ export default function Header({ currentPath = "/" }: HeaderProps) {
       <div className="mx-auto max-w-7xl">
         <div
           className={[
-            "relative flex h-[76px] items-center justify-between gap-4 rounded-[1.75rem] border px-4 shadow-2xl backdrop-blur-2xl transition-all duration-300",
+            "relative flex h-[76px] items-center justify-between gap-4 rounded-[1.75rem] border border-white/10 bg-[#0B1120] px-4 shadow-2xl shadow-black/35 backdrop-blur-2xl transition-all duration-300",
             scrolled
-              ? "border-white/10 bg-[#0B1120]/95 shadow-black/35"
-              : "border-white/12 bg-[#111827]/88 shadow-black/25",
+              ? "shadow-[0_18px_52px_rgba(2,6,23,0.45)]"
+              : "shadow-[0_14px_44px_rgba(2,6,23,0.38)]",
           ].join(" ")}
         >
           <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[1.75rem]">
@@ -96,7 +96,7 @@ export default function Header({ currentPath = "/" }: HeaderProps) {
                   className={[
                     "min-h-11 rounded-full px-4 py-3 text-sm font-black transition duration-300",
                     active
-                      ? "border border-red-300/35 bg-red-500/15 text-white shadow-lg shadow-red-950/20"
+                      ? "bg-red-600 text-white shadow-lg shadow-red-950/35"
                       : "text-slate-300 hover:bg-white/[0.07] hover:text-white",
                   ].join(" ")}
                 >
