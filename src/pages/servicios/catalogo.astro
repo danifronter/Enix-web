@@ -1,0 +1,28 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer.astro";
+import ServicesCatalog from "@/components/services/ServicesCatalog";
+import { site } from "@/data/site";
+
+const title = "Catálogo de Servicios Digitales | Enix Studio";
+const description =
+  "Explora servicios digitales de Enix Studio: desarrollo web, SEO, paid media, automatización, IA, branding y analítica para empresas.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={`${site.url}/servicios/catalogo/`}
+  breadcrumbs={[
+    { name: "Inicio", url: site.url },
+    { name: "Servicios", url: `${site.url}/servicios/` },
+    { name: "Catálogo", url: `${site.url}/servicios/catalogo/` },
+  ]}
+>
+  <Header currentPath={Astro.url.pathname} client:load />
+  <main>
+    <ServicesCatalog client:load />
+  </main>
+  <Footer />
+</BaseLayout>

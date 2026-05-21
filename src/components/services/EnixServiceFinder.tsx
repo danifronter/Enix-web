@@ -253,6 +253,16 @@ export default function EnixServiceFinder() {
               );
             })}
           </div>
+
+          <div className="mt-3 flex justify-center">
+            <a
+              href="/servicios/catalogo/"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-black text-slate-500 transition hover:border-[#1A73E8]/30 hover:bg-[#E8F0FE] hover:text-[#174EA6]"
+            >
+              Explorar catálogo de servicios
+              <ArrowRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
         </div>
 
         <div className="mx-auto mt-8 max-w-6xl overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-2xl shadow-slate-950/[0.07]">
