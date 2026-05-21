@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   ArrowRight,
   Command,
@@ -36,6 +37,7 @@ function getScore(item: SearchItem, query: string) {
 
 export default function GlobalSearch() {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -59,6 +61,10 @@ export default function GlobalSearch() {
   }, [query]);
 
   const visibleItems = query.trim() ? results : featured;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -118,9 +124,10 @@ export default function GlobalSearch() {
         </span>
       </button>
 
-      {open && (
+      {mounted && open
+        ? createPortal(
         <div
-          className="fixed inset-0 z-[140] flex items-start justify-center px-4 pt-24 sm:pt-28"
+          className="fixed inset-0 z-[999] flex items-start justify-center px-4 pt-20 sm:pt-24"
           role="dialog"
           aria-modal="true"
           aria-label="Búsqueda global"
@@ -129,15 +136,16 @@ export default function GlobalSearch() {
             type="button"
             aria-label="Cerrar búsqueda"
             onClick={close}
-            className="absolute inset-0 bg-slate-950/65 backdrop-blur-xl"
+            className="absolute inset-0 bg-slate-950/80 backdrop-blur-2xl"
           />
 
-          <div className="relative w-full max-w-3xl overflow-hidden rounded-[2rem] border border-white/12 bg-[#0B1120]/95 text-white shadow-2xl shadow-black/50">
-            <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-red-600/20 blur-[100px]" />
-            <div className="absolute -right-24 -bottom-24 h-72 w-72 rounded-full bg-blue-500/20 blur-[100px]" />
+          <div className="relative w-full max-w-3xl overflow-hidden rounded-[2rem] border border-white/12 bg-[#0B1120] text-white shadow-2xl shadow-black/60">
+            <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-red-600/20 blur-[100px]" />
+            <div className="pointer-events-none absolute -right-24 -bottom-24 h-72 w-72 rounded-full bg-blue-500/20 blur-[100px]" />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:48px_48px] opacity-20" />
 
             <div className="relative">
-              <div className="flex items-center gap-4 border-b border-white/10 px-5 py-4">
+              <div className="flex items-center gap-4 border-b border-white/10 bg-white/[0.035] px-5 py-4">
                 <Search className="h-5 w-5 shrink-0 text-red-300" />
                 <input
                   ref={inputRef}
@@ -218,8 +226,10 @@ export default function GlobalSearch() {
               </div>
             </div>
           </div>
-        </div>
-      )}
+        </div>,
+        document.body
+      )
+        : null}
     </>
   );
 }
