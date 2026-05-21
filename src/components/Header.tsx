@@ -96,7 +96,7 @@ export default function Header({ currentPath = "/" }: HeaderProps) {
                   className={[
                     "min-h-11 rounded-full px-4 py-3 text-sm font-black transition duration-300",
                     active
-                      ? "bg-white text-slate-950 shadow-lg shadow-black/20"
+                      ? "border border-red-300/35 bg-red-500/15 text-white shadow-lg shadow-red-950/20"
                       : "text-slate-300 hover:bg-white/[0.07] hover:text-white",
                   ].join(" ")}
                 >
