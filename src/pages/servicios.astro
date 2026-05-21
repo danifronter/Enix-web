@@ -5,8 +5,7 @@ import Footer from "@/components/Footer.astro";
 import Icon from "@/components/Icon.astro";
 import LeadModal from "@/components/LeadModal";
 import AnimatedHeroBackground from "@/components/hero/AnimatedHeroBackground";
-import ServicesExplorer from "@/components/services/ServicesExplorer";
-import GoogleStyleProblemSelector from "@/components/services/GoogleStyleProblemSelector";
+import EnixServiceFinder from "@/components/services/EnixServiceFinder";
 import { ServicesRouteRecommender } from "@/components/ServicesDecisionTool";
 import { site } from "@/data/site";
 
@@ -97,7 +96,7 @@ const faqs: [string, string][] = [
       </div>
     </section>
 
-    <GoogleStyleProblemSelector client:load />
+    <EnixServiceFinder client:load />
 
     <section class="section bg-white">
       <div class="container">
@@ -118,8 +117,6 @@ const faqs: [string, string][] = [
         </div>
       </div>
     </section>
-
-    <ServicesExplorer client:load />
 
     <section class="section bg-white">
       <div class="container">
