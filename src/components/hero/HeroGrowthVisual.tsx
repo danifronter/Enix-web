@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   Gauge,
@@ -12,14 +13,27 @@ import {
 } from "lucide-react";
 
 export default function HeroGrowthVisual() {
+  const prefersReducedMotion = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+  const shouldAnimate = !prefersReducedMotion && !isMobile;
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(media.matches);
+
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
   return (
     <div className="relative mx-auto w-full max-w-[640px]">
       <div className="absolute -left-10 top-10 h-72 w-72 rounded-full bg-red-600/20 blur-[100px]" />
       <div className="absolute -right-8 bottom-10 h-72 w-72 rounded-full bg-blue-500/20 blur-[110px]" />
 
       <motion.div
-        initial={{ opacity: 0, y: 28, scale: 0.96 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
+        initial={shouldAnimate ? { opacity: 0, y: 28, scale: 0.96 } : false}
+        animate={shouldAnimate ? { opacity: 1, y: 0, scale: 1 } : undefined}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[#0B1120]/90 p-4 shadow-2xl shadow-black/45 backdrop-blur-xl sm:p-5 md:rounded-[2.25rem]"
       >
@@ -52,8 +66,8 @@ export default function HeroGrowthVisual() {
               <div className="rounded-2xl bg-gradient-to-br from-red-600/28 via-blue-500/14 to-white/[0.03] p-5">
                 <motion.div
                   className="h-3 rounded-full bg-white/85"
-                  initial={{ width: "38%" }}
-                  animate={{ width: ["38%", "82%", "68%"] }}
+                  initial={shouldAnimate ? { width: "38%" } : { width: "68%" }}
+                  animate={shouldAnimate ? { width: ["38%", "82%", "68%"] } : undefined}
                   transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
                 />
                 <div className="mt-3 h-3 w-3/5 rounded-full bg-white/30" />
@@ -61,13 +75,17 @@ export default function HeroGrowthVisual() {
                 <div className="mt-6 flex flex-wrap gap-2">
                   <motion.span
                     className="inline-flex items-center rounded-full bg-red-600 px-4 py-2 text-xs font-black text-white"
-                    animate={{
-                      boxShadow: [
-                        "0 0 0 rgba(220,38,38,0)",
-                        "0 0 28px rgba(220,38,38,0.38)",
-                        "0 0 0 rgba(220,38,38,0)",
-                      ],
-                    }}
+                    animate={
+                      shouldAnimate
+                        ? {
+                            boxShadow: [
+                              "0 0 0 rgba(220,38,38,0)",
+                              "0 0 28px rgba(220,38,38,0.38)",
+                              "0 0 0 rgba(220,38,38,0)",
+                            ],
+                          }
+                        : undefined
+                    }
                     transition={{ duration: 2.6, repeat: Infinity }}
                   >
                     Solicitar diagnóstico
@@ -87,7 +105,7 @@ export default function HeroGrowthVisual() {
                     <motion.div
                       key={label as string}
                       className="rounded-2xl border border-white/10 bg-white/[0.055] p-3"
-                      animate={{ y: [0, -5, 0] }}
+                      animate={shouldAnimate ? { y: [0, -5, 0] } : undefined}
                       transition={{ duration: 2.7, repeat: Infinity, delay: index * 0.18 }}
                     >
                       <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-500/10 text-red-300">
@@ -112,8 +130,8 @@ export default function HeroGrowthVisual() {
                   return (
                     <motion.div
                       key={item.label}
-                      initial={{ opacity: 0, x: 16 }}
-                      animate={{ opacity: 1, x: 0 }}
+                      initial={shouldAnimate ? { opacity: 0, x: 16 } : false}
+                      animate={shouldAnimate ? { opacity: 1, x: 0 } : undefined}
                       transition={{ duration: 0.45, delay: 0.35 + index * 0.14 }}
                       className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.055] p-4"
                     >

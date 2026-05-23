@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import GlobalSearch from "@/components/search/GlobalSearch";
+import LazyGlobalSearch from "@/components/search/LazyGlobalSearch";
 
 type HeaderProps = {
   currentPath?: string;
@@ -107,7 +107,7 @@ export default function Header({ currentPath = "/" }: HeaderProps) {
           </nav>
 
           <div className="relative z-10 flex shrink-0 items-center gap-2 lg:gap-3">
-            <GlobalSearch />
+            <LazyGlobalSearch />
 
             <a
               href="/diagnostico/"

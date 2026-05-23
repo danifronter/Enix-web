@@ -1,20 +1,57 @@
 ---
-const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || "G-K2EET2HP60";
+const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 ---
 
 {
   gaId && (
-    <>
-      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
-      <script is:inline define:vars={{ gaId }}>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        window.gtag = gtag;
+    <script is:inline define:vars={{ gaId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+
+      const loadGoogleAnalytics = () => {
+        if (document.querySelector(`script[src*="googletagmanager.com/gtag/js?id=${gaId}"]`)) {
+          return;
+        }
+
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+        document.head.appendChild(script);
+
         gtag("js", new Date());
         gtag("config", gaId, {
           anonymize_ip: true,
         });
-      </script>
-    </>
+      };
+
+      const scheduleGoogleAnalytics = () => {
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(loadGoogleAnalytics, { timeout: 2500 });
+        } else {
+          window.setTimeout(loadGoogleAnalytics, 1800);
+        }
+      };
+
+      const hasAnalyticsConsent = () => {
+        try {
+          const saved = window.localStorage.getItem("enix_cookie_preferences");
+          if (!saved) return false;
+          return Boolean(JSON.parse(saved)?.analytics);
+        } catch {
+          return false;
+        }
+      };
+
+      if (hasAnalyticsConsent()) {
+        scheduleGoogleAnalytics();
+      }
+
+      window.addEventListener("enix:cookies-updated", (event) => {
+        if (event.detail?.analytics) {
+          scheduleGoogleAnalytics();
+        }
+      });
+    </script>
   )
 }

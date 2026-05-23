@@ -35,8 +35,18 @@ function getScore(item: SearchItem, query: string) {
   return score;
 }
 
-export default function GlobalSearch() {
-  const [open, setOpen] = useState(false);
+type GlobalSearchProps = {
+  initialOpen?: boolean;
+  onClosed?: () => void;
+  renderButton?: boolean;
+};
+
+export default function GlobalSearch({
+  initialOpen = false,
+  onClosed,
+  renderButton = true,
+}: GlobalSearchProps) {
+  const [open, setOpen] = useState(initialOpen);
   const [mounted, setMounted] = useState(false);
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -85,12 +95,14 @@ export default function GlobalSearch() {
 
       if (event.key === "Escape") {
         setOpen(false);
+        setQuery("");
+        onClosed?.();
       }
     }
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [onClosed]);
 
   useEffect(() => {
     if (!open) return;
@@ -107,22 +119,25 @@ export default function GlobalSearch() {
   function close() {
     setOpen(false);
     setQuery("");
+    onClosed?.();
   }
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label="Abrir búsqueda global"
-        className="group inline-flex h-11 items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-3 text-sm font-black text-slate-200 transition hover:border-red-300/50 hover:bg-red-500/10 hover:text-white sm:px-4"
-      >
-        <Search className="h-4 w-4 text-slate-400 transition group-hover:text-red-300" />
-        <span className="hidden xl:inline">Buscar</span>
-        <span className="hidden rounded-md border border-white/10 bg-white/[0.06] px-1.5 py-0.5 text-[11px] text-slate-500 2xl:inline">
-          ⌘K
-        </span>
-      </button>
+      {renderButton && (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label="Abrir búsqueda global"
+          className="group inline-flex h-11 items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-3 text-sm font-black text-slate-200 transition hover:border-red-300/50 hover:bg-red-500/10 hover:text-white sm:px-4"
+        >
+          <Search className="h-4 w-4 text-slate-400 transition group-hover:text-red-300" />
+          <span className="hidden xl:inline">Buscar</span>
+          <span className="hidden rounded-md border border-white/10 bg-white/[0.06] px-1.5 py-0.5 text-[11px] text-slate-500 2xl:inline">
+            ⌘K
+          </span>
+        </button>
+      )}
 
       {mounted && open
         ? createPortal(
