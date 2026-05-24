@@ -1,6 +1,11 @@
 import type { APIRoute } from "astro";
+import {
+  escapeHtml,
+  getFormSecurityMetadata,
+} from "@/lib/form-security-metadata";
 
 const RESEND_API_URL = "https://api.resend.com/emails";
+const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const allowedTypes = ["contact", "diagnostic", "audit", "service", "newsletter"] as const;
 
 type FormType = (typeof allowedTypes)[number];
@@ -18,7 +23,13 @@ const fieldAliases = {
   service: ["service", "servicio", "selectedFocus", "hiddenCategory"],
   message: ["message", "mensaje", "need"],
   origin: ["origin", "origen", "ctaOrigin"],
-  pageUrl: ["pageUrl", "currentUrl"],
+  pageUrl: ["pageUrl", "currentUrl", "sourceUrl"],
+  sourcePath: ["sourcePath"],
+  utmSource: ["utm_source"],
+  utmMedium: ["utm_medium"],
+  utmCampaign: ["utm_campaign"],
+  utmTerm: ["utm_term"],
+  utmContent: ["utm_content"],
   consent: ["consent", "privacy", "acepta"],
   formName: ["formName", "form-name", "formulario"],
 };
@@ -41,21 +52,56 @@ function getValue(data: Record<string, unknown>, keys: string[], maxLength = 200
   return "";
 }
 
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function hasConsent(value: string) {
   return ["on", "true", "1", "yes", "si", "sí"].includes(value.toLowerCase());
+}
+
+async function validateTurnstileIfConfigured(request: Request, data: Record<string, unknown>) {
+  const secret = String(import.meta.env.TURNSTILE_SECRET_KEY || "").trim();
+
+  if (!secret) {
+    return "No configurado";
+  }
+
+  const token = sanitize(data.turnstileToken ?? data["cf-turnstile-response"], 3000);
+
+  if (!token) {
+    throw new Error("No pudimos validar la protección anti-spam. Recarga la página e intenta nuevamente.");
+  }
+
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  const remoteIp = forwardedFor?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "";
+  const body = new URLSearchParams({
+    secret,
+    response: token,
+  });
+
+  if (remoteIp) {
+    body.set("remoteip", remoteIp);
+  }
+
+  const response = await fetch(TURNSTILE_VERIFY_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body,
+  });
+  const result = await response.json().catch(() => null);
+
+  if (!response.ok || !result?.success) {
+    console.warn("[ENIX forms] Turnstile rejected", {
+      status: response.status,
+      errors: result?.["error-codes"] ?? [],
+    });
+    throw new Error("La validación anti-spam falló. Recarga la página e intenta nuevamente.");
+  }
+
+  return "Turnstile validado";
 }
 
 function labelByType(type: FormType) {
@@ -120,6 +166,15 @@ function emailRow(label: string, value: string, options: { href?: string; fallba
   `;
 }
 
+function securityRow(label: string, value: string) {
+  return `
+    <tr>
+      <td style="padding:8px 0;color:#64748b;font-size:13px;font-weight:700;vertical-align:top;width:190px;">${escapeHtml(label)}</td>
+      <td style="padding:8px 0;color:#0f172a;font-size:14px;font-weight:700;vertical-align:top;word-break:break-word;">${escapeHtml(value)}</td>
+    </tr>
+  `;
+}
+
 function jsonResponse(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -157,6 +212,9 @@ export const POST: APIRoute = async ({ request }) => {
       rawData = Object.fromEntries(formData.entries());
     }
 
+    const turnstileStatus = await validateTurnstileIfConfigured(request, rawData);
+    rawData.turnstileStatus = turnstileStatus;
+
     const type = sanitize(rawData.type, 80) as FormType;
     if (!allowedTypes.includes(type)) {
       return jsonResponse({ ok: false, message: "Tipo de formulario inválido." }, 400);
@@ -175,6 +233,7 @@ export const POST: APIRoute = async ({ request }) => {
     const pageUrl = getValue(rawData, fieldAliases.pageUrl, 240);
     const consent = getValue(rawData, fieldAliases.consent, 20);
     const formName = getValue(rawData, fieldAliases.formName, 180);
+    const security = getFormSecurityMetadata(request, rawData);
 
     if (type !== "newsletter" && !name) {
       return jsonResponse({ ok: false, message: "Ingresa tu nombre." }, 400);
@@ -258,6 +317,33 @@ export const POST: APIRoute = async ({ request }) => {
               <div style="border-radius:18px;background:#f8fafc;border:1px solid #e2e8f0;padding:18px;color:#334155;font-size:15px;line-height:1.75;">
                 ${escapeHtml(message || "Sin mensaje adicional").replace(/\n/g, "<br />")}
               </div>
+            </div>
+
+            <div style="padding:22px 28px 0;">
+              <h2 style="margin:0 0 12px;color:#0f172a;font-size:17px;font-weight:900;">Datos técnicos de seguridad</h2>
+              <p style="margin:0 0 14px;color:#64748b;font-size:13px;line-height:1.7;">
+                Información aproximada obtenida automáticamente al recibir el formulario. La ubicación se estima según la IP pública y puede no reflejar la ubicación real del contacto.
+              </p>
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-top:1px solid #e2e8f0;">
+                ${securityRow("IP pública", security.ipAddress)}
+                ${securityRow("Ciudad aproximada", security.city)}
+                ${securityRow("Región / País", `${security.region} / ${security.country}`)}
+                ${securityRow("Zona horaria", security.timezone)}
+                ${securityRow("Fecha de recepción", security.receivedAt)}
+                ${securityRow("Fecha cliente", security.submittedAtClient)}
+                ${securityRow("Página de origen", security.sourceUrl)}
+                ${securityRow("Ruta de origen", security.sourcePath)}
+                ${securityRow("Referrer", security.referrer)}
+                ${securityRow("UTM Source / Medium", `${security.utmSource} / ${security.utmMedium}`)}
+                ${securityRow("Campaña", security.utmCampaign)}
+                ${securityRow("UTM Term / Content", `${security.utmTerm} / ${security.utmContent}`)}
+                ${securityRow("Dispositivo / navegador", security.userAgent)}
+                ${securityRow("Ambiente", security.environment)}
+                ${securityRow("Protección anti-spam", security.turnstileStatus)}
+              </table>
+              <p style="margin:14px 0 0;color:#94a3b8;font-size:12px;line-height:1.7;">
+                Nota: la ubicación corresponde a una estimación basada en IP pública y puede no representar la ubicación real de la persona.
+              </p>
             </div>
 
             <div style="padding:22px 28px;">

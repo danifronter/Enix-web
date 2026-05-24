@@ -11,6 +11,7 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
+import { getFormSourceContext } from "@/lib/form-source-context";
 
 type ModalContext = {
   ctaOrigin?: string;
@@ -206,6 +207,7 @@ export default function LeadModal() {
           Accept: "application/json",
         },
         body: JSON.stringify({
+          ...getFormSourceContext(),
           type: "diagnostic",
           source: "home-hero-modal",
           ctaOrigin: context.ctaOrigin ?? "hero-primary",
@@ -457,7 +459,11 @@ export default function LeadModal() {
                 </button>
 
                 <p className="mt-3 text-center text-xs leading-5 text-slate-500">
-                  Te responderemos con una orientacion inicial. Sin compromiso.
+                  Al enviar, aceptas nuestra{" "}
+                  <a className="font-black text-red-300 hover:underline" href="/politica-de-privacidad/">
+                    Política de Privacidad
+                  </a>
+                  . Registramos datos técnicos del envío para prevenir spam y proteger nuestras comunicaciones.
                 </p>
 
                 {feedback && <StatusMessage status={status} feedback={feedback} />}

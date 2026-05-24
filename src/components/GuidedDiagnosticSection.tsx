@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { SkeletonInlineStatus } from "./ui/SkeletonLoaders";
+import { getFormSourceContext } from "@/lib/form-source-context";
 
 type ProblemKey =
   | "sin-web"
@@ -284,6 +285,7 @@ export default function GuidedDiagnosticSection() {
                   const form = event.currentTarget;
                   const data = new FormData(form);
                   const payload = {
+                    ...getFormSourceContext(),
                     type: "diagnostic",
                     formName: "home-prediagnostico-interactivo",
                     origin: "home-guided-diagnostic",
@@ -366,6 +368,9 @@ export default function GuidedDiagnosticSection() {
                     </a>.
                   </span>
                 </label>
+                <p className="text-xs leading-5 text-slate-500">
+                  Registramos datos técnicos del envío para prevenir spam y proteger nuestras comunicaciones.
+                </p>
                 {submitMessage && (
                   <p className="rounded-2xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm font-bold text-red-100">
                     {submitMessage}

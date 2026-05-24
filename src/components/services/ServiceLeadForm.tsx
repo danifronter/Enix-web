@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Send } from "lucide-react";
+import { getFormSourceContext } from "@/lib/form-source-context";
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
@@ -28,6 +29,7 @@ export default function ServiceLeadForm({ service, cta }: ServiceLeadFormProps) 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...payload,
+          ...getFormSourceContext(),
           type: "service",
           service,
           consent: payload.consent ? "true" : "",
@@ -90,6 +92,14 @@ export default function ServiceLeadForm({ service, cta }: ServiceLeadFormProps) 
           />
           <span>Acepto ser contactado por Enix Studio para responder mi solicitud.</span>
         </label>
+
+        <p className="text-center text-xs leading-5 text-slate-500">
+          Al enviar, aceptas nuestra{" "}
+          <a className="font-black text-red-300 hover:underline" href="/politica-de-privacidad/">
+            Política de Privacidad
+          </a>
+          . Registramos datos técnicos del envío para prevenir spam y proteger nuestras comunicaciones.
+        </p>
 
         <button
           type="submit"
